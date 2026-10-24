@@ -1,0 +1,121 @@
+:root {
+  --bg: #07090f;
+  --panel: rgba(12, 16, 28, 0.62);
+  --line: rgba(190, 200, 225, 0.14);
+  --text: #e9e6df;
+  --dim: #7f8392;
+  --faint: rgba(233, 230, 223, 0.32);
+  --accent: #e8c98a;
+  --glow: rgba(232, 201, 138, 0.35);
+  --serif: "Shippori Mincho", "Noto Serif JP", "Noto Serif CJK JP", "Source Han Serif JP", "Yu Mincho", "YuMincho",
+    "Hiragino Mincho ProN", "Hiragino Mincho Pro", "BIZ UDPMincho", "MS PMincho", serif;
+  --latin: "Cormorant Garamond", "EB Garamond", "Garamond", "Baskerville", "Georgia", var(--serif);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); font-family: var(--serif); }
+button { font: inherit; color: inherit; }
+
+/* ------------------------------------------------------------------ 描写（index.html） */
+body.art { overflow: hidden; background: var(--bg); }
+#view { position: fixed; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; transition: opacity 1.4s ease; }
+#view:active { cursor: grabbing; }
+#view.dim { opacity: 0; }
+/* 箱の縁を見せないための周辺減光（表示だけ） */
+.veil { position: fixed; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 75% 70% at 50% 50%, transparent 55%, rgba(4, 5, 9, 0.55) 85%, rgba(3, 4, 7, 0.9) 100%); }
+
+.ui { position: fixed; z-index: 2; transition: opacity 1.6s ease; }
+body.idle .ui { opacity: 0.16; }
+body.idle .ui:hover { opacity: 1; }
+body.idle { cursor: none; }
+
+.brand { top: 26px; left: 32px; font-family: var(--latin); letter-spacing: 0.32em; text-transform: uppercase; font-size: 12px; color: var(--faint); }
+.brand .it { margin-left: 0.9em; font-style: italic; text-transform: none; letter-spacing: 0.12em; font-size: 15px; color: var(--accent); opacity: 0.8; }
+
+.corner { top: 22px; right: 28px; display: flex; gap: 22px; align-items: baseline; }
+.word { background: none; border: 0; padding: 4px 0; cursor: pointer; font-size: 14px; letter-spacing: 0.3em; color: var(--dim); text-decoration: none;
+  border-bottom: 1px solid transparent; transition: color 0.4s, border-color 0.4s; }
+.word:hover { color: var(--text); border-bottom-color: var(--line); }
+.word i { font-style: normal; font-family: var(--latin); letter-spacing: 0.1em; font-size: 12px; color: var(--faint); margin-left: 2px; }
+
+/* 言語の切り替え（ja / en / de。いまの言語は金色）。描写のページは button、説明のページは a と span.on */
+.langs { display: flex; gap: 9px; font-family: var(--latin); font-style: italic; }
+.langs button, .langs a, .langs span { background: none; border: 0; padding: 4px 0; cursor: pointer; font-size: 13px; letter-spacing: 0.08em;
+  color: var(--faint); text-decoration: none; transition: color 0.4s; }
+.langs button:hover, .langs a:hover { color: var(--text); }
+.langs .on { color: var(--accent); cursor: default; }
+
+/* 欧文（英語・ドイツ語）: 欧文のセリフにし、字間を詰める */
+html:not([lang="ja"]) body.art { font-family: var(--latin); }
+html:not([lang="ja"]) .art .word { letter-spacing: 0.12em; font-size: 15px; }
+html:not([lang="ja"]) .topics button .name { letter-spacing: 0.06em; font-size: 16px; }
+html:not([lang="ja"]) .topics button.on .name { font-size: 20px; }
+html:not([lang="ja"]) .field { letter-spacing: 0.05em; font-size: 15px; }
+html:not([lang="ja"]) .mode { letter-spacing: 0.1em; font-size: 21px; }
+
+.topics { left: 32px; bottom: 48px; display: flex; flex-direction: column; gap: 2px; }
+.topics button { background: none; border: 0; text-align: left; cursor: pointer; padding: 5px 0; display: flex; align-items: baseline; gap: 14px;
+  color: var(--dim); transition: color 0.6s; }
+.topics button .num { font-family: var(--latin); font-style: italic; font-size: 13px; width: 1.6em; color: var(--faint); }
+.topics button .name { font-size: 15px; letter-spacing: 0.22em; }
+.topics button .line { display: inline-block; width: 0; height: 1px; background: var(--accent); align-self: center; transition: width 0.8s ease; }
+.topics button:hover { color: var(--text); }
+.topics button.on { color: var(--text); }
+.topics button.on .num { color: var(--accent); }
+.topics button.on .line { width: 36px; }
+.topics button.on .name { font-size: 19px; }
+
+.controls { right: 32px; bottom: 48px; display: flex; flex-direction: column; align-items: flex-end; gap: 18px; }
+.fields { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.field { display: flex; align-items: center; gap: 12px; background: none; border: 0; cursor: pointer; padding: 3px 0; font-size: 14px; letter-spacing: 0.16em;
+  color: var(--text); transition: opacity 0.5s; }
+.field .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c); box-shadow: 0 0 12px var(--c); transition: all 0.5s; }
+.field.off { opacity: 0.32; }
+.field.off .dot { background: transparent; box-shadow: none; outline: 1px solid var(--c); }
+.field.muted { opacity: 0.12; cursor: default; }
+.field.mark { margin-top: 8px; }
+
+.mode { display: flex; align-items: baseline; gap: 12px; font-size: 20px; letter-spacing: 0.3em; }
+.mode button { background: none; border: 0; cursor: pointer; padding: 2px 0; color: var(--dim); transition: color 0.6s; }
+.mode button.on { color: var(--text); text-shadow: 0 0 18px var(--glow); }
+.mode button:hover { color: var(--text); }
+.mode .sep { color: var(--faint); font-family: var(--latin); font-style: italic; }
+
+/* 座標軸: 視点に合わせて回る白い細線。元の視点での計算の箱の左下に置く（位置は app.js）。押すと元の視点 */
+.axes { left: 0; top: 0; width: 44px; height: 44px; cursor: pointer; opacity: 0.5; transition: opacity 0.5s; overflow: visible; }
+.axes:hover { opacity: 0.95; }
+.axes line { stroke: #fff; stroke-width: 0.8; stroke-linecap: round; }
+.axes text { fill: #fff; font-family: var(--latin); font-style: italic; font-size: 7px; text-anchor: middle; dominant-baseline: central; }
+
+/* 時間: 下の縁の細い線（ドラッグで動かせる） */
+.scrub { left: 0; right: 0; bottom: 0; height: 18px; }
+.scrub .fill { position: absolute; left: 0; bottom: 0; height: 1px; width: 0; background: linear-gradient(90deg, transparent, var(--accent)); opacity: 0.7; }
+.scrub input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
+
+.loading { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--faint); font-family: var(--latin);
+  font-size: 22px; letter-spacing: 0.5em; pointer-events: none; animation: breathe 2.4s ease-in-out infinite; }
+@keyframes breathe { 50% { opacity: 0.2; } }
+.hidden { display: none !important; }
+.error { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); background: var(--panel); border: 1px solid rgba(255, 110, 130, 0.4);
+  color: #f3d6da; padding: 16px 20px; border-radius: 4px; max-width: 480px; font-size: 13px; z-index: 5; }
+
+@media (max-width: 760px) {
+  .brand { left: 18px; top: 20px; font-size: 9px; letter-spacing: 0.22em; }
+  .brand .it { font-size: 12px; }
+  .corner { right: 18px; top: 14px; gap: 0 14px; flex-wrap: wrap; justify-content: flex-end; max-width: 210px; }
+  .langs { flex-basis: 100%; justify-content: flex-end; }
+  .topics { left: 18px; bottom: auto; top: 54px; }
+  .topics button .name { font-size: 12px; }
+  .topics button.on .name { font-size: 14px; }
+  .controls { right: 18px; bottom: 34px; gap: 12px; }
+  .field { font-size: 12px; }
+  .mode { font-size: 17px; }
+  html:not([lang="ja"]) .art .word { font-size: 12px; letter-spacing: 0.02em; }
+  html:not([lang="ja"]) .corner { column-gap: 10px; }
+  html:not([lang="ja"]) .topics button .name { font-size: 13px; }
+  html:not([lang="ja"]) .topics button.on .name { font-size: 15px; }
+  html:not([lang="ja"]) .field { font-size: 13px; }
+  html:not([lang="ja"]) .mode { font-size: 17px; }
+  .axes { width: 36px; height: 36px; }
+}

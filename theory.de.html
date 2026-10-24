@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Theorie | Standard Model Fields</title>
+  <script>
+    try { var f = {ja: "theory.html", en: "theory.en.html", de: "theory.de.html"}[localStorage.getItem("smf-lang")]; if (f && f !== "theory.de.html") location.replace(f + location.hash); } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="vendor/katex/katex.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/theory.css">
+</head>
+<body class="doc">
+  <div class="top">
+    <a class="brand" href="index.html"><span class="mark">Standard Model</span><span class="mark it">Fields</span></a>
+    <span class="links"><a class="word" href="index.html">Darstellung</a> <a class="word" href="guide.de.html">Bedienung</a><span class="langs"><a href="theory.html" hreflang="ja" title="日本語" onclick="try { localStorage.setItem('smf-lang', 'ja'); } catch (e) {}">ja</a><a href="theory.en.html" hreflang="en" title="English" onclick="try { localStorage.setItem('smf-lang', 'en'); } catch (e) {}">en</a><span class="on" title="Deutsch">de</span></span></span>
+  </div>
+
+  <div class="wrap">
+    <nav class="toc">
+      <a href="#intro">Vorbemerkung</a>
+      <a href="#units">1　Konventionen</a>
+      <a class="sub" href="#units-basic">Einheiten</a>
+      <a class="sub" href="#units-box">Rechengebiet</a>
+      <a class="sub" href="#units-yukawa">Yukawa-Potential</a>
+      <a href="#draw">2　Dargestellte Größen</a>
+      <a class="sub" href="#draw-boson">Bosonen</a>
+      <a class="sub" href="#draw-fermion">Fermionen</a>
+      <a class="sub" href="#draw-cond">Bedingte Verteilung</a>
+      <a class="sub" href="#draw-point">Bedingungspunkt</a>
+      <a href="#assume">3　Allgemeine Annahmen</a>
+      <a href="#render">4　Darstellung</a>
+      <a class="sub" href="#render-volume">Volumendarstellung</a>
+      <a class="sub" href="#render-window">Randfenster</a>
+      <a href="#ee">i　Elektron–Elektron-Streuung</a>
+      <a href="#compton">ii　Compton-Streuung</a>
+      <a href="#beta">iii　Betazerfall</a>
+      <a href="#osc">iv　Neutrino-Oszillation</a>
+      <a href="#confine">v　Farbeinschluss</a>
+      <a href="#pion">vi　Pionaustausch</a>
+      <a href="#vacpol">vii　Vakuumpolarisation</a>
+      <a href="#limits">Grenzen der Deutung</a>
+      <a href="#credits">Nachweise</a>
+    </nav>
+
+    <article>
+      <h1>Theorie</h1>
+      <div class="lead">Dargestellte Größen, Voraussetzungen, Näherungen</div>
+
+      <section id="intro">
+        <p>Dieser Text legt dar, welche Größen die Darstellungsseite zeigt und unter welchen Voraussetzungen sie berechnet werden. Er besteht aus zwei Teilen. Die Abschnitte 1 bis 4 enthalten die Konventionen, die Definitionen der dargestellten Größen, die allen Themen gemeinsamen Annahmen und das Verfahren der Darstellung. Die Abschnitte i bis vii behandeln die einzelnen Themen; sie setzen den ersten Teil voraus und verweisen auf dessen Definitionen und Annahmen.</p>
+        <p>Jede dargestellte Verteilung ist eine aus einem quantenfeldtheoretischen Zustand berechnete Größe; keine Form ist von Hand hinzugefügt. Die in die Gleichungen eingesetzten Konstanten (Kopplungen, Massen, Längen) sind jedoch so gewählt, dass die Vorgänge in einem einzigen Kasten sichtbar werden, und die Rechnungen enthalten Näherungen und Modelle. Abweichungen dieser Art sind im Text wie folgt gekennzeichnet:</p>
+        <ul>
+          <li><span class="badge">Stilisiert</span> eine zugunsten der Sichtbarkeit geänderte Konstante;</li>
+          <li><span class="badge approx">Näherung</span> ein vernachlässigter Effekt;</li>
+          <li><span class="badge model">Modell</span> eine Form, die nicht aus der Theorie hergeleitet, sondern vorgegeben ist.</li>
+        </ul>
+        <p>Außerdem wird bei jeder Größe unterschieden, ob sie <em>gelöst</em> oder <em>vorgegeben</em> ist. Gelöst heißt: Sie folgt aus Anfangszustand und Hamilton-Operator (bzw. der Energie des Modells) durch numerische Zeitentwicklung, Zeitintegration oder Minimierung. Vorgegeben heißt: Form, Bewegung oder Zeitabhängigkeit sind im Modell festgesetzt und nicht aus einer Gleichung bestimmt. Eine statische Bekleidung (<a class="ref" href="#A2">A2</a>) ist die Lösung einer Feldgleichung zu einer vorgegebenen Lage der Quelle. Die Anfangszustände (Gauß-Wellenpakete mit gegebener Breite und gegebenem Impuls) sind stets vorgegeben. Jedes Thema führt diese Unterscheidung im Unterabschnitt <em>Gelöst und vorgegeben</em> als Tabelle auf.</p>
+        <div class="note"><p>Die Bedienung der Darstellungsseite (Wahl des Themas, Ein- und Ausblenden der Felder, Drehen, Zoomen, Abspielen) ist unter <a href="guide.de.html">Bedienung</a> beschrieben.</p></div>
+      </section>
+
+      <hr>
+
+      <section id="units">
+        <h2><span class="num">1</span>Konventionen</h2>
+        <h3 id="units-basic">1.1 Einheiten und Bezeichnungen</h3>
+        <p>Es werden natürliche Einheiten \(\hbar = c = 1\) verwendet. In jedem Thema wird eine Masse \(m\) als Einheit festgesetzt, \(m = 1\); Längen und Zeiten werden dann in \(1/m\) gemessen. Der Zustand des Systems im Schrödinger-Bild heißt \(|\Psi(t)\rangle\), das Vakuum \(|0\rangle\). Spitze Klammern \(\langle\cdot\rangle\) bezeichnen Erwartungswerte im Zustand \(|\Psi(t)\rangle\), \(\mathrm E[\cdot]\) den Mittelwert über die quantenmechanische Ortsverteilung der Quellen. Für die Amplitude eines Zweiteilchenzustands wird \(\Psi(\mathbf x_1, \mathbf x_2)\) geschrieben.</p>
+        <h3 id="units-box">1.2 Rechengebiet</h3>
+        <p>Alle Rechnungen werden in einem endlichen Gebiet ausgeführt: in einem periodischen Kasten (Streuprozesse, Photonen), in dem die Zeitentwicklung mit Fourier-Verfahren erfolgt, oder auf einem radialen Gitter (Zerfälle). Dargestellt wird nur der Zeitraum, in dem die Wellen den Rand des Gebiets noch nicht erreicht haben.</p>
+        <h3 id="units-yukawa">1.3 Geglättetes Yukawa-Potential</h3>
+        <p>Statische Austauschfelder werden mit der Funktion</p>
+        <div class="eq" id="eq-1.1">$$Y(r) = \frac{\bigl(1 - e^{-r/a}\bigr)\,e^{-\mu r}}{4\pi r}, \qquad a = 0{,}5 \tag{1.1}$$</div>
+        <p>beschrieben. Für \(r \gg a\) ist \(Y\) das Yukawa-Potential einer Punktquelle zur Masse \(\mu\) (für \(\mu = 0\) das Coulomb-Potential); für \(r \to 0\) bleibt \(Y\) endlich, \(Y(0) = 1/(4\pi a)\). Die Glättung ersetzt die Punktquelle durch eine ausgedehnte Quelle der Größe \(a\) <span class="badge model">Modell</span>.</p>
+      </section>
+
+      <section id="draw">
+        <h2><span class="num">2</span>Dargestellte Größen</h2>
+        <p>Der Zustand \(|\Psi(t)\rangle\) eines Quantenfeldes ist selbst kein Feld, das jedem Raumpunkt eine Zahl zuordnet. Für eine dreidimensionale Darstellung werden daher <em>lokale</em> Größen benötigt, die sich aus dem Zustand berechnen lassen. Verwendet werden die folgenden drei Größen; welche davon auf ein Feld angewandt wird, hängt von der Teilchenart ab.</p>
+        <h3 id="draw-boson">2.1 Bosonen: Varianzzuwachs des Feldes</h3>
+        <p>Ein vermittelndes Feld \(\phi\) (Photon, Gluon, π-Meson, W-Boson) fluktuiert auch im Vakuum (Nullpunktsschwankung); der Erwartungswert \(\langle\phi^2\rangle\) ist für sich genommen divergent. Endlich ist dagegen die Differenz zum Vakuum.</p>
+        <p id="def-2.1"><strong>Definition <a class="ref" href="#draw-boson">2.1</a></strong> (Varianzzuwachs). Für ein reelles bosonisches Feld \(\phi\) sei</p>
+        <div class="eq" id="eq-2.1">$$\Delta\mathrm{Var}\,\phi(\mathbf x) = \langle\Psi|\phi(\mathbf x)^2|\Psi\rangle - \langle\Psi|\phi(\mathbf x)|\Psi\rangle^2 - \langle 0|\phi(\mathbf x)^2|0\rangle . \tag{2.1}$$</div>
+        <p>Zwei Spezialfälle werden im Folgenden benutzt.</p>
+        <ol><li>Enthält \(|\Psi\rangle\) genau ein Quant des Feldes, so ist \(\langle\phi\rangle = 0\), und mit der Amplitude \(F(\mathbf x) = \langle 0|\phi^{+}(\mathbf x)|\Psi\rangle\) des positiven Frequenzanteils \(\phi^{+}\) gilt \(\Delta\mathrm{Var}\,\phi = 2|F|^2\).</li><li>Ist das Feld an eine Quelle am Ort \(\mathbf y\) gebunden und befindet es sich in dem kohärenten Zustand mit \(\langle\phi\rangle = f(\mathbf x - \mathbf y)\), so verschwindet der Varianzzuwachs bei festem \(\mathbf y\). Ist der Ort der Quelle quantenmechanisch unbestimmt, so ist \(\Delta\mathrm{Var}\,\phi = \mathrm E[f^2] - \mathrm E[f]^2\): Die Varianz entsteht aus der Unbestimmtheit der Quellposition.</li></ol>
+        <h3 id="draw-fermion">2.2 Fermionen: Ladungs- und Teilchenzahldichte</h3>
+        <p>Für Elektronen, Quarks, Neutrinos und Nukleonen wird die Dichte einer erhaltenen Ladung (elektrische Ladung, Leptonenzahl, Quarkzahl) dargestellt.</p>
+        <p id="def-2.2"><strong>Definition <a class="ref" href="#draw-fermion">2.2</a></strong> (Einteilchendichte). Für einen Zweiteilchenzustand mit der Amplitude \(\Psi(\mathbf x_1, \mathbf x_2)\) ist die Dichte des ersten Teilchens</p>
+        <div class="eq" id="eq-2.2">$$n_1(\mathbf x) = \int |\Psi(\mathbf x, \mathbf y)|^2 \, d^3y . \tag{2.2}$$</div>
+        <p>Das Integral von \(n_1\) ist die Teilchenzahl (Streuung) bzw. die Wahrscheinlichkeit, mit der der Zerfall bis zum Zeitpunkt \(t\) fortgeschritten ist (Zerfall). Die Ladungsdichte ist \(n_1\), multipliziert mit der Ladung des Teilchens.</p>
+        <h3 id="draw-cond">2.3 Bedingte Verteilung</h3>
+        <p>Nach einer Wechselwirkung sind die Orte zweier Teilchen miteinander korreliert. Die Einteilchendichten <a class="ref" href="#eq-2.2">(2.2)</a> enthalten diese Korrelation nicht.</p>
+        <p id="def-2.3"><strong>Definition <a class="ref" href="#draw-cond">2.3</a></strong> (bedingte Verteilung). Die Verteilung des zweiten Teilchens unter der Annahme, dass eine Ortsmessung am ersten Teilchen den Wert \(\mathbf a\) ergibt, ist</p>
+        <div class="eq" id="eq-2.3">$$n(\mathbf x \mid \mathbf a) = \frac{|\Psi(\mathbf a, \mathbf x)|^2}{\int |\Psi(\mathbf a, \mathbf y)|^2\, d^3y} \;\propto\; G^{(2)}(\mathbf a, \mathbf x), \tag{2.3}$$</div>
+        <p>wobei \(G^{(2)}\) die Korrelationsfunktion zweiter Ordnung nach Glauber ist. Für Felder, die an die Teilchen gebunden sind, wird entsprechend der Erwartungswert unter derselben Bedingung gebildet.</p>
+        <p>Die Darstellungsseite zeigt in der Betriebsart <em>Varianz</em> die Größen der Abschnitte <a class="ref" href="#draw-boson">2.1</a> und 2.2, in der Betriebsart <em>Korrelation</em> die Größen nach <a class="ref" href="#eq-2.3">(2.3)</a>.</p>
+        <h3 id="draw-point">2.4 Wahl des Bedingungspunkts</h3>
+        <p>Der Punkt \(\mathbf a(t)\) in <a class="ref" href="#eq-2.3">(2.3)</a> wird aus der berechneten Dichte des Teilchens bestimmt, dessen Ort angenommen wird, und bewegt sich mit ihr; klassische Bahnen werden dazu nicht verwendet. Die Regel hängt vom Thema ab und ist dort angegeben. Allgemein gilt: Wo die Dichte Interferenzstreifen oder zwei Maxima besitzt, springt das Maximum zwischen aufeinanderfolgenden Zeitpunkten; in diesen Fällen wird der Schwerpunkt der Dichte entlang einer festen Halbgeraden verwendet, der stetig von der Zeit abhängt.</p>
+        <p>Der Punkt selbst wird in der Farbe des Teilchens, dessen Ort angenommen wird, als kleine dreidimensionale Gauß-Verteilung gezeichnet (Standardabweichung 2,5 % der halben Kastenkante, zum Rand hin stetig auf null abfallend).</p>
+      </section>
+
+      <section id="assume">
+        <h2><span class="num">3</span>Allgemeine Annahmen</h2>
+        <p>Die folgenden Annahmen gelten, soweit sie in einem Thema genannt werden. Jedes Thema führt zusätzlich seine eigenen Annahmen und Parameter auf.</p>
+        <p id="A1"><strong>A1</strong> (niedrigste Ordnung). Prozesse, in denen Teilchen erzeugt, vernichtet oder umgewandelt werden (Zerfall, Compton-Streuung, Vakuumpolarisation), werden in der niedrigsten nichtverschwindenden Ordnung der Kopplung behandelt. Die Normierung des Zustands ist daher nur bis zu dieser Ordnung erfüllt; die Summe der Wahrscheinlichkeiten kann von 1 abweichen. Die Abweichung wird im jeweiligen Thema angegeben.</p>
+        <p id="A2"><strong>A2</strong> (statische Bekleidung). Ein an eine Quelle gebundenes Feld (Coulomb-Anteil des Photons, π-Meson, W-Boson, Farbfeld) wird durch die statische Lösung zur momentanen Lage der Quelle ersetzt. Retardierung und Abstrahlung dieses Anteils werden vernachlässigt. Ausgenommen sind das transversale Photon in i und die Antwort des Vakuums in vii, die retardiert berechnet werden.</p>
+        <p id="A3"><strong>A3</strong> (Relativbewegung). In den Zweikörperprozessen mit Austausch (i, v, vi) wird die Wechselwirkung durch ein statisches Potential \(V(r)\) beschrieben. Die Schwerpunktkoordinate \(\mathbf R = (\mathbf x_1 + \mathbf x_2)/2\) wird als ruhende Gauß-Verteilung angesetzt, deren Breitenänderung vernachlässigt wird. Die Wellenfunktion der Relativkoordinate \(\mathbf r = \mathbf x_1 - \mathbf x_2\) wird mit dem Split-Operator-Verfahren numerisch gelöst, ohne Entwicklung nach der Kopplung, mit der relativistischen kinetischen Energie</p>
+        <div class="eq" id="eq-3.1">$$H_{\text{rel}} = 2\sqrt{m^2 + k^2} + V(r). \tag{3.1}$$</div>
+        <p id="A4"><strong>A4</strong> (Spin und Polarisation). Spin- und Polarisationsfreiheitsgrade werden nur so weit berücksichtigt, wie das Thema es angibt (parallele Spins in i, über Spins und Polarisationen summierte Quadrate in ii, Dirac-Spinoren in vii); im Übrigen werden sie vernachlässigt.</p>
+        <p id="A5"><strong>A5</strong> (stilisierte Konstanten). Kopplungen, Massen und Breiten sind so gewählt, dass der Vorgang im Kasten und in der dargestellten Zeit sichtbar wird. Die Werte und ihr Verhältnis zu den physikalischen Werten werden in jedem Thema angegeben. Unverändert ist allein die Kopplung in vii.</p>
+        <p id="A6"><strong>A6</strong> (endliches Gebiet). Es gilt Abschnitt <a class="ref" href="#units-box">1.2</a>. Wo ein masseloses statisches Feld im endlichen Kasten nicht endlich wäre, erhält es eine kleine Masse \(\mu\).</p>
+      </section>
+
+      <section id="render">
+        <h2><span class="num">4</span>Darstellung</h2>
+        <h3 id="render-volume">4.1 Volumendarstellung</h3>
+        <p>Die Werte \(v_i(\mathbf x)\) jedes Feldes \(i\) werden entlang des Sehstrahls aufsummiert; aus der Summe wird die Wurzel gezogen und auf eine Farbskala (Hintergrund → Farbe des Feldes → Weiß) abgebildet. Die Farben der Felder werden als Licht addiert (additive Farbmischung):</p>
+        <div class="eq" id="eq-4.1">$$\begin{gathered}
+          I_i = \sqrt{\,s_i \int_{\text{Sehstrahl}} v_i(\mathbf x)\, W(\mathbf x)\, d\ell\,}, \\
+          C = C_{\text{bg}} + w \sum_i \bigl(\mathrm{ramp}_i(I_i) - C_{\text{bg}}\bigr), \qquad w = \min\!\bigl(1,\; 1{,}2/\sqrt{N_{\text{on}}}\bigr).
+          \end{gathered} \tag{4.1}$$</div>
+        <p>Der Faktor \(s_i\) normiert den größten Wert des Strahlintegrals über alle Zeitpunkte auf 1; er wird für jedes Feld und für jede Betriebsart getrennt bestimmt. Es wird weder für jeden Zeitpunkt neu normiert noch ein von Hand gewählter Faktor angebracht. Das Gewicht \(w\) schwächt jedes Feld ab, wenn \(N_{\text{on}}\) Felder überlagert werden, damit die Summe nicht in Weiß sättigt.</p>
+        <p>Die Daten liegen auf einem Gitter mit \(40^3\) Punkten vor (in vii \(56^3\)). Gespeichert wird \(\sqrt{v/v_{\text{ref}}}\) mit 8 bit; bei der Darstellung wird quadriert. Zwischen gespeicherten Zeitpunkten wird linear interpoliert.</p>
+        <h3 id="render-window">4.2 Randfenster</h3>
+        <p>Der Rechenkasten selbst wird nicht gezeichnet. Damit sein Rand nicht sichtbar wird, wird allein bei der Darstellung das Fenster</p>
+        <div class="eq" id="eq-4.2">$$W = \bigl[1 - \mathrm{smoothstep}(0{,}6,\, 1,\, \|\mathbf b\|_\infty)\bigr]\,\bigl[1 - \mathrm{smoothstep}(0{,}8,\, 1{,}2,\, \|\mathbf b\|_2)\bigr] \tag{4.2}$$</div>
+        <p>angewandt; \(\mathbf b\) ist der Ort, gemessen vom Mittelpunkt des Kastens in Einheiten der halben Kantenlänge. Die berechneten Werte werden dadurch nicht verändert. Wellen, die sich dem Rand nähern (die äußeren Schalen im Betazerfall, Strahlung), erscheinen außen deshalb schwächer.</p>
+      </section>
+
+      <hr>
+
+      <section id="ee">
+        <h2><span class="num">i</span>Elektron–Elektron-Streuung<a class="go" href="index.html#ee">ansehen →</a></h2>
+        <p>Zwei Elektronen mit parallelem Spin stoßen sich durch Austausch eines Photons ab und werden gestreut. Untersucht wird, welcher räumlichen Verteilung die Photonlinie des Feynman-Diagramms entspricht.</p>
+        <ul class="fields-list">
+          <li style="--c:#4dabff">Elektron: Ladungsdichte (negativ)</li>
+          <li style="--c:#5fe0a0">ausgetauschtes Photon: Kreuzterm \(2e^2\,\mathrm E[Y_1 Y_2]\) des Coulomb-Anteils</li>
+          <li style="--c:#ff8a3d">Coulomb-Feld: Varianzzuwachs des Coulomb-Anteils \(A^0\)</li>
+          <li style="--c:#ffc04d">transversales Photon: \(\langle{:}\mathbf A_\perp^2{:}\rangle\) der Quantenmoden</li>
+          <li style="--c:#d77cff">Strahlung: transversales Photon abzüglich der Bekleidung bei der momentanen Geschwindigkeit</li>
+        </ul>
+        <figure class="feyn"><div class="feynman">diagram t {
+  in  a: $e^-$, b: $e^-$
+  out c: $e^-$, d: $e^-$
+  vertex a at (0, 1); vertex b at (0, 0); vertex c at (1.6, 1); vertex d at (1.6, 0)
+  a -- [fermion, color="#4dabff"] v1 at (0.8, 0.85) -- [fermion, color="#4dabff"] c
+  b -- [fermion, color="#4dabff"] v2 at (0.8, 0.15) -- [fermion, color="#4dabff"] d
+  v1 -- [photon, color="#5fe0a0", label=$\gamma$] v2
+}
+diagram u {
+  in  a: $e^-$, b: $e^-$
+  out c: $e^-$, d: $e^-$
+  vertex a at (0, 1); vertex b at (0, 0); vertex c at (1.9, 1); vertex d at (1.9, 0)
+  a -- [fermion, color="#4dabff"] v1 at (0.5, 0.85) -- [fermion, color="#4dabff"] d
+  b -- [fermion, color="#4dabff"] v2 at (0.5, 0.15) -- [fermion, color="#4dabff"] c
+  v1 -- [photon, color="#5fe0a0", label'=$\gamma$] v2
+}
+equation [height=7] {
+  i\mathcal M \;=\; @t \;-\; @u
+}</div><figcaption>Die beiden Diagramme niedrigster Ordnung. Da die Teilchen gleichartig sind, wird das Diagramm mit vertauschten auslaufenden Elektronen abgezogen. Die Photonlinie wird hier in den Coulomb-Anteil, dargestellt durch ein statisches Potential (<a class="ref" href="#A3">A3</a>), und das transversale Photon zerlegt.</figcaption></figure>
+        <h3>Voraussetzungen</h3>
+        <p>Es gelten <a class="ref" href="#A2">A2</a> (für den Coulomb-Anteil), <a class="ref" href="#A3">A3</a>, <a class="ref" href="#A5">A5</a> und <a class="ref" href="#A6">A6</a>. Das Photonfeld wird in der Coulomb-Eichung beschrieben; es zerfällt in den an die Ladungen gebundenen Coulomb-Anteil \(A^0\) und den transversalen Anteil \(\mathbf A_\perp\) mit eigenen Freiheitsgraden.</p>
+        <h3>Gelöst und vorgegeben</h3>
+        <table>
+          <tr><th>Größe</th><th>Art</th><th>Bestimmung</th></tr>
+          <tr><td>Relativwellenfunktion \(\psi(\mathbf r, t)\)</td><td>gelöst</td><td>Split-Operator-Verfahren mit <a class="ref" href="#eq-3.1">(3.1)</a>, ohne Entwicklung nach der Kopplung</td></tr>
+          <tr><td>Schwerpunkt</td><td>vorgegeben</td><td>ruhende Gauß-Verteilung, Breite konstant (<a class="ref" href="#A3">A3</a>)</td></tr>
+          <tr><td>Elektronendichte</td><td>gelöst</td><td>aus \(\psi\) und dem Schwerpunkt nach <a class="ref" href="#eq-2.2">(2.2)</a></td></tr>
+          <tr><td>Coulomb-Anteil, ausgetauschtes Photon</td><td>gelöst bei vorgegebener Quelle</td><td>statische Lösung \(e\,Y\) zur Lage der Ladung (<a class="ref" href="#A2">A2</a>), gemittelt über die gelöste Ortsverteilung</td></tr>
+          <tr><td>Bewegung, die das transversale Photon antreibt</td><td>vorgegeben</td><td>10 klassische Bahnen im selben Potential (Newtonsche Bewegungsgleichung) statt der Quantenbewegung</td></tr>
+          <tr><td>Transversales Photon, Strahlung</td><td>gelöst</td><td>Moden nach <a class="ref" href="#eq-i.2">(i.2)</a> für jede Bahn</td></tr>
+        </table>
+        <h3>Relativbewegung</h3>
+        <p>Nach <a class="ref" href="#A3">A3</a> wird die Relativbewegung mit dem Potential \(V(r) = e^2\,Y(r)\) aus <a class="ref" href="#eq-1.1">(1.1)</a> gelöst; der Schwerpunkt ist eine ruhende Gauß-Verteilung mit der Standardabweichung \(\sigma/\sqrt 2\). Da die Spins parallel sind, ist der Spinanteil symmetrisch und der Ortsanteil antisymmetrisch, \(\psi(-\mathbf r) = -\psi(\mathbf r)\). Die Streuamplitude ist folglich \(f(\theta) - f(\pi - \theta)\); unter \(90^\circ\) im Schwerpunktsystem wird nicht gestreut.</p>
+        <h3>Coulomb-Anteil</h3>
+        <p>Nach <a class="ref" href="#A2">A2</a> ist der Coulomb-Anteil für eine Quelle am Ort \(\mathbf y\) gleich \(A^0 = e\,Y(\mathbf x - \mathbf y)\). Mit \(Y_j = Y(\mathbf x - \mathbf x_j)\) ist das zweite Moment</p>
+        <div class="eq" id="eq-i.1">$$\langle (A^0)^2\rangle - \langle 0|(A^0)^2|0\rangle = e^2\,\mathrm E\bigl[(Y_1 + Y_2)^2\bigr] = e^2\bigl(\mathrm E[Y_1^2] + \mathrm E[Y_2^2]\bigr) + 2e^2\,\mathrm E[Y_1 Y_2]. \tag{i.1}$$</div>
+        <p>Als Coulomb-Feld wird der Varianzzuwachs \(e^2\bigl(\mathrm E[(Y_1+Y_2)^2] - \mathrm E[Y_1+Y_2]^2\bigr)\) nach <a class="ref" href="#def-2.1">Definition 2.1</a> dargestellt, als ausgetauschtes Photon der Kreuzterm \(2e^2\,\mathrm E[Y_1 Y_2]\) in <a class="ref" href="#eq-i.1">(i.1)</a>. Dieser bildet eine Brücke zwischen den beiden Elektronen, die mit abnehmendem Abstand stärker wird. Für eine Punktquelle ohne Masse (\(a \to 0\), \(\mu = 0\)) gilt \(\int \nabla Y_1\cdot\nabla Y_2\, d^3x = Y(|\mathbf x_1 - \mathbf x_2|)\): Das Integral über das Produkt der Felder ist die Wechselwirkungsenergie. Dargestellt wird das Produkt der Potentiale, nicht das der Felder.</p>
+        <h3>Transversales Photon</h3>
+        <p>Der Strom der Elektronen regt über \(H_{\text{int}} = -\int \mathbf j\cdot\mathbf A_\perp\, d^3x\) die Moden \(a_{\mathbf k}\) an. Für die kohärente Amplitude \(\alpha_{\mathbf k}\) gilt</p>
+        <div class="eq" id="eq-i.2">$$\frac{d\alpha_{\mathbf k}}{dt} = -i\omega_k\,\alpha_{\mathbf k} + i s_k\, P_{\mathbf k}\!\cdot\!\mathbf J_{\mathbf k}, \qquad
+          \mathbf J_{\mathbf k} = \sum_n q\,\mathbf v_n\, e^{-i\mathbf k\cdot\mathbf x_n}, \tag{i.2}$$</div>
+        <p>mit dem transversalen Projektor \(P_{\mathbf k}\) und dem Normierungsfaktor \(s_k\) der Mode. Bei vorgegebener Bewegung der Elektronen ist jede Mode in einem kohärenten Zustand. Die Unbestimmtheit der Bewegung wird durch ein Ensemble von 10 klassischen Bahnen angenähert, deren Stoßparameter aus der transversalen Breite des Relativwellenpakets gewählt werden <span class="badge approx">Näherung</span>. Dargestellt wird</p>
+        <div class="eq" id="eq-i.3">$$\langle{:}\mathbf A_\perp^2{:}\rangle = \mathrm E_{\text{Bahnen}}\bigl[|\langle\mathbf A_\perp\rangle|^2\bigr]. \tag{i.3}$$</div>
+        <p>Anfangs ist das transversale Feld die stationäre Bekleidung der gleichförmig bewegten Elektronen. Ändert sich die Geschwindigkeit beim Stoß, so löst sich von dieser Bekleidung ein Anteil, der nach außen läuft. Als Strahlung wird \(\alpha_{\mathbf k}\) abzüglich der stationären Bekleidung bei der momentanen Geschwindigkeit dargestellt. Da sich das elektrische Dipolmoment zweier gleicher Teilchen im Schwerpunktsystem nicht ändert, ist die Strahlung überwiegend Quadrupolstrahlung.</p>
+        <h3>Bedingte Verteilung</h3>
+        <p>Als Ort des ersten Elektrons wird \(\mathbf a(t)\) angenommen. \(\mathbf a(t)\) ist der Schwerpunkt der Elektronendichte auf der einlaufenden Achse (solange sich die Elektronen nähern) bzw. auf der Halbgeraden in Richtung \(\theta = 45^\circ\) (nach dem Stoß). Das ausgetauschte Photon ist unter dieser Bedingung \(2e^2\,Y(\mathbf x - \mathbf a)\,\mathrm E[Y(\mathbf x - \mathbf y)]\) und verbindet den gewählten Punkt mit dem Partner. Das transversale Photon ist das Feld der einen Bahn, die in Richtung \(\theta\) ausläuft.</p>
+        <h3>Annahmen und Parameter</h3>
+        <ul>
+          <li><span class="badge">Stilisiert</span> \(e^2 = 20\), etwa das 220-fache des physikalischen Werts \(4\pi\alpha\). Die Zahl der abgestrahlten Photonen wird dadurch von der Ordnung 1. Der Coulomb-Anteil erhält nach <a class="ref" href="#A6">A6</a> die Masse \(\mu = 0{,}15\).</li>
+          <li><span class="badge approx">Näherung</span> Der Coulomb-Anteil ist statisch (<a class="ref" href="#A2">A2</a>). Die zeitliche Änderung der Schwerpunktbreite wird vernachlässigt (<a class="ref" href="#A3">A3</a>). Das transversale Photon wird durch ein Ensemble klassischer Bahnen angeregt; die Streuung der Ankunftszeiten wird vernachlässigt.</li>
+          <li>Zahlenwerte: \(m = 1\), \(k_0 = 1{,}2\) (\(v = 0{,}77\)), \(\sigma = 1\); Kasten der Relativbewegung \(L = 80\), \(N = 128\); \(t \le 30\).</li>
+        </ul>
+      </section>
+
+      <section id="compton">
+        <h2><span class="num">ii</span>Compton-Streuung<a class="go" href="index.html#compton">ansehen →</a></h2>
+        <p>Ein Photon trifft auf ein ruhendes Elektron. Das Photon ändert seine Richtung und verliert Energie, das Elektron wird nach vorn gestoßen. Die Compton-Streuung zeigte, dass das Photon Energie und Impuls in festen Quanten überträgt. Gelöst wird die Zweiteilchenamplitude von Photon und Elektron in niedrigster Ordnung im Laborsystem.</p>
+        <ul class="fields-list">
+          <li style="--c:#ff8a3d">Photon: Varianzzuwachs des Photonfeldes \(\mathbf A\)</li>
+          <li style="--c:#4dabff">Elektron: Ladungsdichte (negativ)</li>
+          <li style="--c:#ffc04d">gestreutes Photon: Anteil des gestreuten Zustands \(\Psi_{\text{sc}}\) am Varianzzuwachs des Photons</li>
+          <li style="--c:#8ff0ff">gestoßenes Elektron: Anteil von \(\Psi_{\text{sc}}\) an der Elektronendichte</li>
+        </ul>
+        <figure class="feyn"><div class="feynman">diagram s {
+  in  g1: $\gamma$, e1: $e^-$
+  out g2: $\gamma$, e2: $e^-$
+  vertex g1 at (0, 1); vertex e1 at (0, 0); vertex g2 at (1.8, 1); vertex e2 at (1.8, 0)
+  g1 -- [photon, color="#ff8a3d"] a at (0.55, 0.5)
+  e1 -- [fermion, color="#4dabff"] a -- [fermion] b at (1.25, 0.5)
+  b -- [photon, color="#ffc04d"] g2
+  b -- [fermion, color="#8ff0ff"] e2
+}
+diagram u {
+  in  g1: $\gamma$, e1: $e^-$
+  out g2: $\gamma$, e2: $e^-$
+  vertex g1 at (0, 1); vertex e1 at (0, 0); vertex g2 at (1.8, 1); vertex e2 at (1.8, 0)
+  e1 -- [fermion, color="#4dabff"] a at (0.6, 0.15) -- [fermion] b at (1.2, 0.15) -- [fermion, color="#8ff0ff"] e2
+  a -- [photon, color="#ffc04d"] g2
+  g1 -- [photon, color="#ff8a3d"] b
+}
+equation [height=7] {
+  i\mathcal M \;=\; @s \;+\; @u
+}</div><figcaption>Die beiden QED-Diagramme niedrigster Ordnung. \(M(\theta)^2\) in <a class="ref" href="#eq-ii.3">(ii.3)</a> ist das über Spin und Polarisation gemittelte Quadrat ihrer Summe. In der Rechnung werden beide zu einem einzigen Kontaktvertex zusammengefasst <span class="badge model">Modell</span>.</figcaption></figure>
+        <h3>Voraussetzungen</h3>
+        <p>Es gelten <a class="ref" href="#A1">A1</a>, <a class="ref" href="#A4">A4</a>, <a class="ref" href="#A5">A5</a> und <a class="ref" href="#A6">A6</a>. Das Verfahren der Relativbewegung (<a class="ref" href="#A3">A3</a>) ist hier nicht anwendbar: Da die Energie des gestreuten Photons von seiner Richtung abhängt, hängt auch der energiegewichtete Schwerpunkt von der Richtung ab. Gerechnet wird daher im Laborsystem.</p>
+        <h3>Gelöst und vorgegeben</h3>
+        <table>
+          <tr><th>Größe</th><th>Art</th><th>Bestimmung</th></tr>
+          <tr><td>Einlaufende Wellenpakete \(\psi_\gamma\), \(\psi_e\)</td><td>gelöst</td><td>freie Zeitentwicklung (Fourier-Verfahren)</td></tr>
+          <tr><td>Gestreuter Anteil \(\Psi_{\text{sc}}\)</td><td>gelöst</td><td>Zeitintegral <a class="ref" href="#eq-ii.1">(ii.1)</a> in erster Ordnung; Compton-Formel und Energieerhaltung folgen daraus</td></tr>
+          <tr><td>Vertex \(\lambda\)</td><td>vorgegeben</td><td>Kontaktvertex, auf der Schale an Klein–Nishina angepasst <span class="badge model">Modell</span></td></tr>
+          <tr><td>Spinor-Überlapp</td><td>vorgegeben</td><td>\(u^\dagger u = 1\)</td></tr>
+          <tr><td>Photonvarianz, Elektronendichte, bedingte Verteilung</td><td>gelöst</td><td>aus \(\Psi_{\text{in}} + \Psi_{\text{sc}}\)</td></tr>
+        </table>
+        <h3>Zweiteilchenamplitude</h3>
+        <p>Der Zustand ist durch die Amplitude \(\Psi(\mathbf x_\gamma, \mathbf x_e)\) eines Photons und eines Elektrons gegeben. In erster Ordnung der Wechselwirkung (Born-Näherung) tritt zum Produkt \(\Psi_{\text{in}} = \psi_\gamma\,\psi_e\) der beiden freien Wellenpakete der gestreute Anteil \(\Psi_{\text{sc}}\) hinzu:</p>
+        <div class="eq" id="eq-ii.1">$$\tilde\Psi_{\text{sc}}(\mathbf k', \mathbf p', t) = -i\int_0^t dt'\,\lambda(\mathbf k', \mathbf p')\, e^{-i(\omega' + E')(t - t')}\, A(\mathbf k' + \mathbf p', t'), \tag{ii.1}$$</div>
+        <div class="eq" id="eq-ii.2">$$A(\mathbf P, t') = \int d^3X\, e^{-i\mathbf P\cdot\mathbf X}\,\psi_\gamma(\mathbf X, t')\,\psi_e(\mathbf X, t'). \tag{ii.2}$$</div>
+        <p>Die Quelle \(A\) ist dort von null verschieden, wo sich die beiden Wellenpakete überlappen; sie erhält den Gesamtimpuls \(\mathbf P\). Beide Wellenpakete sind zur Zeit \(t_c\) im Ursprung am schmalsten (\(\sigma = 2\)); vorher nähern sie sich einander und sind breiter.</p>
+        <h3>Vertex</h3>
+        <p>Der Vertex \(\lambda\) ist ein Kontaktvertex <span class="badge model">Modell</span>, dessen Betrag an die Amplitude der QED in niedrigster Ordnung angepasst ist (summiert über Spins und Polarisationen):</p>
+        <div class="eq" id="eq-ii.3">$$\begin{aligned}
+          \lambda &amp;= \frac{M(\theta)}{\sqrt{2\omega\cdot 2m\cdot 2\omega'\cdot 2E'}}, \\
+          M(\theta)^2 &amp;= \frac14\sum|\mathcal M|^2 = 2e^4\Bigl[r + \frac1r - \sin^2\theta\Bigr], \\
+          r &amp;= \frac{1}{1 + (\omega/m)(1 - \cos\theta)} .
+          \end{aligned} \tag{ii.3}$$</div>
+        <p>Dabei ist \(\theta\) der Winkel zwischen auslaufendem und einlaufendem Photon. Auf der Massenschale ergibt <a class="ref" href="#eq-ii.3">(ii.3)</a> den Wirkungsquerschnitt von Klein und Nishina. Die Energieerhaltung wird nicht vorausgesetzt. Das Zeitintegral \(\int dt'\,e^{i(\omega' + E' - E_{\text{in}})t'}\) unterdrückt die Amplituden außerhalb der Schale, sodass die Compton-Formel</p>
+        <div class="eq" id="eq-ii.4">$$\omega' = \frac{\omega}{1 + (\omega/m)(1 - \cos\theta)} \tag{ii.4}$$</div>
+        <p>in der Impulsverteilung der Lösung erscheint. Mit \(\omega = m\) hat ein rückwärts gestreutes Photon die Energie \(\omega/3\).</p>
+        <h3>Dargestellte Größen</h3>
+        <p>Da genau ein Photon vorhanden ist, ist sein Varianzzuwachs nach <a class="ref" href="#def-2.1">Definition 2.1</a> gleich \(2\int d^3x_e\,|F(\mathbf x, \mathbf x_e)|^2\) mit \(\tilde F = \tilde\Psi/\sqrt{2\omega'}\). Die Elektronendichte ist nach <a class="ref" href="#eq-2.2">(2.2)</a> \(n_e(\mathbf x) = \int d^3x_\gamma\,|\Psi(\mathbf x_\gamma, \mathbf x)|^2\). Beide Größen sind Summen aus dem Term von \(\Psi_{\text{in}}\), dem Interferenzterm von \(\Psi_{\text{in}}\) und \(\Psi_{\text{sc}}\) (in Vorwärtsrichtung; nach dem Stoß ändert er die Gesamtwahrscheinlichkeit nicht) und dem Term von \(\Psi_{\text{sc}}\). Da der gestreute Anteil nur die Wahrscheinlichkeit 0,19 besitzt, wird der Term von \(\Psi_{\text{sc}}\) zusätzlich als eigenes Feld dargestellt, normiert auf sein eigenes Maximum über alle Zeitpunkte (Abschnitt <a class="ref" href="#render-volume">4.1</a>).</p>
+        <h3>Bedingte Verteilung</h3>
+        <p>Als Ort des Photons wird \(\mathbf a\) angenommen; dargestellt wird die Elektronenverteilung \(\propto |F(\mathbf a, \mathbf x)|^2\). \(\mathbf a\) liegt auf der Halbgeraden senkrecht zur Einfallsrichtung (\(\theta = 90^\circ\)) im mittleren Radius \(\bar r = \int r^3 v\,dr \big/ \int r^2 v\,dr\) der dorthin gestreuten Photonen (\(v\) ist die Anzahldichte des gestreuten Photons). Zu Beginn der Streuung liegt \(\mathbf a\) nahe dem Ursprung (\(r \approx 3\)); mit der sich entfernenden Schale wird es stetig schneller und bewegt sich schließlich mit Lichtgeschwindigkeit. Bis die gestreute Wahrscheinlichkeit das letzte Prozent ihres Endwerts erreicht, ist der mittlere Radius nicht bestimmt; bis dahin bleibt \(\mathbf a\) am Punkt dieses Zeitpunkts. Für alle Zeitpunkte gelten dieselbe Halbgerade und dieselbe Regel. Verwendet wird die lokale Anzahldichte, nicht der Varianzzuwachs \(2|F|^2\), da \(F = \psi/\sqrt{2\omega}\) weit reichende Ausläufer hat.</p>
+        <p>Ein senkrecht gestreutes Photon hat die Energie \(\omega/2\); das Elektron übernimmt den restlichen Impuls und läuft auf der Gegenseite unter \(26{,}6^\circ\) mit der Geschwindigkeit \(0{,}75\). Die bedingte Elektronenverteilung sammelt sich in dieser Richtung beim 0,75-fachen Radius der Photonschale. Dies ist nicht vorgegeben, sondern folgt aus der Zweipunktkorrelation der Lösung.</p>
+        <h3>Beobachtungen</h3>
+        <ul>
+          <li>Varianz: Der größte Teil des Photons läuft ungestreut hindurch; das gestreute Photon breitet sich als Kugelschale aus (vorwärts stärker, seitlich und rückwärts etwa gleich). Das Elektron zerfließt als ruhendes Wellenpaket; das gestoßene Elektron läuft in einem Vorwärtskegel hinter dem Photon her.</li>
+          <li>Korrelation: Liegt der angenommene Ort des Photons seitlich, so sind Richtung und Radius des Elektrons festgelegt. Zwei Teilchen, deren mittlere Verteilungen in alle Richtungen reichen, bestimmen gegenseitig ihre Richtungen und Geschwindigkeiten.</li>
+          <li>Die Photonenergie hängt von der Richtung ab; da der Varianzzuwachs die Wellenlänge nicht zeigt, wird der Unterschied an Geschwindigkeit und Richtung des Elektrons sichtbar.</li>
+        </ul>
+        <h3>Annahmen und Parameter</h3>
+        <ul>
+          <li><span class="badge">Stilisiert</span> \(e^2 = 20\) (wie in i, etwa das 220-fache von \(4\pi\alpha\)). Die Wahrscheinlichkeit des gestreuten Anteils ist 0,19 (mit dem physikalischen \(\alpha\): \(4\times10^{-6}\)).</li>
+          <li><span class="badge approx">Näherung</span> Erste Ordnung der Wechselwirkung (<a class="ref" href="#A1">A1</a>). Der einlaufende Anteil nimmt durch die Streuung nicht ab, da die Abnahme vom Vorwärts-Interferenzterm zweiter Ordnung herrührt; die Summe der Wahrscheinlichkeiten ist \(1 + 0{,}19\).</li>
+          <li><span class="badge model">Modell</span> Der Vertex ist ein Kontaktvertex; angepasst ist nur die Amplitude auf der Schale (Klein–Nishina). Die Amplituden außerhalb der Schale während der Überlappung hängen vom Modell ab. Das über Spins und Polarisationen summierte \(|\mathcal M|^2\) wird als eine einzige Amplitude verwendet (Verteilung bei nicht gemessener Polarisation); die einlaufende Seite wird bei den Mittelwerten (Photon mit \(\omega = m\), ruhendes Elektron) ausgewertet.</li>
+          <li><span class="badge approx">Näherung</span> Die Impulsbreite des Elektrons ist mit \(0{,}25m\) klein; der Überlapp der Spinoren wird gleich \(u^\dagger u = 1\) gesetzt.</li>
+          <li>Für den gestreuten Anteil wird die Symmetrie um die \(z\)-Achse genutzt: Summiert wird über eine Halbebene des Partnerimpulses, gemittelt über Drehungen.</li>
+          <li>Zahlenwerte: \(m = 1\), \(\omega = 1\), \(\sigma = 2\) (\(t_c = 14\)); Kasten \(L = 64\), \(N = 64\); \(t \le 36\).</li>
+        </ul>
+      </section>
+
+      <section id="beta">
+        <h2><span class="num">iii</span>Betazerfall<a class="go" href="index.html#beta">ansehen →</a></h2>
+        <p>Aus einem bewegten Neutron breiten sich ein Elektron und ein Antineutrino allmählich aus. Der Zerfall findet nicht zu einem bestimmten Zeitpunkt an einem bestimmten Ort statt; die Amplitude fließt stetig ab. Das Nukleon wandelt sich während seiner Bewegung vom Neutron zum Proton; das noch nicht zerfallene Neutron trägt eine virtuelle W-Bekleidung.</p>
+        <ul class="fields-list">
+          <li style="--c:#4dabff">Elektron: Ladungsdichte (negativ)</li>
+          <li style="--c:#b8f06a">Antineutrino: Leptonenzahldichte</li>
+          <li style="--c:#a0a8b8">Neutron: Teilchenzahldichte (Überlebenswahrscheinlichkeit × Ausdehnung des Nukleons)</li>
+          <li style="--c:#ff4d6d">Proton: Ladungsdichte (Wahrscheinlichkeit des Leptonenpaares × Ausdehnung des Nukleons)</li>
+          <li style="--c:#ffd36b">W: Varianzzuwachs des W-Feldes (Bekleidung des noch nicht zerfallenen Neutrons)</li>
+        </ul>
+        <figure class="feyn"><div class="feynman">diagram {
+  in  n: $n$
+  out p: $p$, e: $e^-$, ne: $\bar\nu_e$
+  vertex n at (0, 1); vertex p at (2, 1); vertex e at (2, 0.45); vertex ne at (2, -0.1)
+  n -- [double, arrow=forward, color="#a0a8b8"] a at (0.9, 1) -- [double, arrow=forward, color="#ff4d6d"] p
+  a -- [boson, label'=$W^-$, color="#ffd36b"] b at (1.3, 0.3)
+  ne -- [fermion, color="#b8f06a"] b -- [fermion, color="#4dabff"] e
+}</div><figcaption>Von der Nukleonlinie geht ein W aus, das zu Elektron und Antineutrino wird. Das W wird als statische Bekleidung des nicht zerfallenen Neutrons behandelt (<a class="ref" href="#A2">A2</a>); das Leptonpaar geht von einem bewegten Vertex aus <a class="ref" href="#eq-iii.1">(iii.1)</a>.</figcaption></figure>
+        <h3>Voraussetzungen</h3>
+        <p>Es gelten <a class="ref" href="#A1">A1</a>, <a class="ref" href="#A2">A2</a> (für das W-Feld), <a class="ref" href="#A5">A5</a> und <a class="ref" href="#A6">A6</a>. Das Nukleon ist schwer und erfährt keinen Rückstoß; es bewegt sich mit konstanter Geschwindigkeit, \(\mathbf X(t) = \mathbf X_0 + \mathbf V t\), \(V = 0{,}3\). Das Modell eines ruhenden Kerns wird so bewegt, dass es mit der Lorentz-Transformation verträglich ist.</p>
+        <h3>Gelöst und vorgegeben</h3>
+        <table>
+          <tr><th>Größe</th><th>Art</th><th>Bestimmung</th></tr>
+          <tr><td>Paaramplitude \(\Psi_s\), Dichten von Elektron und Antineutrino</td><td>gelöst</td><td>Überlagerung freier Leptonen vom bewegten Vertex <a class="ref" href="#eq-iii.1">(iii.1)</a></td></tr>
+          <tr><td>Paarwahrscheinlichkeit \(N(t)\)</td><td>gelöst</td><td>Norm von \(\Psi_s\)</td></tr>
+          <tr><td>Amplitude des Neutrons \(c(t)\)</td><td>vorgegeben</td><td>Exponentialform \(e^{-(iE_0+\Gamma/2)t/\gamma}\) (Wigner–Weisskopf, niedrigste Ordnung); \(g\) wird aus \(\Gamma\) bestimmt</td></tr>
+          <tr><td>Bahn des Nukleons</td><td>vorgegeben</td><td>\(\mathbf X_0 + \mathbf V t\), ohne Rückstoß</td></tr>
+          <tr><td>Form von Neutron und Proton</td><td>vorgegeben</td><td>feste Gauß-Verteilung \(b_N\), nur Lorentz-kontrahiert und verschoben. Ein Schwerpunktwellenpaket des Nukleons wird nicht gelöst; es zerfließt daher nicht</td></tr>
+          <tr><td>Größe von Neutron- und Protondichte</td><td>gelöst / vorgegeben</td><td>\(N(t)\) gelöst, \(\lvert c(t)\rvert^2\) vorgegeben</td></tr>
+          <tr><td>W-Bekleidung</td><td>gelöst bei vorgegebener Quelle</td><td>statische Lösung <a class="ref" href="#eq-iii.3">(iii.3)</a> zur vorgegebenen Lage und Form des Nukleons (<a class="ref" href="#A2">A2</a>)</td></tr>
+        </table>
+        <p>Das Proton zerfließt in der Darstellung nicht; dies ist eine Annahme und kein Ergebnis der Rechnung. Ein freies Wellenpaket der Masse \(M\) und der Breite \(\sigma\) zerfließt auf der Zeitskala \(M\sigma^2\); mit der Nukleonmasse (\(M \approx 938\) in Einheiten von etwa 1 MeV) und \(\sigma = 0{,}8\) ist sie etwa 600, sodass die Breite bis \(t = 30\) um etwa 0,1 % zunähme. Nicht enthalten ist dagegen der Rückstoß: Das Proton übernimmt den Impuls des Leptonenpaares und ist mit ihm verschränkt.</p>
+        <h3>Zustand</h3>
+        <p>Die Amplitude des noch nicht zerfallenen Zustands ist \(c(t) = e^{-(iE_0 + \Gamma/2)\,t/\gamma}\) (Zeitdilatation). Das Matrixelement ist der Wert im Ruhesystem des Nukleons, multipliziert mit \(\sqrt{E'\omega'/(E\omega)}\) (gestrichene Größen im Ruhesystem). Die Paaramplitude ist eine Überlagerung zweier freier Leptonen, die zur Zeit \(u\) vom bewegten Vertex \(\mathbf X(u)\) ausgehen:</p>
+        <div class="eq" id="eq-iii.1">$$\Psi_s(\mathbf x_e, \mathbf x_\nu, t) = -ig\!\int\! du\; S(u,t)\; K^{e}_s\bigl(\mathbf x_e - \mathbf X(u),\, t-u\bigr)\, K^{\nu}_s\bigl(\mathbf x_\nu - \mathbf X(u),\, t-u\bigr). \tag{iii.1}$$</div>
+        <p>\(K\) ist der Propagator eines freien Leptons (radiale Integrale über sphärische Bessel-Funktionen), \(S\) das Gewicht der Vertexzeit. Mit dem Matrixelement vom Fermi-Typ (\(0^+\to0^+\)) gilt</p>
+        <div class="eq" id="eq-iii.2">$$\sum_s |M_s|^2 = \tfrac12\,\bigl(1 + v\cos\theta_{e\nu}\bigr), \qquad
+          \Gamma = \frac{g^2}{4\pi^3}\int p^2\,(E_0 - E)^2\, dp . \tag{iii.2}$$</div>
+        <p>Da der Vertex sich bewegt, haben in Bewegungsrichtung emittierte Leptonen höhere Energie (Doppler-Effekt), und die Schalen sind nach vorn verschoben. Dies folgt aus der Lösung der Gleichungen und ist nicht eingesetzt. Die Dichte ist eine quadratische Form in den Paaren von Vertexzeiten; da der Überlapp des Partners nur von der Zeitdifferenz abhängt, lässt sie sich als Matrixprodukt berechnen. Für den ruhenden Kern (\(V = 0\)) stimmt sie mit der Impulsdarstellung überein; für den bewegten Kern ist die Paarwahrscheinlichkeit gemäß der Zeitdilatation \(N(t) = N_{\text{Ruhe}}(t/\gamma)\).</p>
+        <h3>Nukleon und W-Bekleidung</h3>
+        <p>Das Nukleon hat eine gaußförmige Ausdehnung \(b_N = 0{,}8\), in Bewegungsrichtung Lorentz-kontrahiert. Neutronendichte \(|c(t)|^2\rho_N\), Protonenladungsdichte \(N(t)\rho_N\); die Ladung ist zusammen mit dem Elektron erhalten. Die W-Bekleidung ist die statische Lösung im Ruhesystem (<a class="ref" href="#A2">A2</a>),</p>
+        <div class="eq" id="eq-iii.3">$$F_W(r) \propto \int k^2 dk\, j_0(kr)\, \frac{g_W\, e^{-k^2 b^2/2}}{\sqrt{2\Omega}\,(\Omega - E_0)}, \tag{iii.3}$$</div>
+        <p>ausgewertet am in Bewegungsrichtung kontrahierten Punkt; dargestellt wird \(2|F_W|^2 |c(t)|^2\). Nukleon und W werden in einem feineren Kasten um den Weg des Nukleons gezeichnet (im gleichen Maßstab).</p>
+        <h3>Bedingte Verteilung</h3>
+        <p>Als Ort des Elektrons wird auf der Halbgeraden, die von der momentanen Lage des Nukleons senkrecht (\(+\hat{\mathbf x}\)) ausgeht, der mittlere Radius \(\bar r = \int r^3 n_e\,dr \big/ \int r^2 n_e\,dr\) des Elektrons angenommen (\(r\) ist der Abstand vom Nukleon). \(r^2 n_e\) hat ein Maximum nahe dem Vertex und eines auf der zerfließenden Schale; der Punkt größten Werts springt zwischen beiden, der mittlere Radius ist dagegen stetig in der Zeit. Zur Zeit \(t = 0\) ist \(n_e = 0\) und der mittlere Radius nicht bestimmt; dort liegt \(\mathbf a\) im Radius des nächsten Zeitpunkts. Wegen der Winkelkorrelation \(1 + v\cos\theta\) wird das Antineutrino bevorzugt auf derselben Seite emittiert. Unter dieser Bedingung ist das Proton sicher vorhanden; Neutron und W-Bekleidung sind es nicht.</p>
+        <h3>Annahmen und Parameter</h3>
+        <ul>
+          <li><span class="badge">Stilisiert</span> Gewählt ist der Fermi-Typ; der physikalische Winkelkorrelationskoeffizient des Neutrons ist \(a \approx -0{,}1\). \(E_0 = 2\), \(m_e = 0{,}5\), \(\Gamma = 0{,}15\), \(V = 0{,}3\). \(M_W = 3\) (physikalisch 80 GeV ≫ 1 MeV).</li>
+          <li><span class="badge approx">Näherung</span> Bei punktförmiger Kopplung divergieren die nicht energieerhaltenden Paare (die Bekleidung des nackten Neutrons) im Ultravioletten, und die Summe der Wahrscheinlichkeiten übersteigt 1. Mit dem Abschneidefaktor \(e^{-\Delta^2/(2\Lambda^2)}\) (\(\Delta = E + \omega - E_0 - \mathbf K\cdot\mathbf V\), \(\Lambda = 0{,}45\)) beträgt die Summe 0,88; die Abweichung ist ein Mangel der niedrigsten Ordnung (<a class="ref" href="#A1">A1</a>). Der Rückstoß des Nukleons wird vernachlässigt.</li>
+          <li><span class="badge model">Modell</span> Die Ausdehnung des Nukleons ist ein gaußförmiger Formfaktor (\(b_N = 0{,}8\)).</li>
+          <li>Zahlenwerte: \(\gamma = 1{,}048\), \(t \le 30\).</li>
+        </ul>
+      </section>
+
+      <section id="osc">
+        <h2><span class="num">iv</span>Neutrino-Oszillation<a class="go" href="index.html#osc">ansehen →</a></h2>
+        <p>Ein ruhendes \(\pi^+\) zerfällt in \(\mu^+\nu_\mu\). Das Neutrino ist eine Überlagerung zweier Zustände bestimmter Masse; auf seinem Weg bilden sich Streifen von μ- und τ-Flavour.</p>
+        <ul class="fields-list">
+          <li style="--c:#ff4d6d">μ⁺: Ladungsdichte</li>
+          <li style="--c:#5fe0d0">\(\nu_\mu\): Leptonenzahldichte des μ-Flavours</li>
+          <li style="--c:#d77cff">\(\nu_\tau\): Leptonenzahldichte des τ-Flavours</li>
+          <li style="--c:#9fd3ff">\(\nu_1\): Dichte des Masseneigenzustands 1</li>
+          <li style="--c:#ffa3d0">\(\nu_2\): Dichte des Masseneigenzustands 2</li>
+        </ul>
+        <figure class="feyn"><div class="feynman">diagram {
+  in  u: $u$, db: $\bar d$
+  out nu: $\nu_\mu$, mu: $\mu^+$
+  u -- [fermion] a -- [fermion] db
+  a -- [boson, label'=$W^+$, tension=0.7] b
+  mu -- [fermion, color="#ff4d6d"] b -- [fermion, color="#5fe0d0"] nu
+  brace [label=$\pi^+$] u, db
+}</div><figcaption>Das \(u\) und das \(\bar d\) des π⁺ werden zu einem W⁺, aus dem \(\mu^+\) und \(\nu_\mu\) hervorgehen. Das \(\nu_\mu\) breitet sich als Überlagerung der Masseneigenzustände \(\nu_1\), \(\nu_2\) aus <a class="ref" href="#eq-iv.1">(iv.1)</a>.</figcaption></figure>
+        <h3>Voraussetzungen</h3>
+        <p>Es gelten <a class="ref" href="#A1">A1</a> (für den Zerfall, mit Breite und Abschneidung wie in iii), <a class="ref" href="#A4">A4</a> (Spin vernachlässigt), <a class="ref" href="#A5">A5</a> und <a class="ref" href="#A6">A6</a>. Betrachtet werden zwei Generationen.</p>
+        <h3>Gelöst und vorgegeben</h3>
+        <table>
+          <tr><th>Größe</th><th>Art</th><th>Bestimmung</th></tr>
+          <tr><td>Radiale Zerfallsamplituden \(\chi_i(r, t)\)</td><td>gelöst</td><td>Zeitintegral wie in iii, für jeden Masseneigenzustand</td></tr>
+          <tr><td>Flavour-Dichten, Streifen, Trennung der Wellenpakete</td><td>gelöst</td><td>aus \(\chi_i\) und der Mischung <a class="ref" href="#eq-iv.1">(iv.1)</a></td></tr>
+          <tr><td>Wellenpaket des Pions \(\Phi\)</td><td>vorgegeben</td><td>ruhende Gauß-Verteilung, bewegt sich nicht und zerfließt nicht</td></tr>
+          <tr><td>Zerfallsamplitude</td><td>vorgegeben</td><td>in der Mitte der Impulsverteilung des Pions ausgewertet; s-Welle, Spin vernachlässigt</td></tr>
+          <tr><td>Amplitude des Pions</td><td>vorgegeben</td><td>Exponentialform \(e^{-(iM+\Gamma/2)t}\)</td></tr>
+        </table>
+        <h3>Zustand</h3>
+        <div class="eq" id="eq-iv.1">$$\begin{gathered}
+          |\nu_\mu\rangle = \cos\theta\,|\nu_1\rangle + \sin\theta\,|\nu_2\rangle, \\
+          \Psi_i(\mathbf x, \mathbf y) = U_{\mu i}\;\Phi(\mathbf R_i)\;\chi_i(|\mathbf x - \mathbf y|), \qquad \mathbf R_i = w_i\,\mathbf x + (1 - w_i)\,\mathbf y .
+          \end{gathered} \tag{iv.1}$$</div>
+        <p>Hier ist \(\theta = 45^\circ\), \(w_i = E_{\nu,i}/M\) das Energiegewicht des Schwerpunkts, \(\Phi\) das Wellenpaket des Pions (\(\sigma = 2\)) und \(\chi_i\) die radiale Zerfallsamplitude (s-Welle) zum Masseneigenzustand \(i\).</p>
+        <h3>Beobachtungen</h3>
+        <ul>
+          <li>Die Flavour-Streifen hängen vom <strong>Abstand</strong> ab, nicht von der Zeit.</li>
+          <li>\(\nu_1\) und \(\nu_2\) laufen mit den Geschwindigkeiten 0,99 und 0,84 auseinander; sind sie getrennt, verschwinden die Streifen (Trennung der Wellenpakete).</li>
+          <li>Auch der Rückstoß des Myons hängt vom Massenzustand ab. Wird in der Korrelation der Ort des μ⁺ angenommen, so erscheinen \(\nu_1\) und \(\nu_2\) auf der Gegenseite bei verschiedenen Radien.</li>
+        </ul>
+        <h3>Annahmen und Parameter</h3>
+        <ul>
+          <li><span class="badge">Stilisiert</span> \(M = 6\), \(m_\mu = 1\), \(m_1 = 0{,}3\), \(m_2 = 1{,}7\) (damit die Oszillationslänge ≈ 12 in den Kasten passt), \(\Gamma = 0{,}12\).</li>
+          <li><span class="badge approx">Näherung</span> s-Welle; Spin vernachlässigt; Bewegung und Zerfließen des Schwerpunkts vernachlässigt.</li>
+        </ul>
+      </section>
+
+      <section id="confine">
+        <h2><span class="num">v</span>Farbeinschluss<a class="go" href="index.html#confine">ansehen →</a></h2>
+        <p>Ein in einem Punkt erzeugtes Quark–Antiquark-Paar (nach dem Bild \(e^+e^-\to\gamma^*\to q\bar q\)) fliegt in entgegengesetzte Richtungen auseinander, wird aber von dem sich zwischen ihnen ausbildenden Farbflussschlauch (String) zurückgezogen und kann sich nicht vollständig trennen.</p>
+        <ul class="fields-list">
+          <li style="--c:#ff5fa2">Quark: Quarkzahldichte</li>
+          <li style="--c:#5fc8ff">Antiquark: Antiquarkzahldichte</li>
+          <li style="--c:#ff8a3d">Farbelektrisches Feld: Varianzzuwachs des farbelektrischen Feldes (Lösung des Farbdielektrikum-Modells)</li>
+        </ul>
+        <figure class="feyn"><div class="feynman">diagram {
+  in  e1: $e^-$, e2: $e^+$
+  out q: $q$, qb: $\bar q$
+  e1 -- [fermion] a -- [fermion] e2
+  a -- [photon, label=$\gamma^*$] b
+  qb -- [fermion, color="#5fc8ff"] b -- [fermion, color="#ff5fa2"] q
+}</div><figcaption>Ein Bild der Paarerzeugung. Die Rechnung beginnt mit einem an einem Punkt erzeugten Farbsingulett-Paar und enthält weder \(e^+e^-\) noch \(\gamma^*\). Der Flussschlauch folgt nicht aus Störungsdiagrammen, sondern aus der Lösung des Farbdielektrikum-Modells <a class="ref" href="#eq-v.1">(v.1)</a>.</figcaption></figure>
+        <h3>Voraussetzungen</h3>
+        <p>Es gelten <a class="ref" href="#A2">A2</a>, <a class="ref" href="#A3">A3</a>, <a class="ref" href="#A5">A5</a> und <a class="ref" href="#A6">A6</a>. Quark und Antiquark sind unterscheidbar (keine Antisymmetrisierung); der Farbfreiheitsgrad entwickelt sich nicht in der Zeit. Die Gesamtenergie liegt unterhalb der Schwelle für die Erzeugung eines weiteren Paares, sodass der String nicht reißt.</p>
+        <h3>Gelöst und vorgegeben</h3>
+        <table>
+          <tr><th>Größe</th><th>Art</th><th>Bestimmung</th></tr>
+          <tr><td>Farbfeld im Dielektrikum, Potential \(V(r)\)</td><td>gelöst</td><td>Minimierung von <a class="ref" href="#eq-v.1">(v.1)</a> für jeden Abstand</td></tr>
+          <tr><td>Relativwellenfunktion</td><td>gelöst</td><td>Split-Operator-Verfahren mit \(V(r)\) (<a class="ref" href="#A3">A3</a>)</td></tr>
+          <tr><td>Quarkdichten, farbelektrisches Feld</td><td>gelöst</td><td>aus der Relativwellenfunktion und der Lösung von <a class="ref" href="#eq-v.1">(v.1)</a></td></tr>
+          <tr><td>Schwerpunkt</td><td>vorgegeben</td><td>ruhende Gauß-Verteilung, Breite konstant (<a class="ref" href="#A3">A3</a>)</td></tr>
+          <tr><td>Farbzustand</td><td>vorgegeben</td><td>Singulett, ohne Zeitentwicklung</td></tr>
+          <tr><td>Farbdielektrikum</td><td>vorgegeben</td><td>Form von \(\varepsilon(\chi)\) und \(U(\chi)\) <span class="badge model">Modell</span></td></tr>
+        </table>
+        <h3>Farbsingulett</h3>
+        <p>Farbige Teilchen sind einzeln keine asymptotischen Zustände. Beobachtbar ist das Farbsingulett \(|1\rangle = \sum_c |c\,\bar c\rangle/\sqrt3\). In diesem Zustand ist die Farbladungsdichte \(\langle\rho^a(\mathbf x)\rangle = 0\); das System ist überall farbneutral. Dargestellt wird daher die Quarkzahldichte nach <a class="ref" href="#def-2.2">Definition 2.2</a>.</p>
+        <h3>Farbdielektrikum</h3>
+        <p>Form und Spannung des Strings werden nicht vorgegeben, sondern aus der statischen Lösung des Farbdielektrikum-Modells (Typ Friedberg–Lee) bestimmt. Das Farbfeld wird durch eine einzige kommutierende Komponente vertreten (Abelisierung). Für das Singulett \(q\bar q\) sind die Ladungen \(\pm g\) mit \(g^2 = C_F c^2\), \(C_F = \langle -\mathbf t_1\!\cdot\!\mathbf t_2\rangle_{\mathbf 1} = 4/3\). Das Vakuum ist ein Kondensat des Skalarfeldes \(\chi\) mit sehr kleiner Farbdielektrizitätskonstante \(\varepsilon(\chi)\):</p>
+        <div class="eq" id="eq-v.1">$$\begin{gathered}
+          E[\chi] = \min_{\nabla\cdot\mathbf D = \rho}\int \frac{\mathbf D^2}{2\varepsilon(\chi)}\,d^3x + \int\Bigl[\tfrac{\kappa}{2}|\nabla\chi|^2 + U(\chi)\Bigr]d^3x, \\
+          \varepsilon(\chi) = \varepsilon_v + (1-\varepsilon_v)(3\chi^2 - 2\chi^3).
+          \end{gathered} \tag{v.1}$$</div>
+        <p>\(U(\chi) = B\,\chi^2(5\chi^2 - 12\chi + 8)\) hat Minima bei \(\chi = 0\) (Vakuum) und \(\chi = 1\) (metastabile Phase mit \(\varepsilon = 1\) und Energiedichte \(B\)). Wird diese Energie für jedes Ladungspaar bezüglich \(\chi\) minimiert, so wird der elektrische Fluss aus dem Vakuum verdrängt und in einem Schlauch mit \(\chi \approx 1\) eingeschlossen; die Energie wächst proportional zum Abstand (Abschätzung für einen dünnen Schlauch: \(\sigma_s \approx g\sqrt{2B}\)). Die minimale Energie dient als Potential \(V(r)\) der Relativbewegung von Quark und Antiquark (<a class="ref" href="#A3">A3</a>). Bei kleinen Abständen ist sie coulombartig (im Inneren des Schlauchs), bei großen linear: Die Lösung liefert die Form des Cornell-Potentials.</p>
+        <p>Als farbelektrisches Feld wird \(\mathbf E\cdot\mathbf D = \varepsilon|\nabla\phi|^2\) im Dielektrikum dargestellt, gemittelt über die Ortsverteilung von Quark und Antiquark. Der coulombartige Anteil in der Nähe der Ladungen und der Schlauch zwischen ihnen sind Teile derselben Lösung.</p>
+        <h3>Bedingte Verteilung</h3>
+        <p>Als Ort des Quarks wird der Schwerpunkt der Quarkdichte auf der Achse angenommen. Dargestellt werden das Antiquark und das farbelektrische Feld unter dieser Bedingung.</p>
+        <h3>Beobachtungen</h3>
+        <ul>
+          <li>Mit wachsendem Abstand werden die Teilchen langsamer (die kinetische Energie geht in das Farbfeld über), halten an, kehren um und laufen durch den Ursprung auf die Gegenseite (Jo-Jo-Bewegung).</li>
+          <li>Korrelation: Der angenommene Ort des Quarks und das Antiquark auf der Gegenseite sind durch den Farbflussschlauch verbunden.</li>
+        </ul>
+        <h3>Annahmen und Parameter</h3>
+        <ul>
+          <li><span class="badge model">Modell</span> Das (abelisierte) Farbdielektrikum-Modell ist nicht aus der QCD hergeleitet. Asymptotische Freiheit, das Reißen des Strings (Paarerzeugung) und die Zeitentwicklung der Farbfreiheitsgrade sind nicht enthalten.</li>
+          <li>Die Gesamtenergie \(\langle H\rangle - 2m\) ist kleiner als \(2m\) gewählt, sodass der String nicht reißt. (In der physikalischen \(e^+e^-\)-Vernichtung reißt er, und es entstehen Hadronenjets.)</li>
+          <li><span class="badge">Stilisiert</span> \(m = 1\), \(k_0 = 1{,}4\), \(\sigma = 1{,}5\), \(g^2 = 2\), \(B = 0{,}0016\), \(\kappa = 0{,}002\), \(\varepsilon_v = 0{,}003\). Die Spannung der Lösung ist etwa 0,095 (mit \(m = 0{,}3\) GeV etwa 1/20 des physikalischen Werts), der Schlauchradius etwa 2,5, \(\langle H\rangle - 2m \approx 1{,}96\); das Paar kehrt bei \(r \approx 19\) um.</li>
+        </ul>
+      </section>
+
+      <section id="pion">
+        <h2><span class="num">vi</span>Pionaustausch<a class="go" href="index.html#pion">ansehen →</a></h2>
+        <p>Proton und Neutron streuen durch Austausch von π-Mesonen. Beim Austausch eines geladenen Pions vertauschen Proton und Neutron ihre Rollen; das Proton kann daher auch rückwärts austreten.</p>
+        <ul class="fields-list">
+          <li style="--c:#ff4d6d">Proton: Ladungsdichte</li>
+          <li style="--c:#a0a8b8">Neutron: Teilchenzahldichte</li>
+          <li style="--c:#b48cff">π⁰: Varianzzuwachs des neutralen Pionfeldes</li>
+          <li style="--c:#ffc04d">π±: Varianzzuwachs des geladenen Pionfeldes</li>
+        </ul>
+        <figure class="feyn"><div class="feynman">diagram {
+  in  p1: $p$, n1: $n$
+  out p2: $p$, n2: $n$
+  p1 -- [double, arrow=forward, color="#ff4d6d"] v1 -- [double, arrow=forward, color="#ff4d6d"] p2
+  n1 -- [double, arrow=forward, color="#a0a8b8"] v2 -- [double, arrow=forward, color="#a0a8b8"] n2
+  v1 -- [scalar, label=$\pi^0$, color="#b48cff"] v2
+}
+diagram {
+  in  p1: $p$, n1: $n$
+  out n2: $n$, p2: $p$
+  p1 -- [double, arrow=forward, color="#ff4d6d"] v1 -- [double, arrow=forward, color="#a0a8b8"] n2
+  n1 -- [double, arrow=forward, color="#a0a8b8"] v2 -- [double, arrow=forward, color="#ff4d6d"] p2
+  v1 -- [charged scalar, label=$\pi^+$, color="#ffc04d"] v2
+}</div><figcaption>Die beiden Diagramme auf der Ebene der Nukleonen. Beim Austausch des neutralen \(\pi^0\) behält jedes Nukleon seine Identität, beim Austausch des geladenen \(\pi^+\) werden Proton und Neutron vertauscht. In der Rechnung wird der Austausch durch ein statisches Potential dargestellt (<a class="ref" href="#A3">A3</a>) und nach Isospinkanälen zerlegt.</figcaption></figure>
+        <h3>Voraussetzungen</h3>
+        <p>Es gelten <a class="ref" href="#A2">A2</a>, <a class="ref" href="#A3">A3</a>, <a class="ref" href="#A5">A5</a> und <a class="ref" href="#A6">A6</a>. Die Nukleonen werden als zwei Zustände des Isospins \(\boldsymbol\tau\) behandelt; ihre Spins sind parallel, Tensorkräfte sind nicht enthalten (<a class="ref" href="#A4">A4</a>).</p>
+        <h3>Gelöst und vorgegeben</h3>
+        <table>
+          <tr><th>Größe</th><th>Art</th><th>Bestimmung</th></tr>
+          <tr><td>Relativwellenfunktionen der Kanäle \(T = 0, 1\)</td><td>gelöst</td><td>Split-Operator-Verfahren (<a class="ref" href="#A3">A3</a>)</td></tr>
+          <tr><td>Dichten von Proton und Neutron</td><td>gelöst</td><td>aus den Kanälen und dem Schwerpunkt</td></tr>
+          <tr><td>Schwerpunkt</td><td>vorgegeben</td><td>ruhende Gauß-Verteilung, Breite konstant (<a class="ref" href="#A3">A3</a>)</td></tr>
+          <tr><td>Pionfelder</td><td>gelöst bei vorgegebener Quelle</td><td>statische Bekleidung \(c\,t^a Y\) (<a class="ref" href="#A2">A2</a>), gemittelt über die gelösten Orts- und Isospinamplituden</td></tr>
+        </table>
+        <h3>Isospinkanäle</h3>
+        <p>Das Potential \(V = c^2\,(\boldsymbol\tau_1\!\cdot\!\boldsymbol\tau_2)\,Y(r)\) wird in jedem Kanal mit dem Verfahren von <a class="ref" href="#A3">A3</a> gelöst:</p>
+        <table>
+          <tr><th>Kanal</th><th>Ortsanteil</th><th>\(\boldsymbol\tau_1\cdot\boldsymbol\tau_2\)</th></tr>
+          <tr><td>\(T = 1\)</td><td>ungerade</td><td>\(+1\) (abstoßend)</td></tr>
+          <tr><td>\(T = 0\) (Deuteron-Kanal)</td><td>gerade</td><td>\(-3\) (anziehend)</td></tr>
+        </table>
+        <h3>Austauschfeld</h3>
+        <p>Das Austauschfeld ist der kohärente Zustand der statischen Bekleidung \(\phi^a = c\,t^a\,Y(\mathbf x - \mathbf y)\) (<a class="ref" href="#A2">A2</a>), wobei die Isospinlabel als Operatoren behandelt werden. Das neutrale \(\pi^0\) fluktuiert bei festem Ort nicht; seine Varianz entsteht aus der Unbestimmtheit der Quellposition (<a class="ref" href="#def-2.1">Definition 2.1</a>, Fall 2). Das geladene \(\pi^\pm\) fluktuiert über</p>
+        <div class="eq" id="eq-vi.1">$$\langle\boldsymbol\tau_1^{\perp}\!\cdot\boldsymbol\tau_2^{\perp}\rangle = 2\bigl(|a_S|^2 - |a_A|^2\bigr) \tag{vi.1}$$</div>
+        <p>auch bei festem Ort quantenmechanisch (\(a_S\), \(a_A\): symmetrischer und antisymmetrischer Anteil im Isospin).</p>
+        <h3>Bedingte Verteilung</h3>
+        <p>Angenommen wird ein Ort des Protons, gewählt mit derselben Regel wie in i (Auslaufrichtung \(\theta = 150^\circ\)). Wegen der Ladungserhaltung ist der Partner stets ein Neutron.</p>
+        <h3>Annahmen und Parameter</h3>
+        <ul>
+          <li><span class="badge">Stilisiert</span> \(c^2 = 15\), \(\mu = 0{,}5\). Spin und Tensorkraft sind nicht enthalten.</li>
+          <li><span class="badge approx">Näherung</span> Retardierung und Abstrahlung sind nicht enthalten (<a class="ref" href="#A2">A2</a>). Kreuzterme, die keine Faltung sind, werden in einer achsensymmetrischen Ebene numerisch integriert (Abweichung von einer feineren Integration unter 2,5 %).</li>
+          <li>Beobachtung: Das Proton tritt auch rückwärts aus (Rückwärtsmaximum des Ladungsaustauschs; auch in der physikalischen np-Streuung vorhanden).</li>
+        </ul>
+      </section>
+
+      <section id="vacpol">
+        <h2><span class="num">vii</span>Vakuumpolarisation<a class="go" href="index.html#vacpol">ansehen →</a></h2>
+        <p>In der Umgebung eines Elektrons nimmt das Vakuum selbst eine Ladung an. Da die Vakuumpolarisation eine Änderung der <strong>Ladungsdichte</strong> des Vakuums ist, lässt sie sich wie bei Fermionen als Ladungsdichte darstellen (<a class="ref" href="#def-2.2">Definition 2.2</a>). Berechnet wird die Vakuumladung, während das Wellenpaket eines ruhenden Elektrons zerfließt.</p>
+        <ul class="fields-list">
+          <li style="--c:#4dabff">Elektron: Ladungsdichte (negativ)</li>
+          <li style="--c:#7d8bff">Vakuum, negativ: negativer Teil der induzierten Ladungsdichte des Vakuums</li>
+          <li style="--c:#ff7ad9">Vakuum, positiv: positiver Teil der induzierten Ladungsdichte des Vakuums</li>
+        </ul>
+        <figure class="feyn"><div class="feynman">diagram {
+  in  a: $e^-$
+  out b: $e^-$, g: $\gamma$
+  vertex a at (0, 1); vertex b at (1.8, 1); vertex g at (0.9, -0.55)
+  a -- [fermion, color="#4dabff"] v at (0.9, 1) -- [fermion, color="#4dabff"] b
+  v -- [photon] l1 at (0.9, 0.55)
+  l1 -- [fermion, half left] l2 at (0.9, 0) -- [fermion, half left] l1
+  l2 -- [photon] g
+}</div><figcaption>In das vom Elektron ausgesandte Photon wird eine Elektron-Positron-Schleife eingesetzt (die Vakuumpolarisation \(\hat\Pi\) in Einschleifenordnung, <a class="ref" href="#eq-vii.3">(vii.3)</a>). Dargestellt wird die Vakuumladung, die diese Schleife erzeugt <a class="ref" href="#eq-vii.2">(vii.2)</a>.</figcaption></figure>
+        <h3>Voraussetzungen</h3>
+        <p>Es gelten <a class="ref" href="#A1">A1</a> (eine Schleife, erste Ordnung in \(\alpha\)), <a class="ref" href="#A4">A4</a> (Dirac-Spinoren) und <a class="ref" href="#A6">A6</a>. Die Kopplung ist nicht stilisiert: \(\alpha = 1/137\). Längen werden in der Compton-Wellenlänge \(1/m\) gemessen. Dargestellt wird die normalgeordnete Ladungsdichte \(\langle{:}\rho{:}\rangle\).</p>
+        <h3>Gelöst und vorgegeben</h3>
+        <table>
+          <tr><th>Größe</th><th>Art</th><th>Bestimmung</th></tr>
+          <tr><td>Dirac-Wellenpaket des Elektrons</td><td>gelöst</td><td>freie Zeitentwicklung jeder Impulskomponente</td></tr>
+          <tr><td>Vakuumladung (Varianz)</td><td>gelöst</td><td>lineare Antwort <a class="ref" href="#eq-vii.2">(vii.2)</a> mit Retardierung auf das gelöste Wellenpaket</td></tr>
+          <tr><td>Rückwirkung auf das Elektron</td><td>vorgegeben</td><td>nicht enthalten; das Elektron bewegt sich frei</td></tr>
+          <tr><td>Vakuumladung (Korrelation)</td><td>gelöst bei vorgegebener Quelle</td><td>Antwort auf eine ruhende Punktladung am angenommenen Ort <a class="ref" href="#eq-vii.4">(vii.4)</a></td></tr>
+        </table>
+        <h3>Elektron: Dirac-Wellenpaket</h3>
+        <p>Das Elektron ist ein Wellenpaket positiver Energie \(\Psi(\mathbf x) = \int \frac{d^3p}{(2\pi)^3}\,\varphi(\mathbf p)\,u(\mathbf p, s)\,e^{i\mathbf p\cdot\mathbf x}\) mit \(\varphi \propto e^{-p^2\sigma^2}\). Für \(\sigma = 0{,}6/m\) beträgt die Impulsbreite in jeder Richtung etwa \(0{,}8m\); der Spinor \(u\) wird daher nicht vernachlässigt. Die Ladungsdichte ist \(-e\,\Psi^\dagger\Psi\); der Überlapp zweier Impulskomponenten ist</p>
+        <div class="eq" id="eq-vii.1">$$u^\dagger(\mathbf p)\,u(\mathbf p') = \frac{(E+m)(E'+m) + \mathbf p\cdot\mathbf p' + i\,\mathbf s\cdot(\mathbf p\times\mathbf p')}{2\sqrt{EE'(E+m)(E'+m)}} . \tag{vii.1}$$</div>
+        <p>Der Imaginärteil, der die Spinrichtung \(\mathbf s\) enthält, verschwindet bei der Integration; die Dichte bleibt kugelsymmetrisch.</p>
+        <h3>Lineare Antwort des Vakuums</h3>
+        <p>Die renormierte Vakuumpolarisation \(\hat\Pi\) in einer Schleife gibt die Antwort des Vakuums auf die Ladung des Elektrons. Zerlegt man die Elektronendichte in Impulskomponenten, so besitzt jede Komponente den Impuls \(\mathbf k\) und die Frequenz \(\omega = E_{\mathbf p+\mathbf k} - E_{\mathbf p}\) (\(|\omega| \lt k\)); das Vakuum antwortet auf jede mit dem Faktor \(\hat\Pi\) (einschließlich Retardierung):</p>
+        <div class="eq" id="eq-vii.2">$$\rho_{\text{ind}}(\mathbf k, t) = -e\int\!\frac{d^3p}{(2\pi)^3}\,\varphi(\mathbf p)\,\varphi(\mathbf p+\mathbf k)\,u^\dagger(\mathbf p)\,u(\mathbf p+\mathbf k)\,e^{-i\omega t}\,\hat\Pi\bigl(\sqrt{k^2-\omega^2}\bigr), \tag{vii.2}$$</div>
+        <div class="eq" id="eq-vii.3">$$\hat\Pi(Q) = \frac{2\alpha}{\pi}\int_0^1 x(1-x)\,\ln\!\Bigl(1 + x(1-x)\frac{Q^2}{m^2}\Bigr)dx . \tag{vii.3}$$</div>
+        <p>Wegen \(\hat\Pi(0) = 0\) (Renormierung) ist die gesamte Vakuumladung null; aus der Ferne gesehen bleibt die Ladung des Elektrons \(-e\). In der Nähe liegt negative Ladung (aus der Nähe erscheint die Ladung größer), weiter außen positive (Abschirmung). Für kleines \(Q\) ist \(\hat\Pi \approx \alpha Q^2/(15\pi m^2)\) (Uehling-Term), für großes \(Q\) wächst es logarithmisch. Die Antwort ist nur für Strukturen unterhalb der Compton-Wellenlänge \(1/m\) groß; um ein ausgedehntes Elektron ist sie klein.</p>
+        <h3>Bedingte Verteilung</h3>
+        <p>Als Ort des Elektrons wird \(\mathbf a\) mit der Auflösung \(w = 0{,}25/m\) angenommen; dargestellt wird die Vakuumladung \(\langle\rho_{\text{vac}}(\mathbf x)\,n_e(\mathbf a)\rangle/\langle n_e(\mathbf a)\rangle\). Sie ist die Uehling-Verteilung um eine Punktladung,</p>
+        <div class="eq" id="eq-vii.4">$$\rho(r) = \frac{e\,\alpha}{3\pi}\int_{4m^2}^{\infty}\!ds\,\Bigl(1+\frac{2m^2}{s}\Bigr)\sqrt{1-\frac{4m^2}{s}}\;\frac{e^{-\sqrt s\,r}}{4\pi r}\qquad (r \gt 0), \tag{vii.4}$$</div>
+        <p>eine positive Wolke vom Radius \(\sim 1/(2m)\), zusammen mit einem negativen Kern im Zentrum (für eine Punktladung logarithmisch divergent, durch die Auflösung \(w\) geglättet). \(\mathbf a\) liegt auf der zerfließenden Schale des Elektrons, im Punkt größten Werts von \(r^2 n\) auf der Halbgeraden \(+x\).</p>
+        <h3>Beobachtungen</h3>
+        <ul>
+          <li>Varianz: Anfangs umgeben ein negativer Kern und eine positive Schale das Elektron. Mit dem Zerfließen des Elektrons trennt sich die Vakuumladung in negative Ladung innerhalb und positive außerhalb der Elektronenschale und wird schwächer.</li>
+          <li>Korrelation: Um den angenommenen Ort des Elektrons liegt stets eine Wolke von der Größe der Compton-Wellenlänge. Im Mittel ist diese Struktur in der Ausdehnung des Elektrons verborgen.</li>
+        </ul>
+        <h3>Annahmen und Parameter</h3>
+        <ul>
+          <li>Die Kopplung ist der physikalische Wert \(\alpha = 1/137\). Die Vakuumladung ist von der Größenordnung \(10^{-4}\) der Elektronenladung (getrennte Ladung bei \(t = 0\) in der Varianz: \(2{,}0\times10^{-4}\,e\)); sichtbar wird sie, weil jedes Feld auf sein eigenes Maximum normiert wird (Abschnitt <a class="ref" href="#render-volume">4.1</a>).</li>
+          <li><span class="badge approx">Näherung</span> Eine Schleife (erste Ordnung in \(\alpha\)). Rückstoß des Elektrons und Rückwirkung des Vakuums sind nicht enthalten. Die Paarzahldichte des Vakuums (Ordnung \(\alpha^2\)) wird nicht dargestellt.</li>
+          <li><span class="badge approx">Näherung</span> Die Korrelation verwendet die Antwort auf eine ruhende Punktladung (die Retardierung durch die Geschwindigkeit des Elektrons wird vernachlässigt); die Varianz enthält die Retardierung.</li>
+          <li>Zahlenwerte: Anfangsbreite \(\sigma = 0{,}6/m\), Darstellungsbereich \(\pm 6/m\), Gitter \(56^3\).</li>
+        </ul>
+      </section>
+
+      <hr>
+
+      <section id="limits">
+        <h2><span class="num">§</span>Grenzen der Deutung</h2>
+        <ul>
+          <li>Varianzzuwachs und Dichte sind keine Aufenthaltswahrscheinlichkeiten von Teilchen. Die Varianz eines Bosonfeldes ist eine Feldfluktuation, die Dichte eines Fermions der Erwartungswert einer Ladung oder Teilchenzahl.</li>
+          <li>Streuung und Zerfall finden nicht an einem Punkt statt. Der Punkt in der Korrelation ist ein Ort, an dem ein Teilchen als gemessen <em>angenommen</em> wird.</li>
+          <li>Die Rechnungen enthalten niedrigste Ordnungen, statische Bekleidungen und Modelle (Abschnitt 3). Welche Größen gelöst und welche vorgegeben sind, steht in jedem Thema unter <em>Gelöst und vorgegeben</em>. Ohne Entwicklung nach der Kopplung gelöst sind die freien Anteile und die Relativbewegung im Split-Operator-Verfahren.</li>
+          <li>Im Farbeinschluss wird kein einzelnes Quark sichtbar. Dargestellt ist die Quarkzahldichte eines Paares im Farbsingulett.</li>
+          <li>Die Wolke der Vakuumpolarisation bedeutet nicht, dass sich dort virtuelle Paare befinden. Dargestellt ist die Änderung des Erwartungswerts der Ladungsdichte des Vakuums.</li>
+        </ul>
+      </section>
+
+      <footer id="credits">
+        <p>Musik: „Drifting Prelude“ von yvvakimoto, <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, <a href="https://github.com/yvvakimoto/endless-preludes">github.com/yvvakimoto/endless-preludes</a></p>
+        <p>Formelsatz: <a href="https://katex.org/">KaTeX</a> (MIT-Lizenz, beigefügt in vendor/katex). Feynman-Diagramme: <a href="https://github.com/yvvakimoto/feynmark">feynmark</a> v0.2.0 (MIT-Lizenz, beigefügt in vendor/feynmark). Berechnung: numpy / scipy.</p>
+        <p>Einheiten \(\hbar = c = 1\). Die stilisierten Konstanten sind bei jedem Thema unter „Annahmen und Parameter“ mit <span class="badge">Stilisiert</span> aufgeführt.</p>
+      </footer>
+    </article>
+  </div>
+
+  <script src="vendor/katex/katex.min.js"></script>
+  <script src="vendor/katex/auto-render.min.js"></script>
+  <script>
+    renderMathInElement(document.body, {
+      delimiters: [{ left: "$$", right: "$$", display: true }, { left: "\\(", right: "\\)", display: false }],
+      macros: { "\\arraystretch": "2" },  // 複数行の式の行間（行の高さの下限を一様に上げる）
+      ignoredClasses: ["feynman"],
+      throwOnError: false,
+    });
+  </script>
+  <script src="vendor/feynmark/feynmark.min.js"></script>
+  <script src="js/notes.js"></script>
+</body>
+</html>

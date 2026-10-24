@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>理論 | Standard Model Fields</title>
+  <script>
+    try { var f = {ja: "theory.html", en: "theory.en.html", de: "theory.de.html"}[localStorage.getItem("smf-lang")]; if (f && f !== "theory.html") location.replace(f + location.hash); } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="vendor/katex/katex.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/theory.css">
+</head>
+<body class="doc">
+  <div class="top">
+    <a class="brand" href="index.html"><span class="mark">Standard Model</span><span class="mark it">Fields</span></a>
+    <span class="links"><a class="word" href="index.html">描写へ</a> <a class="word" href="guide.html">操作</a><span class="langs"><span class="on" title="日本語">ja</span><a href="theory.en.html" hreflang="en" title="English" onclick="try { localStorage.setItem('smf-lang', 'en'); } catch (e) {}">en</a><a href="theory.de.html" hreflang="de" title="Deutsch" onclick="try { localStorage.setItem('smf-lang', 'de'); } catch (e) {}">de</a></span></span>
+  </div>
+
+  <div class="wrap">
+    <nav class="toc">
+      <a href="#intro">はじめに</a>
+      <a href="#units">1　規約</a>
+      <a class="sub" href="#units-basic">単位と記号</a>
+      <a class="sub" href="#units-box">計算の領域</a>
+      <a class="sub" href="#units-yukawa">湯川ポテンシャル</a>
+      <a href="#draw">2　描く量</a>
+      <a class="sub" href="#draw-boson">ボゾン</a>
+      <a class="sub" href="#draw-fermion">フェルミオン</a>
+      <a class="sub" href="#draw-cond">1 点を仮定した分布</a>
+      <a class="sub" href="#draw-point">選ぶ点</a>
+      <a href="#assume">3　共通の仮定</a>
+      <a href="#render">4　描画</a>
+      <a class="sub" href="#render-volume">3 次元の描き方</a>
+      <a class="sub" href="#render-window">縁の窓</a>
+      <a href="#ee">i　電子と電子</a>
+      <a href="#compton">ii　コンプトン散乱</a>
+      <a href="#beta">iii　ベータ崩壊</a>
+      <a href="#osc">iv　ニュートリノ振動</a>
+      <a href="#confine">v　色の閉じ込め</a>
+      <a href="#pion">vi　π 中間子の交換</a>
+      <a href="#vacpol">vii　真空偏極</a>
+      <a href="#limits">解釈の限界</a>
+      <a href="#credits">クレジット</a>
+    </nav>
+
+    <article>
+      <h1>理論</h1>
+      <div class="lead">描く量・前提・近似</div>
+
+      <section id="intro">
+        <p>この文書は、描写のページが示す量と、それを計算する前提を述べる。文書は 2 部からなる。1 から 4 は、規約、描く量の定義、すべてのトピックに共通の仮定、描画の方法である。i から vii は個々のトピックを扱い、前半を前提として、その定義と仮定を参照する。</p>
+        <p>描かれる分布はどれも、量子場の状態から計算した量であり、形を手で描き足したものはない。ただし、方程式に入れる定数（結合の強さ・質量・長さ）は、現象が 1 つの箱の中に見えるように選んである。また、計算は近似と模型を含む。この種の違いは本文で次のように示す。</p>
+        <ul>
+          <li><span class="badge">脚色</span> 見やすさのために変えた定数</li>
+          <li><span class="badge approx">近似</span> 省いた効果</li>
+          <li><span class="badge model">模型</span> 理論から導かず、形を与えたもの</li>
+        </ul>
+        <p>また、量ごとに「解いた」か「与えた」かを区別する。解いたとは、初期状態とハミルトニアン（または模型のエネルギー）から、数値的な時間発展・時間の積分・最小化によって求めたことをいう。与えたとは、形・運動・時間の依存を模型として定め、方程式から求めていないことをいう。静的な衣（<a class="ref" href="#A2">A2</a>）は、与えた源の位置に対する場の方程式の解である。初期状態（与えた幅と運動量をもつガウス型の波束）はつねに与えたものである。各トピックは、この区別を小節「解いたものと与えたもの」の表にまとめる。</p>
+        <div class="note"><p>描写のページの操作（トピックの選択、場の表示、回転・拡大、再生）は <a href="guide.html">操作方法</a> にまとめてある。</p></div>
+      </section>
+
+      <hr>
+
+      <section id="units">
+        <h2><span class="num">1</span>規約</h2>
+        <h3 id="units-basic">1.1 単位と記号</h3>
+        <p>自然単位 \(\hbar = c = 1\) を用いる。トピックごとに 1 つの質量 \(m\) を単位に定め、\(m = 1\) とする。長さと時間は \(1/m\) で測る。シュレーディンガー描像での系の状態を \(|\Psi(t)\rangle\)、真空を \(|0\rangle\) と書く。\(\langle\cdot\rangle\) は状態 \(|\Psi(t)\rangle\) での期待値、\(\mathrm E[\cdot]\) は源の位置の量子的な分布についての平均を表す。2 粒子の状態の振幅を \(\Psi(\mathbf x_1, \mathbf x_2)\) と書く。</p>
+        <h3 id="units-box">1.2 計算の領域</h3>
+        <p>計算はすべて有限の領域で行う。周期的な箱（散乱、光子）ではフーリエの方法で時間発展を解き、崩壊では動径の格子を用いる。描くのは、波が領域の端に届く前の時間だけである。</p>
+        <h3 id="units-yukawa">1.3 やわらげた湯川ポテンシャル</h3>
+        <p>静的な交換の場は、関数</p>
+        <div class="eq" id="eq-1.1">$$Y(r) = \frac{\bigl(1 - e^{-r/a}\bigr)\,e^{-\mu r}}{4\pi r}, \qquad a = 0.5 \tag{1.1}$$</div>
+        <p>で表す。\(r \gg a\) では質量 \(\mu\) の点状の源の湯川ポテンシャル（\(\mu = 0\) ならクーロンポテンシャル）であり、\(r \to 0\) では有限の値 \(Y(0) = 1/(4\pi a)\) をとる。やわらげることは、点状の源を大きさ \(a\) の広がった源に置き換えることに当たる <span class="badge model">模型</span>。</p>
+      </section>
+
+      <section id="draw">
+        <h2><span class="num">2</span>描く量</h2>
+        <p>量子場の状態 \(|\Psi(t)\rangle\) は、それ自体が各点に数を持つ場ではない。3 次元の分布として描くには、状態から計算できる<em>局所的な量</em>が必要である。ここでは次の 3 つの量を用いる。どれを用いるかは粒子の種類による。</p>
+        <h3 id="draw-boson">2.1 ボゾン: 場の分散の増加</h3>
+        <p>媒介する場 \(\phi\)（光子、グルーオン、π 中間子、W ボゾン）は、真空でもゆらいでいる（零点のゆらぎ）。期待値 \(\langle\phi^2\rangle\) はそれだけでは発散するが、真空との差は有限である。</p>
+        <p id="def-2.1"><strong>定義 <a class="ref" href="#draw-boson">2.1</a></strong>（分散の増加）. 実のボゾンの場 \(\phi\) について</p>
+        <div class="eq" id="eq-2.1">$$\Delta\mathrm{Var}\,\phi(\mathbf x) = \langle\Psi|\phi(\mathbf x)^2|\Psi\rangle - \langle\Psi|\phi(\mathbf x)|\Psi\rangle^2 - \langle 0|\phi(\mathbf x)^2|0\rangle \tag{2.1}$$</div>
+        <p>とする。</p>
+        <p>以下では 2 つの特別な場合を用いる。</p>
+        <ol><li>\(|\Psi\rangle\) が場の量子をちょうど 1 個含むとき、\(\langle\phi\rangle = 0\) であり、正の振動数の部分 \(\phi^{+}\) の振幅 \(F(\mathbf x) = \langle 0|\phi^{+}(\mathbf x)|\Psi\rangle\)を用いて \(\Delta\mathrm{Var}\,\phi = 2|F|^2\) である。</li><li>場が位置 \(\mathbf y\) の源に縛られ、\(\langle\phi\rangle = f(\mathbf x - \mathbf y)\) のコヒーレント状態にあるとき、\(\mathbf y\) を固定すれば分散の増加は 0 である。源の位置が量子的に定まっていなければ \(\Delta\mathrm{Var}\,\phi = \mathrm E[f^2] - \mathrm E[f]^2\) であり、分散は源の位置の不確かさから生じる。</li></ol>
+        <h3 id="draw-fermion">2.2 フェルミオン: 電荷と数の密度</h3>
+        <p>電子・クォーク・ニュートリノ・核子については、保存する電荷（電荷、レプトン数、クォーク数）の密度を描く。</p>
+        <p id="def-2.2"><strong>定義 <a class="ref" href="#draw-fermion">2.2</a></strong>（1 粒子の密度）. 振幅 \(\Psi(\mathbf x_1, \mathbf x_2)\) を持つ 2 粒子の状態で、1 番目の粒子の密度を</p>
+        <div class="eq" id="eq-2.2">$$n_1(\mathbf x) = \int |\Psi(\mathbf x, \mathbf y)|^2 \, d^3y \tag{2.2}$$</div>
+        <p>とする。</p>
+        <p>\(n_1\) の積分は、散乱では粒子の数、崩壊では時刻 \(t\) までに崩壊が進んだ確率である。電荷の密度は \(n_1\) に粒子の電荷をかけたものである。</p>
+        <h3 id="draw-cond">2.3 1 点を仮定した分布</h3>
+        <p>相互作用の後、2 つの粒子の位置は互いに相関している。1 粒子の密度 <a class="ref" href="#eq-2.2">(2.2)</a> にはこの相関が含まれない。</p>
+        <p id="def-2.3"><strong>定義 <a class="ref" href="#draw-cond">2.3</a></strong>（1 点を仮定した分布）. 1 番目の粒子の位置を測って値 \(\mathbf a\) を得たと仮定したときの 2 番目の粒子の分布を</p>
+        <div class="eq" id="eq-2.3">$$n(\mathbf x \mid \mathbf a) = \frac{|\Psi(\mathbf a, \mathbf x)|^2}{\int |\Psi(\mathbf a, \mathbf y)|^2\, d^3y} \;\propto\; G^{(2)}(\mathbf a, \mathbf x) \tag{2.3}$$</div>
+        <p>とする。\(G^{(2)}\) はグラウバーの 2 次の相関関数である。粒子に縛られた場についても、同じ仮定の下での期待値をとる。</p>
+        <p>描写のページは、<em>分散</em>のモードで <a class="ref" href="#draw-boson">2.1</a> と <a class="ref" href="#draw-fermion">2.2</a> の量を、<em>相関</em>のモードで <a class="ref" href="#eq-2.3">(2.3)</a> の量を示す。</p>
+        <h3 id="draw-point">2.4 選ぶ点</h3>
+        <p><a class="ref" href="#eq-2.3">(2.3)</a> の点 \(\mathbf a(t)\) は、位置を仮定する粒子の解いた密度から定め、密度とともに動かす。古典的な軌道は用いない。定め方はトピックごとに異なり、各トピックで述べる。一般に、密度が干渉の縞や 2 つの山を持つところでは、最大の点は時刻のあいだで跳ぶ。その場合は、決まった半直線の上の密度の重心を用いる。重心は時間に連続に動く。</p>
+        <p>選んだ点そのものは、位置を仮定した粒子の色の小さな 3 次元のガウス分布として描く（標準偏差は箱の半分の辺の 2.5 %、縁に向けてなめらかに 0 にする）。</p>
+      </section>
+
+      <section id="assume">
+        <h2><span class="num">3</span>共通の仮定</h2>
+        <p>次の仮定は、トピックで挙げたときに成り立つものとする。各トピックは、これに加えて固有の仮定とパラメータを挙げる。</p>
+        <p id="A1"><strong>A1</strong>（最低次）. 粒子が生成・消滅・変換する過程（崩壊、コンプトン散乱、真空偏極）は、結合について 0 でない最低次で扱う。そのため状態の規格化はこの次数までしか成り立たず、確率の和が 1 からずれることがある。ずれは各トピックで述べる。</p>
+        <p id="A2"><strong>A2</strong>（静的な衣）. 源に縛られた場（光子のクーロン部分、π 中間子、W ボゾン、色の場）は、源のその時刻の位置に対する静的な解で置き換える。この部分の遅延と放射は無視する。ただし i の横の光子と vii の真空の応答は除き、これらは遅延を含めて計算する。</p>
+        <p id="A3"><strong>A3</strong>（相対運動）. 交換をともなう 2 体の過程（i, v, vi）では、相互作用を静的なポテンシャル \(V(r)\) で表す。重心の座標 \(\mathbf R = (\mathbf x_1 + \mathbf x_2)/2\) は止まったガウス分布とし、その広がりの変化は無視する。相対座標 \(\mathbf r = \mathbf x_1 - \mathbf x_2\) の波動関数は、結合で展開せず、分割演算子法により相対論的な運動エネルギーで数値的に解く。</p>
+        <div class="eq" id="eq-3.1">$$H_{\text{rel}} = 2\sqrt{m^2 + k^2} + V(r). \tag{3.1}$$</div>
+        <p id="A4"><strong>A4</strong>（スピンと偏り）. スピンと偏りの自由度は、トピックで述べる範囲でだけ考慮する（i ではスピンをそろえる、ii ではスピンと偏りで和をとった 2 乗、vii ではディラックのスピノル）。それ以外では無視する。</p>
+        <p id="A5"><strong>A5</strong>（脚色した定数）. 結合・質量・幅は、現象が箱の中と描く時間の中に見えるように選ぶ。値と実際の値との比は各トピックで述べる。変えていないのは vii の結合だけである。</p>
+        <p id="A6"><strong>A6</strong>（有限の領域）. <a class="ref" href="#units-box">1.2</a> が成り立つ。質量のない静的な場が有限の箱で有限にならない場合は、小さな質量 \(\mu\) を付ける。</p>
+      </section>
+
+      <section id="render">
+        <h2><span class="num">4</span>描画</h2>
+        <h3 id="render-volume">4.1 3 次元の描き方</h3>
+        <p>場 \(i\) の値 \(v_i(\mathbf x)\) を視線に沿って足し合わせ、その平方根を色の階調（背景 → 場の色 → 白）に写す。場の色は光として足す（加法混色）。</p>
+        <div class="eq" id="eq-4.1">$$\begin{gathered}
+          I_i = \sqrt{\,s_i \int_{\text{視線}} v_i(\mathbf x)\, W(\mathbf x)\, d\ell\,}, \\
+          C = C_{\text{bg}} + w \sum_i \bigl(\mathrm{ramp}_i(I_i) - C_{\text{bg}}\bigr), \qquad w = \min\!\bigl(1,\; 1.2/\sqrt{N_{\text{on}}}\bigr).
+          \end{gathered} \tag{4.1}$$</div>
+        <p>係数 \(s_i\) は、全時刻を通じた視線の積分の最大を 1 にする基準で、場ごと・モードごとに別に定める。時刻ごとに割り直すことも、手で決めた倍率をかけることもしない。重み \(w\) は、\(N_{\text{on}}\) 個の場を重ねるときに 1 つずつを弱め、和が白く飽和しないようにするものである。</p>
+        <p>データは \(40^3\) の格子（vii は \(56^3\)）にあり、\(\sqrt{v/v_{\text{ref}}}\) を 8 bit で収め、描くときに 2 乗して戻す。時刻の間は線形に内挿する。</p>
+        <h3 id="render-window">4.2 縁の窓</h3>
+        <p>計算の箱そのものは描かない。箱の縁を見せないため、描くときにだけ窓</p>
+        <div class="eq" id="eq-4.2">$$W = \bigl[1 - \mathrm{smoothstep}(0.6,\, 1,\, \|\mathbf b\|_\infty)\bigr]\,\bigl[1 - \mathrm{smoothstep}(0.8,\, 1.2,\, \|\mathbf b\|_2)\bigr] \tag{4.2}$$</div>
+        <p>をかける。\(\mathbf b\) は箱の中心から測り、半分の辺を 1 とした座標である。計算した値は変わらない。そのため、縁に近づいた波（ベータ崩壊の外側の殻、放射）は外側で薄く見える。</p>
+      </section>
+
+      <hr>
+
+      <section id="ee">
+        <h2><span class="num">i</span>電子と電子<a class="go" href="index.html#ee">見る →</a></h2>
+        <p>スピンの向きがそろった 2 個の電子が、光子の交換によって反発し、散乱する。ファインマン図の光子の線が 3 次元のどのような分布に当たるかを調べる。</p>
+        <ul class="fields-list">
+          <li style="--c:#4dabff">電子: 電荷の密度（負）</li>
+          <li style="--c:#5fe0a0">交換される光子: クーロン部分の交差項 \(2e^2\,\mathrm E[Y_1 Y_2]\)</li>
+          <li style="--c:#ff8a3d">クーロン場: クーロン部分 \(A^0\) の分散の増加</li>
+          <li style="--c:#ffc04d">横の光子: 量子のモードの \(\langle{:}\mathbf A_\perp^2{:}\rangle\)</li>
+          <li style="--c:#d77cff">放射: 横の光子から、その時刻の速度での衣を引いたもの</li>
+        </ul>
+        <figure class="feyn"><div class="feynman">diagram t {
+  in  a: $e^-$, b: $e^-$
+  out c: $e^-$, d: $e^-$
+  vertex a at (0, 1); vertex b at (0, 0); vertex c at (1.6, 1); vertex d at (1.6, 0)
+  a -- [fermion, color="#4dabff"] v1 at (0.8, 0.85) -- [fermion, color="#4dabff"] c
+  b -- [fermion, color="#4dabff"] v2 at (0.8, 0.15) -- [fermion, color="#4dabff"] d
+  v1 -- [photon, color="#5fe0a0", label=$\gamma$] v2
+}
+diagram u {
+  in  a: $e^-$, b: $e^-$
+  out c: $e^-$, d: $e^-$
+  vertex a at (0, 1); vertex b at (0, 0); vertex c at (1.9, 1); vertex d at (1.9, 0)
+  a -- [fermion, color="#4dabff"] v1 at (0.5, 0.85) -- [fermion, color="#4dabff"] d
+  b -- [fermion, color="#4dabff"] v2 at (0.5, 0.15) -- [fermion, color="#4dabff"] c
+  v1 -- [photon, color="#5fe0a0", label'=$\gamma$] v2
+}
+equation [height=7] {
+  i\mathcal M \;=\; @t \;-\; @u
+}</div><figcaption>最低次の 2 つの図。同種の粒子なので、出ていく電子を入れ替えた図を引く。ここでは光子の線を、静的なポテンシャル（<a class="ref" href="#A3">A3</a>）で表すクーロン部分と、横の光子とに分けて扱う。</figcaption></figure>
+        <h3>前提</h3>
+        <p><a class="ref" href="#A2">A2</a>（クーロン部分について）、<a class="ref" href="#A3">A3</a>、<a class="ref" href="#A5">A5</a>、<a class="ref" href="#A6">A6</a> が成り立つ。光子の場はクーロンゲージで扱う。光子の場は、電荷に縛られたクーロン部分 \(A^0\) と、独立な自由度を持つ横の部分 \(\mathbf A_\perp\) に分かれる。</p>
+        <h3>解いたものと与えたもの</h3>
+        <table>
+          <tr><th>量</th><th>区別</th><th>求め方</th></tr>
+          <tr><td>相対の波動関数 \(\psi(\mathbf r, t)\)</td><td>解いた</td><td><a class="ref" href="#eq-3.1">(3.1)</a> を分割演算子法で解く。結合で展開しない</td></tr>
+          <tr><td>重心</td><td>与えた</td><td>止まったガウス分布。幅は変えない（<a class="ref" href="#A3">A3</a>）</td></tr>
+          <tr><td>電子の密度</td><td>解いた</td><td>\(\psi\) と重心から <a class="ref" href="#eq-2.2">(2.2)</a> で求める</td></tr>
+          <tr><td>クーロン部分、交換される光子</td><td>源を与えて解いた</td><td>電荷の位置に対する静的な解 \(e\,Y\)（<a class="ref" href="#A2">A2</a>）を、解いた位置の分布で平均する</td></tr>
+          <tr><td>横の光子を駆動する運動</td><td>与えた</td><td>量子的な運動の代わりに、同じポテンシャルの中の古典的な軌道 10 本（ニュートンの運動方程式）</td></tr>
+          <tr><td>横の光子、放射</td><td>解いた</td><td>軌道ごとにモードを <a class="ref" href="#eq-i.2">(i.2)</a> で解く</td></tr>
+        </table>
+        <h3>相対運動</h3>
+        <p><a class="ref" href="#A3">A3</a> により、<a class="ref" href="#eq-1.1">(1.1)</a> を用いたポテンシャル \(V(r) = e^2\,Y(r)\) で相対運動を解く。重心は標準偏差 \(\sigma/\sqrt 2\) の止まったガウス分布である。スピンがそろっているのでスピンの部分は対称、空間の部分は反対称 \(\psi(-\mathbf r) = -\psi(\mathbf r)\) である。したがって散乱の振幅は \(f(\theta) - f(\pi - \theta)\) となり、重心系で \(90^\circ\) には散乱しない。</p>
+        <h3>クーロン部分</h3>
+        <p><a class="ref" href="#A2">A2</a> により、位置 \(\mathbf y\) の源に対するクーロン部分は \(A^0 = e\,Y(\mathbf x - \mathbf y)\) である。\(Y_j = Y(\mathbf x - \mathbf x_j)\) として、2 次のモーメントは</p>
+        <div class="eq" id="eq-i.1">$$\langle (A^0)^2\rangle - \langle 0|(A^0)^2|0\rangle = e^2\,\mathrm E\bigl[(Y_1 + Y_2)^2\bigr] = e^2\bigl(\mathrm E[Y_1^2] + \mathrm E[Y_2^2]\bigr) + 2e^2\,\mathrm E[Y_1 Y_2] \tag{i.1}$$</div>
+        <p>である。クーロン場として<a class="ref" href="#def-2.1">定義 2.1</a> の分散の増加 \(e^2\bigl(\mathrm E[(Y_1+Y_2)^2] - \mathrm E[Y_1+Y_2]^2\bigr)\) を、交換される光子として <a class="ref" href="#eq-i.1">(i.1)</a> の交差項 \(2e^2\,\mathrm E[Y_1 Y_2]\) を描く。交差項は 2 つの電子を結ぶ橋の形をとり、近づくほど濃くなる。質量のない点状の源（\(a \to 0\), \(\mu = 0\)）では \(\int \nabla Y_1\cdot\nabla Y_2\, d^3x = Y(|\mathbf x_1 - \mathbf x_2|)\) が成り立ち、場の積の積分は相互作用のエネルギーである。描くのは場の積ではなく、ポテンシャルの積である。</p>
+        <h3>横の光子</h3>
+        <p>電子の電流は \(H_{\text{int}} = -\int \mathbf j\cdot\mathbf A_\perp\, d^3x\) によってモード \(a_{\mathbf k}\) を駆動する。コヒーレントな振幅 \(\alpha_{\mathbf k}\) について</p>
+        <div class="eq" id="eq-i.2">$$\frac{d\alpha_{\mathbf k}}{dt} = -i\omega_k\,\alpha_{\mathbf k} + i s_k\, P_{\mathbf k}\!\cdot\!\mathbf J_{\mathbf k}, \qquad
+          \mathbf J_{\mathbf k} = \sum_n q\,\mathbf v_n\, e^{-i\mathbf k\cdot\mathbf x_n} \tag{i.2}$$</div>
+        <p>が成り立つ。\(P_{\mathbf k}\) は横への射影、\(s_k\) はモードの規格化の係数である。電子の運動が与えられれば、各モードはコヒーレント状態にある。運動の不確かさは、相対の波束の横の広がりから衝突のずれを選んだ古典的な軌道 10 本の集団で近似する <span class="badge approx">近似</span>。描くのは</p>
+        <div class="eq" id="eq-i.3">$$\langle{:}\mathbf A_\perp^2{:}\rangle = \mathrm E_{\text{軌道}}\bigl[|\langle\mathbf A_\perp\rangle|^2\bigr] \tag{i.3}$$</div>
+        <p>である。横の場は初め、等速で動く電子の定常な衣である。衝突で速度が変わると、衣から離れた部分が外へ出ていく。放射として、\(\alpha_{\mathbf k}\) からその時刻の速度での定常な衣を引いたものを描く。同種の 2 粒子は重心系で電気双極子が変わらないので、放射は主に四重極である。</p>
+        <h3>点を仮定した分布</h3>
+        <p>1 番目の電子の位置を \(\mathbf a(t)\) と仮定する。\(\mathbf a(t)\) は、近づいている間は入ってくる軸の上の、衝突の後は向き \(\theta = 45^\circ\) の半直線の上の、電子の密度の重心である。この仮定の下で交換される光子は \(2e^2\,Y(\mathbf x - \mathbf a)\,\mathrm E[Y(\mathbf x - \mathbf y)]\) であり、選んだ点と相手を結ぶ。横の光子は、\(\theta\) の向きに出ていく 1 本の軌道の場である。</p>
+        <h3>仮定とパラメータ</h3>
+        <ul>
+          <li><span class="badge">脚色</span> \(e^2 = 20\)。実際の \(4\pi\alpha\) の約 220 倍である。そのため放射される光子の数は 1 程度になる。<a class="ref" href="#A6">A6</a> によりクーロン部分に質量 \(\mu = 0.15\) を付ける。</li>
+          <li><span class="badge approx">近似</span> クーロン部分は静的である（<a class="ref" href="#A2">A2</a>）。重心の広がりの時間変化は無視する（<a class="ref" href="#A3">A3</a>）。横の光子は古典的な軌道の集団で駆動し、到着時刻のばらつきは無視する。</li>
+          <li>数値: \(m = 1\)、\(k_0 = 1.2\)（\(v = 0.77\)）、\(\sigma = 1\)。相対運動の箱 \(L = 80\)、\(N = 128\)。\(t \le 30\)。</li>
+        </ul>
+      </section>
+
+      <section id="compton">
+        <h2><span class="num">ii</span>コンプトン散乱<a class="go" href="index.html#compton">見る →</a></h2>
+        <p>止まった電子に光子が当たる。光子は向きを変えてエネルギーを失い、電子は前へ跳ね返される。コンプトン散乱は、光子がエネルギーと運動量を決まった量ずつ渡すことを示した。光子と電子の 2 粒子の振幅を、実験室系で最低次で解く。</p>
+        <ul class="fields-list">
+          <li style="--c:#ff8a3d">光子: 光子の場 \(\mathbf A\) の分散の増加</li>
+          <li style="--c:#4dabff">電子: 電荷の密度（負）</li>
+          <li style="--c:#ffc04d">散乱した光子: 光子の分散の増加のうち、散乱した部分 \(\Psi_{\text{sc}}\) の項</li>
+          <li style="--c:#8ff0ff">反跳した電子: 電子の密度のうち、\(\Psi_{\text{sc}}\) の項</li>
+        </ul>
+        <figure class="feyn"><div class="feynman">diagram s {
+  in  g1: $\gamma$, e1: $e^-$
+  out g2: $\gamma$, e2: $e^-$
+  vertex g1 at (0, 1); vertex e1 at (0, 0); vertex g2 at (1.8, 1); vertex e2 at (1.8, 0)
+  g1 -- [photon, color="#ff8a3d"] a at (0.55, 0.5)
+  e1 -- [fermion, color="#4dabff"] a -- [fermion] b at (1.25, 0.5)
+  b -- [photon, color="#ffc04d"] g2
+  b -- [fermion, color="#8ff0ff"] e2
+}
+diagram u {
+  in  g1: $\gamma$, e1: $e^-$
+  out g2: $\gamma$, e2: $e^-$
+  vertex g1 at (0, 1); vertex e1 at (0, 0); vertex g2 at (1.8, 1); vertex e2 at (1.8, 0)
+  e1 -- [fermion, color="#4dabff"] a at (0.6, 0.15) -- [fermion] b at (1.2, 0.15) -- [fermion, color="#8ff0ff"] e2
+  a -- [photon, color="#ffc04d"] g2
+  g1 -- [photon, color="#ff8a3d"] b
+}
+equation [height=7] {
+  i\mathcal M \;=\; @s \;+\; @u
+}</div><figcaption>最低次の QED の 2 つの図。<a class="ref" href="#eq-ii.3">(ii.3)</a> の \(M(\theta)^2\) は、この和の 2 乗をスピンと偏りで平均したものである。計算では 2 つを接触型の頂点 1 つにまとめる <span class="badge model">模型</span>。</figcaption></figure>
+        <h3>前提</h3>
+        <p><a class="ref" href="#A1">A1</a>、<a class="ref" href="#A4">A4</a>、<a class="ref" href="#A5">A5</a>、<a class="ref" href="#A6">A6</a> が成り立つ。相対運動の方法（<a class="ref" href="#A3">A3</a>）はここでは使えない。散乱した光子のエネルギーは向きによるので、エネルギーで重みづけた重心も向きによるからである。そのため実験室系で計算する。</p>
+        <h3>解いたものと与えたもの</h3>
+        <table>
+          <tr><th>量</th><th>区別</th><th>求め方</th></tr>
+          <tr><td>入ってくる波束 \(\psi_\gamma\), \(\psi_e\)</td><td>解いた</td><td>自由な時間発展（フーリエの方法）</td></tr>
+          <tr><td>散乱した部分 \(\Psi_{\text{sc}}\)</td><td>解いた</td><td>1 次の時間の積分 <a class="ref" href="#eq-ii.1">(ii.1)</a>。コンプトンの式とエネルギーの保存はここから出る</td></tr>
+          <tr><td>頂点 \(\lambda\)</td><td>与えた</td><td>接触型の頂点。殻の上でクライン–仁科に合わせる<span class="badge model">模型</span></td></tr>
+          <tr><td>スピノルの重なり</td><td>与えた</td><td>\(u^\dagger u = 1\)</td></tr>
+          <tr><td>光子の分散、電子の密度、1 点を仮定した分布</td><td>解いた</td><td>\(\Psi_{\text{in}} + \Psi_{\text{sc}}\) から求める</td></tr>
+        </table>
+        <h3>粒子の振幅</h3>
+        <p>状態は光子 1 個と電子 1 個の振幅 \(\Psi(\mathbf x_\gamma, \mathbf x_e)\) で与えられる。相互作用の 1 次（ボルン近似）では、自由な 2 つの波束の積 \(\Psi_{\text{in}} = \psi_\gamma\,\psi_e\) に、散乱した部分 \(\Psi_{\text{sc}}\) が加わる。</p>
+        <div class="eq" id="eq-ii.1">$$\tilde\Psi_{\text{sc}}(\mathbf k', \mathbf p', t) = -i\int_0^t dt'\,\lambda(\mathbf k', \mathbf p')\, e^{-i(\omega' + E')(t - t')}\, A(\mathbf k' + \mathbf p', t'), \tag{ii.1}$$</div>
+        <div class="eq" id="eq-ii.2">$$A(\mathbf P, t') = \int d^3X\, e^{-i\mathbf P\cdot\mathbf X}\,\psi_\gamma(\mathbf X, t')\,\psi_e(\mathbf X, t'). \tag{ii.2}$$</div>
+        <p>源 \(A\) は 2 つの波束が重なっているところで 0 でなく、全運動量 \(\mathbf P\) を保存する。2 つの波束は時刻 \(t_c\) に原点で最も細く（\(\sigma = 2\)）、それより前は広がりながら近づいてくる。</p>
+        <h3>頂点</h3>
+        <p>頂点 \(\lambda\) は接触型の頂点であり <span class="badge model">模型</span>、その大きさを最低次の QED の振幅（スピンと偏りで和をとったもの）に合わせる。</p>
+        <div class="eq" id="eq-ii.3">$$\begin{aligned}
+          \lambda &amp;= \frac{M(\theta)}{\sqrt{2\omega\cdot 2m\cdot 2\omega'\cdot 2E'}}, \\
+          M(\theta)^2 &amp;= \frac14\sum|\mathcal M|^2 = 2e^4\Bigl[r + \frac1r - \sin^2\theta\Bigr], \\
+          r &amp;= \frac{1}{1 + (\omega/m)(1 - \cos\theta)} .
+          \end{aligned} \tag{ii.3}$$</div>
+        <p>\(\theta\) は出ていく光子と入ってくる光子の間の角である。殻の上で <a class="ref" href="#eq-ii.3">(ii.3)</a> はクライン–仁科の断面積を与える。エネルギーの保存は仮定しない。時間の積分 \(\int dt'\,e^{i(\omega' + E' - E_{\text{in}})t'}\) が殻の外の振幅を打ち消すので、コンプトンの式</p>
+        <div class="eq" id="eq-ii.4">$$\omega' = \frac{\omega}{1 + (\omega/m)(1 - \cos\theta)} \tag{ii.4}$$</div>
+        <p>は解の運動量の分布に現れる。\(\omega = m\) なので、後ろへ散乱した光子のエネルギーは \(\omega/3\) である。</p>
+        <h3>描く量</h3>
+        <p>光子はちょうど 1 個なので、その分散の増加は<a class="ref" href="#def-2.1">定義 2.1</a> により \(2\int d^3x_e\,|F(\mathbf x, \mathbf x_e)|^2\)、\(\tilde F = \tilde\Psi/\sqrt{2\omega'}\) である。電子の密度は <a class="ref" href="#eq-2.2">(2.2)</a> により \(n_e(\mathbf x) = \int d^3x_\gamma\,|\Psi(\mathbf x_\gamma, \mathbf x)|^2\) である。どちらも、\(\Psi_{\text{in}}\) の項、\(\Psi_{\text{in}}\) と \(\Psi_{\text{sc}}\) の干渉の項（前方。散乱の後は全体の確率を変えない）、\(\Psi_{\text{sc}}\) の項の和である。散乱した部分の確率は 0.19 にすぎないので、\(\Psi_{\text{sc}}\) の項を別の場としても描き、その場の全時刻の最大で基準を定める（<a class="ref" href="#render-volume">4.1</a>）。</p>
+        <h3>点を仮定した分布</h3>
+        <p>光子の位置を \(\mathbf a\) と仮定し、電子の分布 \(\propto |F(\mathbf a, \mathbf x)|^2\) を描く。\(\mathbf a\) は入射の向きに垂直な半直線（\(\theta = 90^\circ\)）の上にあり、その向きに散乱した光子の平均の半径\(\bar r = \int r^3 v\,dr \big/ \int r^2 v\,dr\) の点である（\(v\) は散乱した光子の数密度）。散乱が始まるころ \(\mathbf a\) は原点の近く（\(r \approx 3\)）にあり、殻が離れるにつれてなめらかに速くなって、やがて光の速さで動く。散乱した確率が最終の値の最後の 1 % に達するまでは平均の半径が定まらないので、それまでは \(\mathbf a\) をその時刻の点に置く。全時刻で同じ半直線・同じ規則を用いる。\(F = \psi/\sqrt{2\omega}\) は遠くまで裾を持つので、分散の増加 \(2|F|^2\) ではなく局所的な数密度を用いる。</p>
+        <p>真横に散乱した光子のエネルギーは \(\omega/2\) であり、残りの運動量を受けた電子は反対側の \(26.6^\circ\) の向きに速さ \(0.75\) で進む。1 点を仮定した電子の分布は、この向きの、光子の殻の 0.75 倍の半径に集まる。これは与えたものではなく、解の 2 点の相関から出てくる。</p>
+        <h3>見えるもの</h3>
+        <ul>
+          <li>分散: 光子の大部分は散乱されずに通り抜け、散乱した光子は球の殻として広がる（前に多く、横と後ろは同じ程度）。電子は止まった波束として広がり、反跳した電子は前の円錐の中を光子より遅れて進む。</li>
+          <li>相関: 光子の位置を横に仮定すると、電子の向きと半径が決まる。平均の分布ではどの向きにも広がっている 2 つの粒子が、互いの向きと速さを決め合っている。</li>
+          <li>光子のエネルギーは向きで異なるが、分散の増加は波長を描かないので、違いは電子の速さと向きに見える。</li>
+        </ul>
+        <h3>仮定とパラメータ</h3>
+        <ul>
+          <li><span class="badge">脚色</span> \(e^2 = 20\)（i と同じ。\(4\pi\alpha\) の約 220 倍）。散乱した部分の確率は 0.19（実際の \(\alpha\) では \(4\times10^{-6}\)）。</li>
+          <li><span class="badge approx">近似</span> 相互作用の 1 次である（<a class="ref" href="#A1">A1</a>）。入ってくる部分は散乱で減らない。減少は 2 次の前方の干渉の項から生じるからである。そのため確率の和は \(1 + 0.19\) である。</li>
+          <li><span class="badge model">模型</span> 頂点は接触型であり、殻の上の振幅（クライン–仁科）だけを合わせている。重なっている間の殻から外れた振幅は模型による。スピンと偏りで和をとった \(|\mathcal M|^2\) を 1 つの振幅として用いる（偏りを測らない場合の分布）。入ってくる側は中心の値（\(\omega = m\) の光子、止まった電子）で評価する。</li>
+          <li><span class="badge approx">近似</span> 電子の運動量の広がりは \(0.25m\) と小さいので、スピノルの重なりを \(u^\dagger u = 1\) とする。</li>
+          <li>散乱した部分では \(z\) 軸のまわりの対称性を用い、相手の運動量の半平面で和をとって回転で平均する。</li>
+          <li>数値: \(m = 1\)、\(\omega = 1\)、\(\sigma = 2\)（\(t_c = 14\)）。箱 \(L = 64\)、\(N = 64\)。\(t \le 36\)。</li>
+        </ul>
+      </section>
+
+      <section id="beta">
+        <h2><span class="num">iii</span>ベータ崩壊<a class="go" href="index.html#beta">見る →</a></h2>
+        <p>動いている中性子から、電子と反ニュートリノが少しずつ広がっていく。崩壊はある時刻・ある点で起きるのではなく、振幅が連続に流れ出す。核子は進みながら中性子から陽子へ変わっていき、まだ崩壊していない中性子は仮想的な W の衣をまとっている。</p>
+        <ul class="fields-list">
+          <li style="--c:#4dabff">電子: 電荷の密度（負）</li>
+          <li style="--c:#b8f06a">反ニュートリノ: レプトン数の密度</li>
+          <li style="--c:#a0a8b8">中性子: 数の密度（残っている確率 × 核子の広がり）</li>
+          <li style="--c:#ff4d6d">陽子: 電荷の密度（レプトンの対の確率 × 核子の広がり）</li>
+          <li style="--c:#ffd36b">W: W の場の分散の増加（まだ崩壊していない中性子の衣）</li>
+        </ul>
+        <figure class="feyn"><div class="feynman">diagram {
+  in  n: $n$
+  out p: $p$, e: $e^-$, ne: $\bar\nu_e$
+  vertex n at (0, 1); vertex p at (2, 1); vertex e at (2, 0.45); vertex ne at (2, -0.1)
+  n -- [double, arrow=forward, color="#a0a8b8"] a at (0.9, 1) -- [double, arrow=forward, color="#ff4d6d"] p
+  a -- [boson, label'=$W^-$, color="#ffd36b"] b at (1.3, 0.3)
+  ne -- [fermion, color="#b8f06a"] b -- [fermion, color="#4dabff"] e
+}</div><figcaption>核子の線から W が出て、電子と反ニュートリノになる。W は崩壊していない中性子の静的な衣として扱い（<a class="ref" href="#A2">A2</a>）、レプトンの対は動く頂点から出る <a class="ref" href="#eq-iii.1">(iii.1)</a>。</figcaption></figure>
+        <h3>前提</h3>
+        <p><a class="ref" href="#A1">A1</a>、<a class="ref" href="#A2">A2</a>（W の場について）、<a class="ref" href="#A5">A5</a>、<a class="ref" href="#A6">A6</a> が成り立つ。核子は重く、反跳しない。一定の速度 \(V = 0.3\) で動き、\(\mathbf X(t) = \mathbf X_0 + \mathbf V t\) である。止まった核の模型を、ローレンツ変換と矛盾しないように動かす。</p>
+        <h3>解いたものと与えたもの</h3>
+        <table>
+          <tr><th>量</th><th>区別</th><th>求め方</th></tr>
+          <tr><td>対の振幅 \(\Psi_s\)、電子と反ニュートリノの密度</td><td>解いた</td><td>動く頂点から出る自由なレプトンの重ね合わせ <a class="ref" href="#eq-iii.1">(iii.1)</a></td></tr>
+          <tr><td>対の確率 \(N(t)\)</td><td>解いた</td><td>\(\Psi_s\) のノルム</td></tr>
+          <tr><td>中性子の振幅 \(c(t)\)</td><td>与えた</td><td>指数関数の形 \(e^{-(iE_0+\Gamma/2)t/\gamma}\)（ウィグナー–ワイスコップ、最低次）。\(g\) は \(\Gamma\) から決める</td></tr>
+          <tr><td>核子の軌道</td><td>与えた</td><td>\(\mathbf X_0 + \mathbf V t\)。反跳しない</td></tr>
+          <tr><td>中性子と陽子の形</td><td>与えた</td><td>固定したガウス分布 \(b_N\) をローレンツ収縮させて動かすだけである。核子の重心の波束は解かないので、広がらない</td></tr>
+          <tr><td>中性子と陽子の密度の大きさ</td><td>解いた／与えた</td><td>\(N(t)\) は解いたもの、\(\lvert c(t)\rvert^2\) は与えたもの</td></tr>
+          <tr><td>W の衣</td><td>源を与えて解いた</td><td>与えた核子の位置と形に対する静的な解 <a class="ref" href="#eq-iii.3">(iii.3)</a>（<a class="ref" href="#A2">A2</a>）</td></tr>
+        </table>
+        <p>描写で陽子が広がらないのは仮定であり、計算の結果ではない。質量 \(M\)、幅 \(\sigma\) の自由な波束が広がる時間の目安は \(M\sigma^2\) である。核子の質量（約 1 MeV を単位として \(M \approx 938\)）と \(\sigma = 0.8\) では約 600 であり、\(t = 30\) までに幅は約 0.1 % しか増えない。一方、反跳は含まない。実際には陽子はレプトンの対の運動量を受け取り、対ともつれる。</p>
+        <h3>状態</h3>
+        <p>まだ崩壊していない状態の振幅は \(c(t) = e^{-(iE_0 + \Gamma/2)\,t/\gamma}\) である（時間の遅れ）。行列要素は、核子の静止系での値に \(\sqrt{E'\omega'/(E\omega)}\) をかけたものである（\('\) は静止系の量）。対の振幅は、時刻 \(u\) に動く頂点 \(\mathbf X(u)\) から出た 2 個の自由なレプトンの重ね合わせである。</p>
+        <div class="eq" id="eq-iii.1">$$\Psi_s(\mathbf x_e, \mathbf x_\nu, t) = -ig\!\int\! du\; S(u,t)\; K^{e}_s\bigl(\mathbf x_e - \mathbf X(u),\, t-u\bigr)\, K^{\nu}_s\bigl(\mathbf x_\nu - \mathbf X(u),\, t-u\bigr). \tag{iii.1}$$</div>
+        <p>\(K\) は自由なレプトンの伝わり（球ベッセル関数の動径の積分）、\(S\) は頂点の時刻の重みである。フェルミ型（\(0^+\to0^+\)）の行列要素で</p>
+        <div class="eq" id="eq-iii.2">$$\sum_s |M_s|^2 = \tfrac12\,\bigl(1 + v\cos\theta_{e\nu}\bigr), \qquad
+          \Gamma = \frac{g^2}{4\pi^3}\int p^2\,(E_0 - E)^2\, dp \tag{iii.2}$$</div>
+        <p>である。頂点が動くので、進む向きに出たレプトンほどエネルギーが高く（ドップラー効果）、殻は前に寄る。これは方程式を解いた結果として現れ、与えたものではない。密度は頂点の時刻の対についての 2 次形式であり、相手の重なりが時刻の差だけで決まるので、行列の積で求まる。止まった核（\(V = 0\)）では運動量で書いた式と一致し、動く核では対の確率が時間の遅れのとおり \(N(t) = N_{\text{静止}}(t/\gamma)\) になる。</p>
+        <h3>核子と W の衣</h3>
+        <p>核子はガウス型の広がり \(b_N = 0.8\) を持ち、進む向きにローレンツ収縮している。中性子の数の密度は \(|c(t)|^2\rho_N\)、陽子の電荷の密度は \(N(t)\rho_N\) であり、電荷は電子と合わせて保存する。W の衣は静止系の静的な解（<a class="ref" href="#A2">A2</a>）</p>
+        <div class="eq" id="eq-iii.3">$$F_W(r) \propto \int k^2 dk\, j_0(kr)\, \frac{g_W\, e^{-k^2 b^2/2}}{\sqrt{2\Omega}\,(\Omega - E_0)} \tag{iii.3}$$</div>
+        <p>を、進む向きに収縮した点で読んだものであり、\(2|F_W|^2 |c(t)|^2\) を描く。核子と W は、核子の通り道を囲む細かい箱で（縮尺はそのまま）描く。</p>
+        <h3>点を仮定した分布</h3>
+        <p>核子のその時刻の位置から横（\(+\hat{\mathbf x}\)）に伸びる半直線の上で、電子の平均の半径\(\bar r = \int r^3 n_e\,dr \big/ \int r^2 n_e\,dr\) の点を電子の位置と仮定する（\(r\) は核子からの距離）。\(r^2 n_e\) は頂点の近くの山と広がる殻の山を持ち、最大の点はその間を跳ぶが、平均の半径は時間に連続である。時刻 \(t = 0\) では \(n_e = 0\) で平均の半径が定まらないので、\(\mathbf a\) を次の時刻の半径に置く。角相関 \(1 + v\cos\theta\) のため、反ニュートリノは同じ側に多く出る。この仮定の下では陽子は確かにあり、中性子と W の衣はない。</p>
+        <h3>仮定とパラメータ</h3>
+        <ul>
+          <li><span class="badge">脚色</span> フェルミ型を選んだ（中性子の実際の角相関係数は \(a \approx -0.1\)）。\(E_0 = 2\)、\(m_e = 0.5\)、\(\Gamma = 0.15\)、\(V = 0.3\)。\(M_W = 3\)（実際は 80 GeV ≫ 1 MeV）。</li>
+          <li><span class="badge approx">近似</span> 点状の結合では、エネルギーを保存しない対（裸の中性子の衣）が紫外で発散し、確率の和が 1 を超える。切断 \(e^{-\Delta^2/(2\Lambda^2)}\)（\(\Delta = E + \omega - E_0 - \mathbf K\cdot\mathbf V\)、\(\Lambda = 0.45\)）を入れると和は 0.88 になる。このずれは最低次の欠けである（<a class="ref" href="#A1">A1</a>）。核子の反跳は無視する。</li>
+          <li><span class="badge model">模型</span> 核子の広がりはガウス型の形状因子（\(b_N = 0.8\)）である。</li>
+          <li>数値: \(\gamma = 1.048\)、\(t \le 30\)。</li>
+        </ul>
+      </section>
+
+      <section id="osc">
+        <h2><span class="num">iv</span>ニュートリノ振動<a class="go" href="index.html#osc">見る →</a></h2>
+        <p>止まった \(\pi^+\) が \(\mu^+\nu_\mu\) に崩壊する。ニュートリノは質量の決まった 2 つの状態の重ね合わせであり、進むにつれて μ 型と τ 型の縞ができる。</p>
+        <ul class="fields-list">
+          <li style="--c:#ff4d6d">μ⁺: 電荷の密度</li>
+          <li style="--c:#5fe0d0">\(\nu_\mu\): μ 型のレプトン数の密度</li>
+          <li style="--c:#d77cff">\(\nu_\tau\): τ 型のレプトン数の密度</li>
+          <li style="--c:#9fd3ff">\(\nu_1\): 質量の固有状態 1 の密度</li>
+          <li style="--c:#ffa3d0">\(\nu_2\): 質量の固有状態 2 の密度</li>
+        </ul>
+        <figure class="feyn"><div class="feynman">diagram {
+  in  u: $u$, db: $\bar d$
+  out nu: $\nu_\mu$, mu: $\mu^+$
+  u -- [fermion] a -- [fermion] db
+  a -- [boson, label'=$W^+$, tension=0.7] b
+  mu -- [fermion, color="#ff4d6d"] b -- [fermion, color="#5fe0d0"] nu
+  brace [label=$\pi^+$] u, db
+}</div><figcaption>π⁺ の中の \(u\) と \(\bar d\) が W⁺ になり、\(\mu^+\) と \(\nu_\mu\) が出る。\(\nu_\mu\) は質量の固有状態 \(\nu_1\), \(\nu_2\) の重ね合わせとして伝わる <a class="ref" href="#eq-iv.1">(iv.1)</a>。</figcaption></figure>
+        <h3>前提</h3>
+        <p><a class="ref" href="#A1">A1</a>（崩壊について。幅と切断は iii と同じ）、<a class="ref" href="#A4">A4</a>（スピンは無視）、<a class="ref" href="#A5">A5</a>、<a class="ref" href="#A6">A6</a> が成り立つ。2 世代だけを扱う。</p>
+        <h3>解いたものと与えたもの</h3>
+        <table>
+          <tr><th>量</th><th>区別</th><th>求め方</th></tr>
+          <tr><td>動径の崩壊の振幅 \(\chi_i(r, t)\)</td><td>解いた</td><td>iii と同じ時間の積分を、質量の固有状態ごとに行う</td></tr>
+          <tr><td>フレーバーの密度、縞、波束の分離</td><td>解いた</td><td>\(\chi_i\) と混合 <a class="ref" href="#eq-iv.1">(iv.1)</a> から求める</td></tr>
+          <tr><td>π の波束 \(\Phi\)</td><td>与えた</td><td>止まったガウス分布。動かず、広がらない</td></tr>
+          <tr><td>崩壊の振幅</td><td>与えた</td><td>π の運動量の分布の中心で評価する。s 波とし、スピンは無視する</td></tr>
+          <tr><td>π の振幅</td><td>与えた</td><td>指数関数の形 \(e^{-(iM+\Gamma/2)t}\)</td></tr>
+        </table>
+        <h3>状態</h3>
+        <div class="eq" id="eq-iv.1">$$\begin{gathered}
+          |\nu_\mu\rangle = \cos\theta\,|\nu_1\rangle + \sin\theta\,|\nu_2\rangle, \\
+          \Psi_i(\mathbf x, \mathbf y) = U_{\mu i}\;\Phi(\mathbf R_i)\;\chi_i(|\mathbf x - \mathbf y|), \qquad \mathbf R_i = w_i\,\mathbf x + (1 - w_i)\,\mathbf y .
+          \end{gathered} \tag{iv.1}$$</div>
+        <p>ここで \(\theta = 45^\circ\)、\(w_i = E_{\nu,i}/M\) はエネルギーで重みづけた重心の重み、\(\Phi\) は π の波束（\(\sigma = 2\)）、\(\chi_i\) は質量の固有状態 \(i\) への崩壊の動径の振幅（s 波）である。</p>
+        <h3>見えるもの</h3>
+        <ul>
+          <li>フレーバーの縞は<strong>距離</strong>で決まり、時間によらない。</li>
+          <li>\(\nu_1\) と \(\nu_2\) は速さ 0.99 と 0.84 で離れていき、離れると縞が消える（波束の分離）。</li>
+          <li>μ の反跳も質量の状態によって異なる。相関のモードで μ⁺ の位置を仮定すると、\(\nu_1\) と \(\nu_2\) は反対側の異なる半径に現れる。</li>
+        </ul>
+        <h3>仮定とパラメータ</h3>
+        <ul>
+          <li><span class="badge">脚色</span> \(M = 6\)、\(m_\mu = 1\)、\(m_1 = 0.3\)、\(m_2 = 1.7\)（振動の長さ ≈ 12 を箱に収めるため）、\(\Gamma = 0.12\)。</li>
+          <li><span class="badge approx">近似</span> s 波とし、スピンは無視する。重心の運動と広がりは無視する。</li>
+        </ul>
+      </section>
+
+      <section id="confine">
+        <h2><span class="num">v</span>色の閉じ込め<a class="go" href="index.html#confine">見る →</a></h2>
+        <p>1 点で作られたクォークと反クォーク（\(e^+e^-\to\gamma^*\to q\bar q\) のイメージ）は反対向きに飛び出すが、間に伸びる色の束（ひも）に引き戻され、離れきることができない。</p>
+        <ul class="fields-list">
+          <li style="--c:#ff5fa2">クォーク: クォーク数の密度</li>
+          <li style="--c:#5fc8ff">反クォーク: 反クォークの数の密度</li>
+          <li style="--c:#ff8a3d">色の電場: 色の電場の分散の増加（色の誘電体の模型の解）</li>
+        </ul>
+        <figure class="feyn"><div class="feynman">diagram {
+  in  e1: $e^-$, e2: $e^+$
+  out q: $q$, qb: $\bar q$
+  e1 -- [fermion] a -- [fermion] e2
+  a -- [photon, label=$\gamma^*$] b
+  qb -- [fermion, color="#5fc8ff"] b -- [fermion, color="#ff5fa2"] q
+}</div><figcaption>対の生成のイメージ。計算は 1 点で作られた色 1 重項の対から始まり、\(e^+e^-\) と \(\gamma^*\) は含まない。色の束は摂動の図からではなく、色の誘電体の模型の解 <a class="ref" href="#eq-v.1">(v.1)</a> から求める。</figcaption></figure>
+        <h3>前提</h3>
+        <p><a class="ref" href="#A2">A2</a>、<a class="ref" href="#A3">A3</a>、<a class="ref" href="#A5">A5</a>、<a class="ref" href="#A6">A6</a> が成り立つ。クォークと反クォークは区別でき、反対称化しない。色の自由度は時間発展しない。全エネルギーは、もう 1 対を作るしきい値より下にあり、ひもは切れない。</p>
+        <h3>解いたものと与えたもの</h3>
+        <table>
+          <tr><th>量</th><th>区別</th><th>求め方</th></tr>
+          <tr><td>誘電体の中の色の場、ポテンシャル \(V(r)\)</td><td>解いた</td><td>距離ごとに <a class="ref" href="#eq-v.1">(v.1)</a> を最小にする</td></tr>
+          <tr><td>相対の波動関数</td><td>解いた</td><td>\(V(r)\) を使い分割演算子法で解く（<a class="ref" href="#A3">A3</a>）</td></tr>
+          <tr><td>クォークの密度、色の電場</td><td>解いた</td><td>相対の波動関数と <a class="ref" href="#eq-v.1">(v.1)</a> の解から求める</td></tr>
+          <tr><td>重心</td><td>与えた</td><td>止まったガウス分布。幅は変えない（<a class="ref" href="#A3">A3</a>）</td></tr>
+          <tr><td>色の状態</td><td>与えた</td><td>1 重項のまま、時間発展させない</td></tr>
+          <tr><td>色の誘電体</td><td>与えた</td><td>\(\varepsilon(\chi)\) と \(U(\chi)\) の形<span class="badge model">模型</span></td></tr>
+        </table>
+        <h3>色 1 重項</h3>
+        <p>色を持つ粒子は、単独では漸近状態にならない。観測できるのは色 1 重項 \(|1\rangle = \sum_c |c\,\bar c\rangle/\sqrt3\) である。この状態で色の電荷の密度は \(\langle\rho^a(\mathbf x)\rangle = 0\) であり、系はどこでも色について中性である。そのため、<a class="ref" href="#def-2.2">定義 2.2</a> のクォーク数の密度を描く。</p>
+        <h3>色の誘電体</h3>
+        <p>ひもの形と張力は与えず、色の誘電体の模型（フリードバーグ–リー型）の静的な解から求める。色の場は 1 つの可換な成分で代表する（アーベル化）。1 重項の \(q\bar q\) では電荷は \(\pm g\)、\(g^2 = C_F c^2\)、\(C_F = \langle -\mathbf t_1\!\cdot\!\mathbf t_2\rangle_{\mathbf 1} = 4/3\) である。真空はスカラーの場 \(\chi\) の凝縮であり、色の誘電率 \(\varepsilon(\chi)\) がとても小さい。</p>
+        <div class="eq" id="eq-v.1">$$\begin{gathered}
+          E[\chi] = \min_{\nabla\cdot\mathbf D = \rho}\int \frac{\mathbf D^2}{2\varepsilon(\chi)}\,d^3x + \int\Bigl[\tfrac{\kappa}{2}|\nabla\chi|^2 + U(\chi)\Bigr]d^3x, \\
+          \varepsilon(\chi) = \varepsilon_v + (1-\varepsilon_v)(3\chi^2 - 2\chi^3).
+          \end{gathered} \tag{v.1}$$</div>
+        <p>\(U(\chi) = B\,\chi^2(5\chi^2 - 12\chi + 8)\) は \(\chi = 0\)（真空）と \(\chi = 1\)（\(\varepsilon = 1\)、エネルギー密度 \(B\) の準安定な相）に谷を持つ。電荷の対ごとにこのエネルギーを \(\chi\) について最小にすると、電束は真空から押し出されて \(\chi \approx 1\) の管に閉じ込められ、エネルギーは距離に比例して増える（細い管の見積もり \(\sigma_s \approx g\sqrt{2B}\)）。この最小のエネルギーを、クォークと反クォークの相対運動のポテンシャル \(V(r)\) とする（<a class="ref" href="#A3">A3</a>）。短い距離では管の中のクーロン型、長い距離では線形であり、解はコーネル型の形を与える。</p>
+        <p>色の電場として、誘電体の中の \(\mathbf E\cdot\mathbf D = \varepsilon|\nabla\phi|^2\) を、クォークと反クォークの位置の分布で平均したものを描く。電荷の近くのクーロン型の部分と、間に伸びる管は、同じ解の部分である。</p>
+        <h3>点を仮定した分布</h3>
+        <p>軸の上のクォークの密度の重心をクォークの位置と仮定し、その下での反クォークと色の電場を描く。</p>
+        <h3>見えるもの</h3>
+        <ul>
+          <li>離れるほど遅くなり（運動エネルギーが色の場に移る）、止まって戻り、原点を通って反対側へ進む（ヨーヨーの運動）。</li>
+          <li>相関: クォークの位置と仮定した点と、反対側の反クォークが色の束で結ばれる。</li>
+        </ul>
+        <h3>仮定とパラメータ</h3>
+        <ul>
+          <li><span class="badge model">模型</span> 色の誘電体の模型（アーベル化）は QCD から導いたものではない。漸近的自由、ひもの切断（対生成）、色の自由度の時間発展は含まない。</li>
+          <li>全エネルギー \(\langle H\rangle - 2m\) を \(2m\) より小さくし、ひもが切れない領域にしている（実際の \(e^+e^-\) の消滅では切れて、ハドロンのジェットになる）。</li>
+          <li><span class="badge">脚色</span> \(m = 1\)、\(k_0 = 1.4\)、\(\sigma = 1.5\)、\(g^2 = 2\)、\(B = 0.0016\)、\(\kappa = 0.002\)、\(\varepsilon_v = 0.003\)。解の張力は約 0.095（\(m = 0.3\) GeV とすると実際の約 1/20）、管の半径は約 2.5、\(\langle H\rangle - 2m \approx 1.96\) であり、対は \(r \approx 19\) で戻る。</li>
+        </ul>
+      </section>
+
+      <section id="pion">
+        <h2><span class="num">vi</span>π 中間子の交換<a class="go" href="index.html#pion">見る →</a></h2>
+        <p>陽子と中性子が π 中間子を交換して散乱する。荷電の π を交換すると陽子と中性子が入れ替わるので、陽子が後ろに出ることもある。</p>
+        <ul class="fields-list">
+          <li style="--c:#ff4d6d">陽子: 電荷の密度</li>
+          <li style="--c:#a0a8b8">中性子: 数の密度</li>
+          <li style="--c:#b48cff">π⁰: 中性の π の場の分散の増加</li>
+          <li style="--c:#ffc04d">π±: 荷電の π の場の分散の増加</li>
+        </ul>
+        <figure class="feyn"><div class="feynman">diagram {
+  in  p1: $p$, n1: $n$
+  out p2: $p$, n2: $n$
+  p1 -- [double, arrow=forward, color="#ff4d6d"] v1 -- [double, arrow=forward, color="#ff4d6d"] p2
+  n1 -- [double, arrow=forward, color="#a0a8b8"] v2 -- [double, arrow=forward, color="#a0a8b8"] n2
+  v1 -- [scalar, label=$\pi^0$, color="#b48cff"] v2
+}
+diagram {
+  in  p1: $p$, n1: $n$
+  out n2: $n$, p2: $p$
+  p1 -- [double, arrow=forward, color="#ff4d6d"] v1 -- [double, arrow=forward, color="#a0a8b8"] n2
+  n1 -- [double, arrow=forward, color="#a0a8b8"] v2 -- [double, arrow=forward, color="#ff4d6d"] p2
+  v1 -- [charged scalar, label=$\pi^+$, color="#ffc04d"] v2
+}</div><figcaption>核子の段階の 2 つの図。中性の \(\pi^0\) の交換では核子はそのまま進み、荷電の \(\pi^+\) の交換では陽子と中性子が入れ替わる。計算では交換を静的なポテンシャル（<a class="ref" href="#A3">A3</a>）で表し、アイソスピンのチャネルに分ける。</figcaption></figure>
+        <h3>前提</h3>
+        <p><a class="ref" href="#A2">A2</a>、<a class="ref" href="#A3">A3</a>、<a class="ref" href="#A5">A5</a>、<a class="ref" href="#A6">A6</a> が成り立つ。核子はアイソスピン \(\boldsymbol\tau\) の 2 つの状態として扱い、スピンはそろえる。テンソル力は含まない（<a class="ref" href="#A4">A4</a>）。</p>
+        <h3>解いたものと与えたもの</h3>
+        <table>
+          <tr><th>量</th><th>区別</th><th>求め方</th></tr>
+          <tr><td>チャネル \(T = 0, 1\) の相対の波動関数</td><td>解いた</td><td>分割演算子法（<a class="ref" href="#A3">A3</a>）</td></tr>
+          <tr><td>陽子と中性子の密度</td><td>解いた</td><td>チャネルと重心から求める</td></tr>
+          <tr><td>重心</td><td>与えた</td><td>止まったガウス分布。幅は変えない（<a class="ref" href="#A3">A3</a>）</td></tr>
+          <tr><td>π の場</td><td>源を与えて解いた</td><td>静的な衣 \(c\,t^a Y\)（<a class="ref" href="#A2">A2</a>）を、解いた位置とアイソスピンの振幅で平均する</td></tr>
+        </table>
+        <h3>アイソスピンのチャネル</h3>
+        <p>ポテンシャル \(V = c^2\,(\boldsymbol\tau_1\!\cdot\!\boldsymbol\tau_2)\,Y(r)\) を、チャネルごとに <a class="ref" href="#A3">A3</a> の方法で解く。</p>
+        <table>
+          <tr><th>チャネル</th><th>空間の部分</th><th>\(\boldsymbol\tau_1\cdot\boldsymbol\tau_2\)</th></tr>
+          <tr><td>\(T = 1\)</td><td>奇</td><td>\(+1\)（反発）</td></tr>
+          <tr><td>\(T = 0\)（重陽子のチャネル）</td><td>偶</td><td>\(-3\)（引力）</td></tr>
+        </table>
+        <h3>交換の場</h3>
+        <p>交換の場は静的な衣 \(\phi^a = c\,t^a\,Y(\mathbf x - \mathbf y)\) のコヒーレント状態であり（<a class="ref" href="#A2">A2</a>）、アイソスピンのラベルは演算子のまま扱う。中性の \(\pi^0\) は位置を固定すればゆらがず、その分散は源の位置の不確かさから生じる（<a class="ref" href="#def-2.1">定義 2.1</a> の場合 2）。荷電の \(\pi^\pm\) は</p>
+        <div class="eq" id="eq-vi.1">$$\langle\boldsymbol\tau_1^{\perp}\!\cdot\boldsymbol\tau_2^{\perp}\rangle = 2\bigl(|a_S|^2 - |a_A|^2\bigr) \tag{vi.1}$$</div>
+        <p>を通して、位置を固定しても量子的にゆらぐ（\(a_S\), \(a_A\) はアイソスピンの対称・反対称の部分）。</p>
+        <h3>点を仮定した分布</h3>
+        <p>陽子の位置を仮定する。点の定め方は i と同じである（出ていく向き \(\theta = 150^\circ\)）。電荷が保存するので、相手は必ず中性子である。</p>
+        <h3>仮定とパラメータ</h3>
+        <ul>
+          <li><span class="badge">脚色</span> \(c^2 = 15\)、\(\mu = 0.5\)。スピンとテンソル力は含まない。</li>
+          <li><span class="badge approx">近似</span> 遅延と放射は含まない（<a class="ref" href="#A2">A2</a>）。たたみ込みにならない交差項は、軸対称な面で数値的に積分する（細かい積分との差は 2.5 % 以内）。</li>
+          <li>見えるもの: 陽子が後ろにも出る（電荷交換の後方のピーク。実際の np 散乱にもある）。</li>
+        </ul>
+      </section>
+
+      <section id="vacpol">
+        <h2><span class="num">vii</span>真空偏極<a class="go" href="index.html#vacpol">見る →</a></h2>
+        <p>電子のまわりでは、真空そのものが電荷を帯びる。真空偏極は真空の<strong>電荷密度</strong>の変化なので、フェルミオンと同じく電荷の密度として描ける（<a class="ref" href="#def-2.2">定義 2.2</a>）。止まった電子の波束が広がっていく間の、真空の電荷を計算する。</p>
+        <ul class="fields-list">
+          <li style="--c:#4dabff">電子: 電荷の密度（負）</li>
+          <li style="--c:#7d8bff">真空・負: 真空の誘導電荷の密度の負の部分</li>
+          <li style="--c:#ff7ad9">真空・正: 真空の誘導電荷の密度の正の部分</li>
+        </ul>
+        <figure class="feyn"><div class="feynman">diagram {
+  in  a: $e^-$
+  out b: $e^-$, g: $\gamma$
+  vertex a at (0, 1); vertex b at (1.8, 1); vertex g at (0.9, -0.55)
+  a -- [fermion, color="#4dabff"] v at (0.9, 1) -- [fermion, color="#4dabff"] b
+  v -- [photon] l1 at (0.9, 0.55)
+  l1 -- [fermion, half left] l2 at (0.9, 0) -- [fermion, half left] l1
+  l2 -- [photon] g
+}</div><figcaption>電子の線から出た光子に、電子と陽電子のループ（1 ループの真空偏極 \(\hat\Pi\) <a class="ref" href="#eq-vii.3">(vii.3)</a>）が入る。描くのは、このループが作る真空の電荷 <a class="ref" href="#eq-vii.2">(vii.2)</a> である。</figcaption></figure>
+        <h3>前提</h3>
+        <p><a class="ref" href="#A1">A1</a>（1 ループ、\(\alpha\) の 1 次）、<a class="ref" href="#A4">A4</a>（ディラックのスピノル）、<a class="ref" href="#A6">A6</a> が成り立つ。結合は脚色せず \(\alpha = 1/137\) とする。長さはコンプトン波長 \(1/m\) で測る。描くのは正規順序の電荷密度 \(\langle{:}\rho{:}\rangle\) である。</p>
+        <h3>解いたものと与えたもの</h3>
+        <table>
+          <tr><th>量</th><th>区別</th><th>求め方</th></tr>
+          <tr><td>電子のディラックの波束</td><td>解いた</td><td>運動量の成分ごとの自由な時間発展</td></tr>
+          <tr><td>真空の電荷（分散）</td><td>解いた</td><td>解いた波束に対する遅延つきの線形応答 <a class="ref" href="#eq-vii.2">(vii.2)</a></td></tr>
+          <tr><td>電子への反作用</td><td>与えた</td><td>含まない。電子は自由に動く</td></tr>
+          <tr><td>真空の電荷（相関）</td><td>源を与えて解いた</td><td>仮定した位置の止まった点電荷に対する応答 <a class="ref" href="#eq-vii.4">(vii.4)</a></td></tr>
+        </table>
+        <h3>電子: ディラックの波束</h3>
+        <p>電子は正エネルギーの波束 \(\Psi(\mathbf x) = \int \frac{d^3p}{(2\pi)^3}\,\varphi(\mathbf p)\,u(\mathbf p, s)\,e^{i\mathbf p\cdot\mathbf x}\)、\(\varphi \propto e^{-p^2\sigma^2}\) である。\(\sigma = 0.6/m\) では運動量の広がりが各方向に \(0.8m\) ほどあるので、スピノル \(u\) を省かない。電荷の密度は \(-e\,\Psi^\dagger\Psi\) であり、運動量の成分どうしの重なりは</p>
+        <div class="eq" id="eq-vii.1">$$u^\dagger(\mathbf p)\,u(\mathbf p') = \frac{(E+m)(E'+m) + \mathbf p\cdot\mathbf p' + i\,\mathbf s\cdot(\mathbf p\times\mathbf p')}{2\sqrt{EE'(E+m)(E'+m)}} \tag{vii.1}$$</div>
+        <p>である。スピンの向き \(\mathbf s\) を含む虚部は積分で消えるので、密度は球対称のままである。</p>
+        <h3>真空の線形応答</h3>
+        <p>くりこんだ 1 ループの真空偏極 \(\hat\Pi\) が、電子の電荷に対する真空の応答を与える。電子の密度を運動量の成分に分けると、各成分は運動量 \(\mathbf k\) と振動数 \(\omega = E_{\mathbf p+\mathbf k} - E_{\mathbf p}\)（\(|\omega| \lt k\)）を持ち、真空はそれぞれに \(\hat\Pi\) をかけて応える（遅延を含む）。</p>
+        <div class="eq" id="eq-vii.2">$$\rho_{\text{ind}}(\mathbf k, t) = -e\int\!\frac{d^3p}{(2\pi)^3}\,\varphi(\mathbf p)\,\varphi(\mathbf p+\mathbf k)\,u^\dagger(\mathbf p)\,u(\mathbf p+\mathbf k)\,e^{-i\omega t}\,\hat\Pi\bigl(\sqrt{k^2-\omega^2}\bigr), \tag{vii.2}$$</div>
+        <div class="eq" id="eq-vii.3">$$\hat\Pi(Q) = \frac{2\alpha}{\pi}\int_0^1 x(1-x)\,\ln\!\Bigl(1 + x(1-x)\frac{Q^2}{m^2}\Bigr)dx . \tag{vii.3}$$</div>
+        <p>\(\hat\Pi(0) = 0\)（くりこみ）なので、真空の電荷は全体で 0 であり、遠くから見た電子の電荷は \(-e\) のままである。近くには負の電荷（近くで見る電荷は大きい）、その外側に正の電荷（遮蔽）がある。\(\hat\Pi\) は小さな \(Q\) で \(\alpha Q^2/(15\pi m^2)\)（ユーリングの項）、大きな \(Q\) で対数的に増える。応答はコンプトン波長 \(1/m\) より短い構造にだけ大きく、広がった電子のまわりでは小さい。</p>
+        <h3>点を仮定した分布</h3>
+        <p>電子の位置を分解能 \(w = 0.25/m\) で \(\mathbf a\) と仮定し、真空の電荷 \(\langle\rho_{\text{vac}}(\mathbf x)\,n_e(\mathbf a)\rangle/\langle n_e(\mathbf a)\rangle\) を描く。これは点電荷のまわりのユーリングの分布</p>
+        <div class="eq" id="eq-vii.4">$$\rho(r) = \frac{e\,\alpha}{3\pi}\int_{4m^2}^{\infty}\!ds\,\Bigl(1+\frac{2m^2}{s}\Bigr)\sqrt{1-\frac{4m^2}{s}}\;\frac{e^{-\sqrt s\,r}}{4\pi r}\qquad (r \gt 0) \tag{vii.4}$$</div>
+        <p>の正の雲（半径 \(\sim 1/(2m)\)）と、中心の負の芯（点電荷では対数的に発散し、分解能 \(w\) でならされる）からなる。\(\mathbf a\) は広がる電子の殻の上、\(+x\) の半直線の上で \(r^2 n\) が最大の点である。</p>
+        <h3>見えるもの</h3>
+        <ul>
+          <li>分散: 初めは電子のまわりに負の芯と正の殻がある。電子が広がると、真空の電荷は電子の殻の内側の負と外側の正に分かれて薄れる。</li>
+          <li>相関: 電子の位置と仮定した点のまわりには、いつもコンプトン波長の大きさの雲がある。平均では、この構造は電子の広がりに埋もれて見えない。</li>
+        </ul>
+        <h3>仮定とパラメータ</h3>
+        <ul>
+          <li>結合は実際の値 \(\alpha = 1/137\) である。真空の電荷は電子の電荷の \(10^{-4}\) 程度（分散のモードの \(t = 0\) で分かれている電荷は \(2.0\times10^{-4}\,e\)）だが、場ごとに全時刻の最大で基準を定めるので見える（<a class="ref" href="#render-volume">4.1</a>）。</li>
+          <li><span class="badge approx">近似</span> 1 ループ（\(\alpha\) の 1 次）である。電子の反跳と真空の反作用は含まない。真空の対の数の密度（\(\alpha^2\) の次数）は描かない。</li>
+          <li><span class="badge approx">近似</span> 相関は止まった点電荷に対する応答である（電子の速さによる遅延は無視する）。分散は遅延を含む。</li>
+          <li>数値: 波束の初めの広がり \(\sigma = 0.6/m\)、描く範囲 \(\pm 6/m\)、格子 \(56^3\)。</li>
+        </ul>
+      </section>
+
+      <hr>
+
+      <section id="limits">
+        <h2><span class="num">§</span>解釈の限界</h2>
+        <ul>
+          <li>分散の増加や密度は「粒子がいる確率」ではない。ボゾンの分散は場のゆらぎであり、フェルミオンの密度は電荷や数の期待値である。</li>
+          <li>散乱や崩壊は「ある点で起きる」のではない。相関のモードの点は、位置の測定値として<em>仮定した</em>点である。</li>
+          <li>計算は最低次・静的な衣・模型を含む（3）。どの量を解き、どの量を与えたかは、各トピックの「解いたものと与えたもの」に示す。結合で展開せずに解いているのは、自由な部分と、分割演算子法による相対運動である。</li>
+          <li>色の閉じ込めで、クォークが 1 個で見えているわけではない。描いているのは、色 1 重項の対のクォーク数の密度である。</li>
+          <li>真空偏極の雲は「仮想の対がそこにいる」ことを意味しない。描いているのは、真空の電荷密度の期待値の変化である。</li>
+        </ul>
+      </section>
+
+      <footer id="credits">
+        <p>音楽: “Drifting Prelude” by yvvakimoto、<a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>、<a href="https://github.com/yvvakimoto/endless-preludes">github.com/yvvakimoto/endless-preludes</a></p>
+        <p>数式: <a href="https://katex.org/">KaTeX</a>（MIT License、vendor/katex に同梱）。ファインマン図: <a href="https://github.com/yvvakimoto/feynmark">feynmark</a> v0.2.0（MIT License、vendor/feynmark に同梱）。計算: numpy / scipy。</p>
+        <p>単位は \(\hbar = c = 1\)。脚色した定数は、各トピックの「仮定とパラメータ」に <span class="badge">脚色</span> として挙げる。</p>
+      </footer>
+    </article>
+  </div>
+
+  <script src="vendor/katex/katex.min.js"></script>
+  <script src="vendor/katex/auto-render.min.js"></script>
+  <script>
+    renderMathInElement(document.body, {
+      delimiters: [{ left: "$$", right: "$$", display: true }, { left: "\\(", right: "\\)", display: false }],
+      macros: { "\\arraystretch": "2" },  // 複数行の式の行間（行の高さの下限を一様に上げる）
+      ignoredClasses: ["feynman"],
+      throwOnError: false,
+    });
+  </script>
+  <script src="vendor/feynmark/feynmark.min.js"></script>
+  <script src="js/notes.js"></script>
+</body>
+</html>

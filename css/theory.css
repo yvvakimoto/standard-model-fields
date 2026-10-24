@@ -1,0 +1,115 @@
+/* 理論のページ（theory.html）。色と書体は style.css の変数 */
+body.doc { height: auto; min-height: 100%;background: radial-gradient(ellipse 90% 60% at 50% 0%, #0f1322 0%, var(--bg) 70%) fixed; line-height: 2; font-size: 16px; }
+.doc a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(232, 201, 138, 0.3); }
+.doc a:hover { border-bottom-color: var(--accent); }
+
+.doc .top { position: sticky; top: 0; z-index: 3; display: flex; justify-content: space-between; align-items: baseline; padding: 18px 32px;
+  background: linear-gradient(var(--bg) 40%, transparent); }
+.doc .top a { border: 0; }
+/* 道と言語の切り替えは描写のページの右上（.corner、.langs）と同じ並び */
+.doc .top .links { display: flex; gap: 22px; align-items: baseline; }
+.doc .brand { position: static; }
+.doc .top .langs a { color: var(--faint); }
+.doc .top .langs a:hover { color: var(--text); }
+
+/* 欧文の版（英語・ドイツ語）: 欧文のセリフ、字間を詰め、語を分ける */
+html:not([lang="ja"]) body.doc { font-family: var(--latin); font-size: 18px; line-height: 1.75; }
+html:not([lang="ja"]) .doc p, html:not([lang="ja"]) .doc li { hyphens: auto; -webkit-hyphens: auto; }
+html:not([lang="ja"]) .doc h1 { letter-spacing: 0.12em; }
+html:not([lang="ja"]) .doc h2 { letter-spacing: 0.06em; }
+html:not([lang="ja"]) .doc h3 { letter-spacing: 0.04em; font-size: 17px; }
+html:not([lang="ja"]) .doc .lead, html:not([lang="ja"]) .doc nav.toc a { letter-spacing: 0.04em; }
+html:not([lang="ja"]) .doc nav.toc { font-size: 14.5px; line-height: 1.9; }
+html:not([lang="ja"]) .doc .top .links > .word { letter-spacing: 0.12em; }
+html:not([lang="ja"]) .doc .badge { letter-spacing: 0.08em; }
+
+.doc .wrap { display: grid; grid-template-columns: 220px minmax(0, 720px); gap: 64px; justify-content: center; padding: 40px 32px 120px; }
+.doc nav.toc { position: sticky; top: 90px; align-self: start; font-size: 13px; line-height: 2.1; }
+.doc nav.toc a { display: block; border: 0; color: var(--dim); letter-spacing: 0.12em; }
+.doc nav.toc a:hover { color: var(--text); }
+.doc nav.toc .sub { padding-left: 1.4em; }
+
+.doc article { min-width: 0; }
+.doc section, .doc h3[id] { scroll-margin-top: 80px; }
+.doc h1 { font-weight: 500; font-size: 30px; letter-spacing: 0.3em; margin: 20px 0 6px; }
+.doc .lead { color: var(--dim); letter-spacing: 0.12em; margin-bottom: 64px; }
+.doc h2 { font-weight: 500; font-size: 22px; letter-spacing: 0.24em; margin: 88px 0 20px; display: flex; align-items: baseline; gap: 18px; }
+.doc h2 .num { font-family: var(--latin); font-style: italic; color: var(--accent); font-size: 18px; letter-spacing: 0.05em; }
+.doc h2 .go { margin-left: auto; font-size: 13px; letter-spacing: 0.2em; }
+.doc h3 { font-weight: 500; font-size: 16px; letter-spacing: 0.2em; margin: 40px 0 8px; color: var(--accent); }
+.doc p, .doc li { color: #cfcbc2; text-align: justify; }
+.doc p { margin: 0 0 1.1em; }
+.doc ul { padding-left: 1.3em; margin: 0 0 1.1em; }
+.doc li { margin: 0.25em 0; }
+.doc ol { padding-left: 1.6em; margin: 0 0 1.1em; }
+.doc ol li::marker { color: var(--accent); font-family: var(--latin); font-style: italic; }
+.doc figure { margin: 1.2em 0 1.8em; }
+.doc figure img { display: block; width: 100%; height: auto; }
+.doc strong { color: var(--text); font-weight: 600; }
+.doc em { font-style: normal; color: var(--text); border-bottom: 1px dotted var(--faint); }
+.doc hr { border: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--line), transparent); margin: 72px 0; }
+
+.doc .katex { color: var(--text); font-size: 1.04em; }
+.doc .katex-display { margin: 1.2em 0 1.4em; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+
+.doc table { border-collapse: collapse; width: 100%; margin: 0.6em 0 1.6em; font-size: 14px; line-height: 1.8; }
+.doc th, .doc td { padding: 8px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; color: #cfcbc2; }
+.doc th { color: var(--dim); font-weight: 500; letter-spacing: 0.14em; font-size: 12.5px; }
+
+.doc .fields-list { list-style: none; padding: 0; }
+/* 点は絶対配置（flex にすると数式の前後の文が別の列に分かれる） */
+.doc .fields-list li { position: relative; padding-left: 21px; }
+.doc .fields-list li::before { content: ""; position: absolute; left: 0; top: calc(0.5lh - 3.5px); width: 7px; height: 7px; border-radius: 50%; background: var(--c); box-shadow: 0 0 10px var(--c); }
+
+.doc .note { border-left: 1px solid var(--accent); padding: 4px 0 4px 20px; margin: 1.4em 0; color: var(--dim); }
+.doc .note p { color: #bdb9b0; }
+.doc .badge { font-size: 11.5px; letter-spacing: 0.2em; color: var(--bg); background: var(--accent); padding: 1px 7px; border-radius: 2px; margin-right: 6px; vertical-align: 2px; }
+.doc .badge.model { background: #b9a6ff; }
+.doc .badge.approx { background: #8fc9e8; }
+.doc footer { margin-top: 120px; color: var(--dim); font-size: 13px; line-height: 2; }
+
+/* 参照（式・仮定・定義・小節）と傍注（js/notes.js）。参照の先を右の余白に、狭い画面では下に出す */
+.doc a.ref { color: inherit; border-bottom: 1px dotted rgba(232, 201, 138, 0.45); transition: color 0.2s, border-color 0.2s; }
+.doc a.ref:hover, .doc a.ref.on { color: var(--accent); border-bottom-color: var(--accent); }
+.sidenote { position: absolute; z-index: 4; padding: 2px 0 2px 18px; border-left: 1px solid var(--accent);
+  font-size: 13.5px; line-height: 1.85; color: #bdb9b0; pointer-events: none;
+  opacity: 0; transform: translateX(-6px); transition: opacity 0.28s ease, transform 0.28s ease; }
+.sidenote.show { opacity: 1; transform: none; }
+.sidenote p { margin: 0 0 0.6em; color: #bdb9b0; text-align: left; }
+.sidenote h3 { margin: 0 0 4px; font-size: 13.5px; letter-spacing: 0.16em; }
+.sidenote .katex-display { margin: 0.5em 0; overflow: visible; padding: 0; }
+.sidenote .katex { font-size: 1em; }
+.sidenote .badge { font-size: 10.5px; }
+html:not([lang="ja"]) .sidenote { font-size: 15px; line-height: 1.6; }
+.sidenote.bottom { position: fixed; left: 50%; bottom: 16px; top: auto; width: min(720px, calc(100% - 36px)); box-sizing: border-box;
+  transform: translate(-50%, 8px); padding: 12px 20px; background: rgba(9, 11, 19, 0.94); border: 1px solid var(--line);
+  border-left: 1px solid var(--accent); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); }
+.sidenote.bottom.show { transform: translate(-50%, 0); }
+
+/* ファインマン図（vendor/feynmark）。線は文字の色、場の色は図の中で指定する */
+.doc figure.feyn { margin: 1.6em 0 2em; text-align: center; }
+.doc figure.feyn .feynmark-container { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px 48px; color: #d8d4cb; }
+.doc figure.feyn .feynmark-diagram svg, .doc figure.feyn .feynmark-equation svg { overflow: visible; }
+.doc figure.feyn .feynmark-equation { width: 100%; }
+.doc figure.feyn .feynmark-equation .katex-display { margin: 0; }
+.doc figure.feyn figcaption { margin-top: 0.9em; color: var(--dim); font-size: 13.5px; line-height: 1.9; text-align: left; }
+html:not([lang="ja"]) .doc figure.feyn figcaption { font-size: 15.5px; line-height: 1.6; }
+
+/* 狭い画面: 言語の切り替えを次の行の右に（描写のページと同じ） */
+@media (max-width: 760px) {
+  .doc .top .links { flex-wrap: wrap; justify-content: flex-end; gap: 0 14px; }
+  .doc .top .langs { flex-basis: 100%; justify-content: flex-end; }
+}
+
+/* 広い画面: 右に傍注の列を空けておく（中身は js/notes.js が絶対配置で置く） */
+@media (min-width: 1360px) {
+  .doc .wrap { grid-template-columns: 200px minmax(0, 720px) 260px; gap: 48px; }
+}
+
+@media (max-width: 980px) {
+  .doc .wrap { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 20px 18px 80px; }
+  .doc nav.toc { position: static; margin-bottom: 40px; }
+  .doc .top { padding: 14px 18px; }
+  .doc h1 { font-size: 24px; letter-spacing: 0.2em; }
+  .doc h2 { font-size: 19px; flex-wrap: wrap; }
+}

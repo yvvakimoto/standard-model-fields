@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Theory | Standard Model Fields</title>
+  <script>
+    try { var f = {ja: "theory.html", en: "theory.en.html", de: "theory.de.html"}[localStorage.getItem("smf-lang")]; if (f && f !== "theory.en.html") location.replace(f + location.hash); } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="vendor/katex/katex.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/theory.css">
+</head>
+<body class="doc">
+  <div class="top">
+    <a class="brand" href="index.html"><span class="mark">Standard Model</span><span class="mark it">Fields</span></a>
+    <span class="links"><a class="word" href="index.html">View</a> <a class="word" href="guide.en.html">Controls</a><span class="langs"><a href="theory.html" hreflang="ja" title="日本語" onclick="try { localStorage.setItem('smf-lang', 'ja'); } catch (e) {}">ja</a><span class="on" title="English">en</span><a href="theory.de.html" hreflang="de" title="Deutsch" onclick="try { localStorage.setItem('smf-lang', 'de'); } catch (e) {}">de</a></span></span>
+  </div>
+
+  <div class="wrap">
+    <nav class="toc">
+      <a href="#intro">Preface</a>
+      <a href="#units">1　Conventions</a>
+      <a class="sub" href="#units-basic">Units</a>
+      <a class="sub" href="#units-box">Domain</a>
+      <a class="sub" href="#units-yukawa">Yukawa potential</a>
+      <a href="#draw">2　Displayed quantities</a>
+      <a class="sub" href="#draw-boson">Bosons</a>
+      <a class="sub" href="#draw-fermion">Fermions</a>
+      <a class="sub" href="#draw-cond">Conditional distribution</a>
+      <a class="sub" href="#draw-point">Conditioning point</a>
+      <a href="#assume">3　General assumptions</a>
+      <a href="#render">4　Rendering</a>
+      <a class="sub" href="#render-volume">Volume rendering</a>
+      <a class="sub" href="#render-window">Boundary window</a>
+      <a href="#ee">i　Electron–electron scattering</a>
+      <a href="#compton">ii　Compton scattering</a>
+      <a href="#beta">iii　Beta decay</a>
+      <a href="#osc">iv　Neutrino oscillation</a>
+      <a href="#confine">v　Colour confinement</a>
+      <a href="#pion">vi　Pion exchange</a>
+      <a href="#vacpol">vii　Vacuum polarization</a>
+      <a href="#limits">Limits of interpretation</a>
+      <a href="#credits">Credits</a>
+    </nav>
+
+    <article>
+      <h1>Theory</h1>
+      <div class="lead">Displayed quantities, premises, approximations</div>
+
+      <section id="intro">
+        <p>This text states which quantities the view page displays and under which premises they are computed. It consists of two parts. Sections 1 to 4 contain the conventions, the definitions of the displayed quantities, the assumptions common to all topics, and the rendering method. Sections i to vii treat the individual topics; they presuppose the first part and refer to its definitions and assumptions.</p>
+        <p>Every displayed distribution is a quantity computed from a state of quantum fields; no shape is added by hand. The constants entered into the equations (couplings, masses, lengths), however, are chosen so that the processes become visible within a single box, and the computations contain approximations and models. Deviations of this kind are marked in the text as follows:</p>
+        <ul>
+          <li><span class="badge">Stylized</span> a constant changed for the sake of visibility;</li>
+          <li><span class="badge approx">Approximation</span> a neglected effect;</li>
+          <li><span class="badge model">Model</span> a form that is prescribed rather than derived from the theory.</li>
+        </ul>
+        <p>In addition, each quantity is classified as <em>solved</em> or <em>prescribed</em>. Solved means that it follows from the initial state and the Hamiltonian (or the energy of the model) by numerical time evolution, time integration or minimization. Prescribed means that its form, motion or time dependence is fixed in the model and not determined by an equation. A static dressing (<a class="ref" href="#A2">A2</a>) is the solution of a field equation for a prescribed position of the source. The initial states (Gaussian wave packets of given width and momentum) are always prescribed. Each topic lists this classification as a table in the subsection <em>Solved and prescribed</em>.</p>
+        <div class="note"><p>The controls of the view page (choice of topic, showing and hiding fields, rotation, zoom, playback) are described under <a href="guide.en.html">Controls</a>.</p></div>
+      </section>
+
+      <hr>
+
+      <section id="units">
+        <h2><span class="num">1</span>Conventions</h2>
+        <h3 id="units-basic">1.1 Units and notation</h3>
+        <p>Natural units \(\hbar = c = 1\) are used. In each topic one mass \(m\) is fixed as the unit, \(m = 1\); lengths and times are then measured in \(1/m\). The state of the system in the Schrödinger picture is denoted \(|\Psi(t)\rangle\), the vacuum \(|0\rangle\). Angle brackets \(\langle\cdot\rangle\) denote expectation values in the state \(|\Psi(t)\rangle\), and \(\mathrm E[\cdot]\) the mean over the quantum-mechanical distribution of the source positions. The amplitude of a two-particle state is written \(\Psi(\mathbf x_1, \mathbf x_2)\).</p>
+        <h3 id="units-box">1.2 Computational domain</h3>
+        <p>All computations are carried out in a finite domain: either in a periodic box (scattering, photons), where the time evolution is solved with Fourier methods, or on a radial grid (decays). Only the time interval before the waves reach the boundary of the domain is displayed.</p>
+        <h3 id="units-yukawa">1.3 Softened Yukawa potential</h3>
+        <p>Static exchange fields are described by the function</p>
+        <div class="eq" id="eq-1.1">$$Y(r) = \frac{\bigl(1 - e^{-r/a}\bigr)\,e^{-\mu r}}{4\pi r}, \qquad a = 0.5 . \tag{1.1}$$</div>
+        <p>For \(r \gg a\), \(Y\) is the Yukawa potential of a point source of mass \(\mu\) (the Coulomb potential for \(\mu = 0\)); for \(r \to 0\) it stays finite, \(Y(0) = 1/(4\pi a)\). The softening replaces the point source by an extended source of size \(a\) <span class="badge model">Model</span>.</p>
+      </section>
+
+      <section id="draw">
+        <h2><span class="num">2</span>Displayed quantities</h2>
+        <p>The state \(|\Psi(t)\rangle\) of a quantum field is not itself a field assigning a number to each point of space. A three-dimensional display therefore requires <em>local</em> quantities that can be computed from the state. The following three quantities are used; which of them is applied to a field depends on the kind of particle.</p>
+        <h3 id="draw-boson">2.1 Bosons: increase of the field variance</h3>
+        <p>A mediating field \(\phi\) (photon, gluon, pion, W boson) fluctuates even in the vacuum (zero-point fluctuation); the expectation value \(\langle\phi^2\rangle\) by itself diverges. The difference from the vacuum, on the other hand, is finite.</p>
+        <p id="def-2.1"><strong>Definition <a class="ref" href="#draw-boson">2.1</a></strong> (increase of variance). For a real bosonic field \(\phi\) let</p>
+        <div class="eq" id="eq-2.1">$$\Delta\mathrm{Var}\,\phi(\mathbf x) = \langle\Psi|\phi(\mathbf x)^2|\Psi\rangle - \langle\Psi|\phi(\mathbf x)|\Psi\rangle^2 - \langle 0|\phi(\mathbf x)^2|0\rangle . \tag{2.1}$$</div>
+        <p>Two special cases are used below.</p>
+        <ol><li>If \(|\Psi\rangle\) contains exactly one quantum of the field, then \(\langle\phi\rangle = 0\), and with the amplitude \(F(\mathbf x) = \langle 0|\phi^{+}(\mathbf x)|\Psi\rangle\) of the positive-frequency part \(\phi^{+}\) one has \(\Delta\mathrm{Var}\,\phi = 2|F|^2\).</li><li>If the field is bound to a source at \(\mathbf y\) and is in the coherent state with \(\langle\phi\rangle = f(\mathbf x - \mathbf y)\), the increase of variance vanishes for fixed \(\mathbf y\). If the source position is quantum-mechanically uncertain, \(\Delta\mathrm{Var}\,\phi = \mathrm E[f^2] - \mathrm E[f]^2\): the variance arises from the uncertainty of the source position.</li></ol>
+        <h3 id="draw-fermion">2.2 Fermions: charge and number density</h3>
+        <p>For electrons, quarks, neutrinos and nucleons the density of a conserved charge (electric charge, lepton number, quark number) is displayed.</p>
+        <p id="def-2.2"><strong>Definition <a class="ref" href="#draw-fermion">2.2</a></strong> (one-particle density). For a two-particle state with amplitude \(\Psi(\mathbf x_1, \mathbf x_2)\) the density of the first particle is</p>
+        <div class="eq" id="eq-2.2">$$n_1(\mathbf x) = \int |\Psi(\mathbf x, \mathbf y)|^2 \, d^3y . \tag{2.2}$$</div>
+        <p>The integral of \(n_1\) is the particle number (scattering) or the probability that the decay has proceeded by time \(t\) (decay). The charge density is \(n_1\) multiplied by the charge of the particle.</p>
+        <h3 id="draw-cond">2.3 Conditional distribution</h3>
+        <p>After an interaction the positions of two particles are correlated with each other. The one-particle densities <a class="ref" href="#eq-2.2">(2.2)</a> do not contain this correlation.</p>
+        <p id="def-2.3"><strong>Definition <a class="ref" href="#draw-cond">2.3</a></strong> (conditional distribution). The distribution of the second particle, assuming that a position measurement on the first yields \(\mathbf a\), is</p>
+        <div class="eq" id="eq-2.3">$$n(\mathbf x \mid \mathbf a) = \frac{|\Psi(\mathbf a, \mathbf x)|^2}{\int |\Psi(\mathbf a, \mathbf y)|^2\, d^3y} \;\propto\; G^{(2)}(\mathbf a, \mathbf x), \tag{2.3}$$</div>
+        <p>where \(G^{(2)}\) is Glauber's second-order correlation function. For fields bound to the particles, the expectation value is taken under the same condition.</p>
+        <p>The view page shows the quantities of <a class="ref" href="#draw-boson">2.1</a> and <a class="ref" href="#draw-fermion">2.2</a> in the <em>variance</em> mode, and the quantities <a class="ref" href="#eq-2.3">(2.3)</a> in the <em>correlation</em> mode.</p>
+        <h3 id="draw-point">2.4 Choice of the conditioning point</h3>
+        <p>The point \(\mathbf a(t)\) in <a class="ref" href="#eq-2.3">(2.3)</a> is determined from the computed density of the particle whose position is assumed, and moves with it; classical trajectories are not used for this. The rule depends on the topic and is given there. In general, where the density has interference fringes or two maxima, the maximum jumps between successive times; in such cases the centroid of the density along a fixed half-line is used, which depends continuously on time.</p>
+        <p>The point itself is drawn in the colour of the particle whose position is assumed as a small three-dimensional Gaussian (standard deviation 2.5 % of the half edge of the box, falling smoothly to zero towards its rim).</p>
+      </section>
+
+      <section id="assume">
+        <h2><span class="num">3</span>General assumptions</h2>
+        <p>The following assumptions hold where a topic names them. Each topic lists its own assumptions and parameters in addition.</p>
+        <p id="A1"><strong>A1</strong> (lowest order). Processes in which particles are created, annihilated or converted (decay, Compton scattering, vacuum polarization) are treated at the lowest non-vanishing order in the coupling. The normalization of the state therefore holds only up to this order, and the sum of probabilities may deviate from 1. The deviation is stated in each topic.</p>
+        <p id="A2"><strong>A2</strong> (static dressing). A field bound to a source (the Coulomb part of the photon, the pion, the W boson, the colour field) is replaced by the static solution for the instantaneous position of the source. Retardation and radiation of this part are neglected. Exceptions are the transverse photon in i and the response of the vacuum in vii, which are computed with retardation.</p>
+        <p id="A3"><strong>A3</strong> (relative motion). In the two-body processes with exchange (i, v, vi) the interaction is described by a static potential \(V(r)\). The centre-of-mass coordinate \(\mathbf R = (\mathbf x_1 + \mathbf x_2)/2\) is taken as a stationary Gaussian whose change of width is neglected. The wave function of the relative coordinate \(\mathbf r = \mathbf x_1 - \mathbf x_2\) is solved numerically with the split-operator method, without expansion in the coupling, using the relativistic kinetic energy</p>
+        <div class="eq" id="eq-3.1">$$H_{\text{rel}} = 2\sqrt{m^2 + k^2} + V(r). \tag{3.1}$$</div>
+        <p id="A4"><strong>A4</strong> (spin and polarization). Spin and polarization degrees of freedom are taken into account only as far as the topic states (parallel spins in i, squares summed over spins and polarizations in ii, Dirac spinors in vii); otherwise they are neglected.</p>
+        <p id="A5"><strong>A5</strong> (stylized constants). Couplings, masses and widths are chosen so that the process becomes visible within the box and the displayed time. The values and their ratio to the physical values are stated in each topic. Only the coupling in vii is unchanged.</p>
+        <p id="A6"><strong>A6</strong> (finite domain). Section <a class="ref" href="#units-box">1.2</a> applies. Where a massless static field would not be finite in a finite box, it is given a small mass \(\mu\).</p>
+      </section>
+
+      <section id="render">
+        <h2><span class="num">4</span>Rendering</h2>
+        <h3 id="render-volume">4.1 Volume rendering</h3>
+        <p>The values \(v_i(\mathbf x)\) of each field \(i\) are summed along the line of sight; the square root of the sum is mapped onto a colour ramp (background → colour of the field → white). The colours of the fields are added as light (additive mixing):</p>
+        <div class="eq" id="eq-4.1">$$\begin{gathered}
+          I_i = \sqrt{\,s_i \int_{\text{ray}} v_i(\mathbf x)\, W(\mathbf x)\, d\ell\,}, \\
+          C = C_{\text{bg}} + w \sum_i \bigl(\mathrm{ramp}_i(I_i) - C_{\text{bg}}\bigr), \qquad w = \min\!\bigl(1,\; 1.2/\sqrt{N_{\text{on}}}\bigr).
+          \end{gathered} \tag{4.1}$$</div>
+        <p>The factor \(s_i\) normalizes the largest value of the ray integral over all times to 1; it is determined separately for each field and each mode. Neither is the normalization redone at each time, nor is a hand-chosen factor applied. The weight \(w\) attenuates each field when \(N_{\text{on}}\) fields are superposed, so that the sum does not saturate to white.</p>
+        <p>The data are given on a grid of \(40^3\) points (\(56^3\) in vii). Stored is \(\sqrt{v/v_{\text{ref}}}\) in 8 bits; it is squared again for display. Between stored times the data are interpolated linearly.</p>
+        <h3 id="render-window">4.2 Boundary window</h3>
+        <p>The computational box itself is not drawn. To keep its boundary invisible, the window</p>
+        <div class="eq" id="eq-4.2">$$W = \bigl[1 - \mathrm{smoothstep}(0.6,\, 1,\, \|\mathbf b\|_\infty)\bigr]\,\bigl[1 - \mathrm{smoothstep}(0.8,\, 1.2,\, \|\mathbf b\|_2)\bigr] \tag{4.2}$$</div>
+        <p>is applied in the display only; \(\mathbf b\) is the position measured from the centre of the box in units of the half edge. The computed values are not altered. Waves approaching the boundary (the outer shells in beta decay, radiation) therefore appear fainter towards the outside.</p>
+      </section>
+
+      <hr>
+
+      <section id="ee">
+        <h2><span class="num">i</span>Electron–electron scattering<a class="go" href="index.html#ee">view →</a></h2>
+        <p>Two electrons with parallel spins repel each other by exchanging a photon and are scattered. The question is which spatial distribution corresponds to the photon line of the Feynman diagram.</p>
+        <ul class="fields-list">
+          <li style="--c:#4dabff">Electron: charge density (negative)</li>
+          <li style="--c:#5fe0a0">Exchanged photon: cross term \(2e^2\,\mathrm E[Y_1 Y_2]\) of the Coulomb part</li>
+          <li style="--c:#ff8a3d">Coulomb field: increase of variance of the Coulomb part \(A^0\)</li>
+          <li style="--c:#ffc04d">Transverse photon: \(\langle{:}\mathbf A_\perp^2{:}\rangle\) of the quantum modes</li>
+          <li style="--c:#d77cff">Radiation: transverse photon minus the dressing at the instantaneous velocity</li>
+        </ul>
+        <figure class="feyn"><div class="feynman">diagram t {
+  in  a: $e^-$, b: $e^-$
+  out c: $e^-$, d: $e^-$
+  vertex a at (0, 1); vertex b at (0, 0); vertex c at (1.6, 1); vertex d at (1.6, 0)
+  a -- [fermion, color="#4dabff"] v1 at (0.8, 0.85) -- [fermion, color="#4dabff"] c
+  b -- [fermion, color="#4dabff"] v2 at (0.8, 0.15) -- [fermion, color="#4dabff"] d
+  v1 -- [photon, color="#5fe0a0", label=$\gamma$] v2
+}
+diagram u {
+  in  a: $e^-$, b: $e^-$
+  out c: $e^-$, d: $e^-$
+  vertex a at (0, 1); vertex b at (0, 0); vertex c at (1.9, 1); vertex d at (1.9, 0)
+  a -- [fermion, color="#4dabff"] v1 at (0.5, 0.85) -- [fermion, color="#4dabff"] d
+  b -- [fermion, color="#4dabff"] v2 at (0.5, 0.15) -- [fermion, color="#4dabff"] c
+  v1 -- [photon, color="#5fe0a0", label'=$\gamma$] v2
+}
+equation [height=7] {
+  i\mathcal M \;=\; @t \;-\; @u
+}</div><figcaption>The two lowest-order diagrams. Since the particles are identical, the diagram with the outgoing electrons interchanged is subtracted. Here the photon line is split into the Coulomb part, represented by a static potential (<a class="ref" href="#A3">A3</a>), and the transverse photon.</figcaption></figure>
+        <h3>Premises</h3>
+        <p><a class="ref" href="#A2">A2</a> (for the Coulomb part), <a class="ref" href="#A3">A3</a>, <a class="ref" href="#A5">A5</a> and <a class="ref" href="#A6">A6</a> hold. The photon field is described in Coulomb gauge; it splits into the Coulomb part \(A^0\) bound to the charges and the transverse part \(\mathbf A_\perp\) with degrees of freedom of its own.</p>
+        <h3>Solved and prescribed</h3>
+        <table>
+          <tr><th>Quantity</th><th>Kind</th><th>Determination</th></tr>
+          <tr><td>Relative wave function \(\psi(\mathbf r, t)\)</td><td>solved</td><td>split-operator method with <a class="ref" href="#eq-3.1">(3.1)</a>, without expansion in the coupling</td></tr>
+          <tr><td>Centre of mass</td><td>prescribed</td><td>Gaussian distribution at rest, constant width (<a class="ref" href="#A3">A3</a>)</td></tr>
+          <tr><td>Electron density</td><td>solved</td><td>from \(\psi\) and the centre of mass by <a class="ref" href="#eq-2.2">(2.2)</a></td></tr>
+          <tr><td>Coulomb part, exchanged photon</td><td>solved for a prescribed source</td><td>static solution \(e\,Y\) for the position of the charge (<a class="ref" href="#A2">A2</a>), averaged over the solved position distribution</td></tr>
+          <tr><td>Motion driving the transverse photon</td><td>prescribed</td><td>10 classical trajectories in the same potential (Newton's equation of motion) instead of the quantum motion</td></tr>
+          <tr><td>Transverse photon, radiation</td><td>solved</td><td>modes by <a class="ref" href="#eq-i.2">(i.2)</a> for each trajectory</td></tr>
+        </table>
+        <h3>Relative motion</h3>
+        <p>By <a class="ref" href="#A3">A3</a> the relative motion is solved with the potential \(V(r) = e^2\,Y(r)\) from <a class="ref" href="#eq-1.1">(1.1)</a>; the centre of mass is a stationary Gaussian with standard deviation \(\sigma/\sqrt 2\). Since the spins are parallel, the spin part is symmetric and the spatial part antisymmetric, \(\psi(-\mathbf r) = -\psi(\mathbf r)\). The scattering amplitude is therefore \(f(\theta) - f(\pi - \theta)\); there is no scattering at \(90^\circ\) in the centre-of-mass frame.</p>
+        <h3>Coulomb part</h3>
+        <p>By <a class="ref" href="#A2">A2</a> the Coulomb part for a source at \(\mathbf y\) is \(A^0 = e\,Y(\mathbf x - \mathbf y)\). With \(Y_j = Y(\mathbf x - \mathbf x_j)\) the second moment is</p>
+        <div class="eq" id="eq-i.1">$$\langle (A^0)^2\rangle - \langle 0|(A^0)^2|0\rangle = e^2\,\mathrm E\bigl[(Y_1 + Y_2)^2\bigr] = e^2\bigl(\mathrm E[Y_1^2] + \mathrm E[Y_2^2]\bigr) + 2e^2\,\mathrm E[Y_1 Y_2]. \tag{i.1}$$</div>
+        <p>The Coulomb field displayed is the increase of variance \(e^2\bigl(\mathrm E[(Y_1+Y_2)^2] - \mathrm E[Y_1+Y_2]^2\bigr)\) of <a class="ref" href="#def-2.1">Definition 2.1</a>; the exchanged photon displayed is the cross term \(2e^2\,\mathrm E[Y_1 Y_2]\) in <a class="ref" href="#eq-i.1">(i.1)</a>. It forms a bridge between the two electrons that grows stronger as they approach. For a massless point source (\(a \to 0\), \(\mu = 0\)), \(\int \nabla Y_1\cdot\nabla Y_2\, d^3x = Y(|\mathbf x_1 - \mathbf x_2|)\): the integral of the product of the fields is the interaction energy. What is displayed is the product of the potentials, not of the fields.</p>
+        <h3>Transverse photon</h3>
+        <p>The current of the electrons drives the modes \(a_{\mathbf k}\) through \(H_{\text{int}} = -\int \mathbf j\cdot\mathbf A_\perp\, d^3x\). The coherent amplitude \(\alpha_{\mathbf k}\) obeys</p>
+        <div class="eq" id="eq-i.2">$$\frac{d\alpha_{\mathbf k}}{dt} = -i\omega_k\,\alpha_{\mathbf k} + i s_k\, P_{\mathbf k}\!\cdot\!\mathbf J_{\mathbf k}, \qquad
+          \mathbf J_{\mathbf k} = \sum_n q\,\mathbf v_n\, e^{-i\mathbf k\cdot\mathbf x_n}, \tag{i.2}$$</div>
+        <p>with the transverse projector \(P_{\mathbf k}\) and the normalization factor \(s_k\) of the mode. For a given motion of the electrons every mode is in a coherent state. The uncertainty of the motion is approximated by an ensemble of 10 classical trajectories whose impact parameters are chosen from the transverse width of the relative wave packet <span class="badge approx">Approximation</span>. Displayed is</p>
+        <div class="eq" id="eq-i.3">$$\langle{:}\mathbf A_\perp^2{:}\rangle = \mathrm E_{\text{traj}}\bigl[|\langle\mathbf A_\perp\rangle|^2\bigr]. \tag{i.3}$$</div>
+        <p>Initially the transverse field is the stationary dressing of the uniformly moving electrons. When the velocity changes in the collision, a part detaches from this dressing and travels outwards. As radiation, \(\alpha_{\mathbf k}\) minus the stationary dressing at the instantaneous velocity is displayed. Since the electric dipole moment of two identical particles does not change in the centre-of-mass frame, the radiation is predominantly quadrupole radiation.</p>
+        <h3>Conditional distribution</h3>
+        <p>The position of the first electron is assumed to be \(\mathbf a(t)\). \(\mathbf a(t)\) is the centroid of the electron density on the incoming axis (while the electrons approach) or on the half-line in the direction \(\theta = 45^\circ\) (after the collision). Under this condition the exchanged photon is \(2e^2\,Y(\mathbf x - \mathbf a)\,\mathrm E[Y(\mathbf x - \mathbf y)]\), which connects the chosen point with the partner. The transverse photon is the field of the single trajectory leaving in the direction \(\theta\).</p>
+        <h3>Assumptions and parameters</h3>
+        <ul>
+          <li><span class="badge">Stylized</span> \(e^2 = 20\), about 220 times the physical value \(4\pi\alpha\). As a result the number of radiated photons is of order 1. By <a class="ref" href="#A6">A6</a> the Coulomb part is given the mass \(\mu = 0.15\).</li>
+          <li><span class="badge approx">Approximation</span> The Coulomb part is static (<a class="ref" href="#A2">A2</a>). The time dependence of the centre-of-mass width is neglected (<a class="ref" href="#A3">A3</a>). The transverse photon is driven by an ensemble of classical trajectories; the spread of arrival times is neglected.</li>
+          <li>Numerical values: \(m = 1\), \(k_0 = 1.2\) (\(v = 0.77\)), \(\sigma = 1\); box of the relative motion \(L = 80\), \(N = 128\); \(t \le 30\).</li>
+        </ul>
+      </section>
+
+      <section id="compton">
+        <h2><span class="num">ii</span>Compton scattering<a class="go" href="index.html#compton">view →</a></h2>
+        <p>A photon strikes an electron at rest. The photon changes its direction and loses energy, and the electron recoils forward. Compton scattering showed that the photon transfers energy and momentum in definite quanta. The two-particle amplitude of photon and electron is solved at lowest order in the laboratory frame.</p>
+        <ul class="fields-list">
+          <li style="--c:#ff8a3d">Photon: increase of variance of the photon field \(\mathbf A\)</li>
+          <li style="--c:#4dabff">Electron: charge density (negative)</li>
+          <li style="--c:#ffc04d">Scattered photon: contribution of the scattered state \(\Psi_{\text{sc}}\) to the photon's increase of variance</li>
+          <li style="--c:#8ff0ff">Recoil electron: contribution of \(\Psi_{\text{sc}}\) to the electron density</li>
+        </ul>
+        <figure class="feyn"><div class="feynman">diagram s {
+  in  g1: $\gamma$, e1: $e^-$
+  out g2: $\gamma$, e2: $e^-$
+  vertex g1 at (0, 1); vertex e1 at (0, 0); vertex g2 at (1.8, 1); vertex e2 at (1.8, 0)
+  g1 -- [photon, color="#ff8a3d"] a at (0.55, 0.5)
+  e1 -- [fermion, color="#4dabff"] a -- [fermion] b at (1.25, 0.5)
+  b -- [photon, color="#ffc04d"] g2
+  b -- [fermion, color="#8ff0ff"] e2
+}
+diagram u {
+  in  g1: $\gamma$, e1: $e^-$
+  out g2: $\gamma$, e2: $e^-$
+  vertex g1 at (0, 1); vertex e1 at (0, 0); vertex g2 at (1.8, 1); vertex e2 at (1.8, 0)
+  e1 -- [fermion, color="#4dabff"] a at (0.6, 0.15) -- [fermion] b at (1.2, 0.15) -- [fermion, color="#8ff0ff"] e2
+  a -- [photon, color="#ffc04d"] g2
+  g1 -- [photon, color="#ff8a3d"] b
+}
+equation [height=7] {
+  i\mathcal M \;=\; @s \;+\; @u
+}</div><figcaption>The two lowest-order QED diagrams. \(M(\theta)^2\) in <a class="ref" href="#eq-ii.3">(ii.3)</a> is the square of their sum, averaged over spin and polarization. In the computation the two are combined into a single contact vertex <span class="badge model">Model</span>.</figcaption></figure>
+        <h3>Premises</h3>
+        <p><a class="ref" href="#A1">A1</a>, <a class="ref" href="#A4">A4</a>, <a class="ref" href="#A5">A5</a> and <a class="ref" href="#A6">A6</a> hold. The method of relative motion (<a class="ref" href="#A3">A3</a>) is not applicable here: since the energy of the scattered photon depends on its direction, the energy-weighted centre of mass depends on the direction as well. The computation is therefore done in the laboratory frame.</p>
+        <h3>Solved and prescribed</h3>
+        <table>
+          <tr><th>Quantity</th><th>Kind</th><th>Determination</th></tr>
+          <tr><td>Incoming wave packets \(\psi_\gamma\), \(\psi_e\)</td><td>solved</td><td>free time evolution (Fourier method)</td></tr>
+          <tr><td>Scattered part \(\Psi_{\text{sc}}\)</td><td>solved</td><td>first-order time integral <a class="ref" href="#eq-ii.1">(ii.1)</a>; the Compton formula and energy conservation follow from it</td></tr>
+          <tr><td>Vertex \(\lambda\)</td><td>prescribed</td><td>contact vertex, matched to Klein–Nishina on the shell <span class="badge model">Model</span></td></tr>
+          <tr><td>Spinor overlap</td><td>prescribed</td><td>\(u^\dagger u = 1\)</td></tr>
+          <tr><td>Photon variance, electron density, conditional distribution</td><td>solved</td><td>from \(\Psi_{\text{in}} + \Psi_{\text{sc}}\)</td></tr>
+        </table>
+        <h3>Two-particle amplitude</h3>
+        <p>The state is given by the amplitude \(\Psi(\mathbf x_\gamma, \mathbf x_e)\) of one photon and one electron. At first order in the interaction (Born approximation), the scattered part \(\Psi_{\text{sc}}\) is added to the product \(\Psi_{\text{in}} = \psi_\gamma\,\psi_e\) of the two free wave packets:</p>
+        <div class="eq" id="eq-ii.1">$$\tilde\Psi_{\text{sc}}(\mathbf k', \mathbf p', t) = -i\int_0^t dt'\,\lambda(\mathbf k', \mathbf p')\, e^{-i(\omega' + E')(t - t')}\, A(\mathbf k' + \mathbf p', t'), \tag{ii.1}$$</div>
+        <div class="eq" id="eq-ii.2">$$A(\mathbf P, t') = \int d^3X\, e^{-i\mathbf P\cdot\mathbf X}\,\psi_\gamma(\mathbf X, t')\,\psi_e(\mathbf X, t'). \tag{ii.2}$$</div>
+        <p>The source \(A\) is non-zero where the two wave packets overlap; it conserves the total momentum \(\mathbf P\). Both wave packets are narrowest at the origin at time \(t_c\) (\(\sigma = 2\)); before that they approach each other and are wider.</p>
+        <h3>Vertex</h3>
+        <p>The vertex \(\lambda\) is a contact vertex <span class="badge model">Model</span> whose magnitude is matched to the lowest-order QED amplitude (summed over spins and polarizations):</p>
+        <div class="eq" id="eq-ii.3">$$\begin{aligned}
+          \lambda &amp;= \frac{M(\theta)}{\sqrt{2\omega\cdot 2m\cdot 2\omega'\cdot 2E'}}, \\
+          M(\theta)^2 &amp;= \frac14\sum|\mathcal M|^2 = 2e^4\Bigl[r + \frac1r - \sin^2\theta\Bigr], \\
+          r &amp;= \frac{1}{1 + (\omega/m)(1 - \cos\theta)} .
+          \end{aligned} \tag{ii.3}$$</div>
+        <p>Here \(\theta\) is the angle between the outgoing and the incoming photon. On the mass shell, <a class="ref" href="#eq-ii.3">(ii.3)</a> gives the Klein–Nishina cross section. Energy conservation is not assumed. The time integral \(\int dt'\,e^{i(\omega' + E' - E_{\text{in}})t'}\) suppresses the off-shell amplitudes, so that the Compton formula</p>
+        <div class="eq" id="eq-ii.4">$$\omega' = \frac{\omega}{1 + (\omega/m)(1 - \cos\theta)} \tag{ii.4}$$</div>
+        <p>appears in the momentum distribution of the solution. With \(\omega = m\), a backscattered photon has energy \(\omega/3\).</p>
+        <h3>Displayed quantities</h3>
+        <p>Since exactly one photon is present, its increase of variance is, by <a class="ref" href="#def-2.1">Definition 2.1</a>, \(2\int d^3x_e\,|F(\mathbf x, \mathbf x_e)|^2\) with \(\tilde F = \tilde\Psi/\sqrt{2\omega'}\). The electron density is, by <a class="ref" href="#eq-2.2">(2.2)</a>, \(n_e(\mathbf x) = \int d^3x_\gamma\,|\Psi(\mathbf x_\gamma, \mathbf x)|^2\). Both quantities are sums of the term of \(\Psi_{\text{in}}\), the interference term of \(\Psi_{\text{in}}\) and \(\Psi_{\text{sc}}\) (in the forward direction; after the collision it does not change the total probability), and the term of \(\Psi_{\text{sc}}\). Since the scattered part has probability only 0.19, the term of \(\Psi_{\text{sc}}\) is also displayed as a field of its own, normalized to its own maximum over all times (Section <a class="ref" href="#render-volume">4.1</a>).</p>
+        <h3>Conditional distribution</h3>
+        <p>The position of the photon is assumed to be \(\mathbf a\); displayed is the electron distribution \(\propto |F(\mathbf a, \mathbf x)|^2\). \(\mathbf a\) lies on the half-line perpendicular to the incident direction (\(\theta = 90^\circ\)), at the mean radius \(\bar r = \int r^3 v\,dr \big/ \int r^2 v\,dr\) of the photons scattered there (\(v\) is the number density of the scattered photon). At the beginning of the scattering \(\mathbf a\) lies near the origin (\(r \approx 3\)); as the shell recedes it speeds up smoothly and finally moves at the speed of light. Until the scattered probability reaches the last percent of its final value, the mean radius is undefined; until then \(\mathbf a\) stays at the point of that time. The same half-line and the same rule are used at all times. The local number density is used rather than the increase of variance \(2|F|^2\), since \(F = \psi/\sqrt{2\omega}\) has long-range tails.</p>
+        <p>A photon scattered perpendicularly has energy \(\omega/2\); the electron takes the remaining momentum and moves on the opposite side at \(26.6^\circ\) with speed \(0.75\). The conditional electron distribution gathers in this direction at 0.75 times the radius of the photon shell. This is not put in; it follows from the two-point correlation of the solution.</p>
+        <h3>Observations</h3>
+        <ul>
+          <li>Variance: most of the photon passes through unscattered; the scattered photon spreads as a spherical shell (stronger forward, about equal sideways and backward). The electron spreads as a wave packet at rest; the recoil electron moves within a forward cone, behind the photon.</li>
+          <li>Correlation: if the position of the photon is assumed sideways, the direction and radius of the electron are fixed. Two particles whose mean distributions extend in all directions determine each other's directions and speeds.</li>
+          <li>The photon energy depends on the direction; since the increase of variance does not show the wavelength, the difference becomes visible in the speed and direction of the electron.</li>
+        </ul>
+        <h3>Assumptions and parameters</h3>
+        <ul>
+          <li><span class="badge">Stylized</span> \(e^2 = 20\) (as in i, about 220 times \(4\pi\alpha\)). The probability of the scattered part is 0.19 (with the physical \(\alpha\): \(4\times10^{-6}\)).</li>
+          <li><span class="badge approx">Approximation</span> First order in the interaction (<a class="ref" href="#A1">A1</a>). The incoming part is not depleted by the scattering, since the depletion comes from the second-order forward interference term; the sum of probabilities is \(1 + 0.19\).</li>
+          <li><span class="badge model">Model</span> The vertex is a contact vertex; only the on-shell amplitude (Klein–Nishina) is matched. The off-shell amplitudes during the overlap depend on the model. The \(|\mathcal M|^2\) summed over spins and polarizations is used as a single amplitude (the distribution when polarization is not measured); the incoming side is evaluated at the central values (photon with \(\omega = m\), electron at rest).</li>
+          <li><span class="badge approx">Approximation</span> The momentum width of the electron is small, \(0.25m\); the spinor overlap is set to \(u^\dagger u = 1\).</li>
+          <li>For the scattered part the symmetry about the \(z\) axis is used: the sum runs over a half-plane of the partner momentum, averaged over rotations.</li>
+          <li>Numerical values: \(m = 1\), \(\omega = 1\), \(\sigma = 2\) (\(t_c = 14\)); box \(L = 64\), \(N = 64\); \(t \le 36\).</li>
+        </ul>
+      </section>
+
+      <section id="beta">
+        <h2><span class="num">iii</span>Beta decay<a class="go" href="index.html#beta">view →</a></h2>
+        <p>From a moving neutron, an electron and an antineutrino gradually spread out. The decay does not take place at a definite time and place; the amplitude flows out continuously. While moving, the nucleon changes from neutron to proton; the not-yet-decayed neutron carries a virtual W dressing.</p>
+        <ul class="fields-list">
+          <li style="--c:#4dabff">Electron: charge density (negative)</li>
+          <li style="--c:#b8f06a">Antineutrino: lepton-number density</li>
+          <li style="--c:#a0a8b8">Neutron: number density (survival probability × extent of the nucleon)</li>
+          <li style="--c:#ff4d6d">Proton: charge density (probability of the lepton pair × extent of the nucleon)</li>
+          <li style="--c:#ffd36b">W: increase of variance of the W field (dressing of the not-yet-decayed neutron)</li>
+        </ul>
+        <figure class="feyn"><div class="feynman">diagram {
+  in  n: $n$
+  out p: $p$, e: $e^-$, ne: $\bar\nu_e$
+  vertex n at (0, 1); vertex p at (2, 1); vertex e at (2, 0.45); vertex ne at (2, -0.1)
+  n -- [double, arrow=forward, color="#a0a8b8"] a at (0.9, 1) -- [double, arrow=forward, color="#ff4d6d"] p
+  a -- [boson, label'=$W^-$, color="#ffd36b"] b at (1.3, 0.3)
+  ne -- [fermion, color="#b8f06a"] b -- [fermion, color="#4dabff"] e
+}</div><figcaption>A W is emitted from the nucleon line and becomes an electron and an antineutrino. The W is treated as the static dressing of the undecayed neutron (<a class="ref" href="#A2">A2</a>); the lepton pair leaves a moving vertex <a class="ref" href="#eq-iii.1">(iii.1)</a>.</figcaption></figure>
+        <h3>Premises</h3>
+        <p><a class="ref" href="#A1">A1</a>, <a class="ref" href="#A2">A2</a> (for the W field), <a class="ref" href="#A5">A5</a> and <a class="ref" href="#A6">A6</a> hold. The nucleon is heavy and does not recoil; it moves with constant velocity, \(\mathbf X(t) = \mathbf X_0 + \mathbf V t\), \(V = 0.3\). The model of a nucleus at rest is set in motion in a way consistent with the Lorentz transformation.</p>
+        <h3>Solved and prescribed</h3>
+        <table>
+          <tr><th>Quantity</th><th>Kind</th><th>Determination</th></tr>
+          <tr><td>Pair amplitude \(\Psi_s\), densities of electron and antineutrino</td><td>solved</td><td>superposition of free leptons from the moving vertex <a class="ref" href="#eq-iii.1">(iii.1)</a></td></tr>
+          <tr><td>Pair probability \(N(t)\)</td><td>solved</td><td>norm of \(\Psi_s\)</td></tr>
+          <tr><td>Neutron amplitude \(c(t)\)</td><td>prescribed</td><td>exponential form \(e^{-(iE_0+\Gamma/2)t/\gamma}\) (Wigner–Weisskopf, lowest order); \(g\) is fixed from \(\Gamma\)</td></tr>
+          <tr><td>Trajectory of the nucleon</td><td>prescribed</td><td>\(\mathbf X_0 + \mathbf V t\), without recoil</td></tr>
+          <tr><td>Shape of neutron and proton</td><td>prescribed</td><td>fixed Gaussian \(b_N\), only Lorentz-contracted and translated. No centre-of-mass wave packet of the nucleon is solved; it therefore does not spread</td></tr>
+          <tr><td>Magnitude of the neutron and proton densities</td><td>solved / prescribed</td><td>\(N(t)\) solved, \(\lvert c(t)\rvert^2\) prescribed</td></tr>
+          <tr><td>W dressing</td><td>solved for a prescribed source</td><td>static solution <a class="ref" href="#eq-iii.3">(iii.3)</a> for the prescribed position and shape of the nucleon (<a class="ref" href="#A2">A2</a>)</td></tr>
+        </table>
+        <p>That the proton does not spread in the display is an assumption, not a result of the computation. A free wave packet of mass \(M\) and width \(\sigma\) spreads on the time scale \(M\sigma^2\); with the nucleon mass (\(M \approx 938\) in units of about 1 MeV) and \(\sigma = 0.8\) this is about 600, so that by \(t = 30\) the width would grow by about 0.1 %. Not included, on the other hand, is the recoil: the proton takes up the momentum of the lepton pair and is entangled with it.</p>
+        <h3>State</h3>
+        <p>The amplitude of the not-yet-decayed state is \(c(t) = e^{-(iE_0 + \Gamma/2)\,t/\gamma}\) (time dilation). The matrix element is the value in the rest frame of the nucleon multiplied by \(\sqrt{E'\omega'/(E\omega)}\) (primed quantities in the rest frame). The pair amplitude is a superposition of two free leptons emitted at time \(u\) from the moving vertex \(\mathbf X(u)\):</p>
+        <div class="eq" id="eq-iii.1">$$\Psi_s(\mathbf x_e, \mathbf x_\nu, t) = -ig\!\int\! du\; S(u,t)\; K^{e}_s\bigl(\mathbf x_e - \mathbf X(u),\, t-u\bigr)\, K^{\nu}_s\bigl(\mathbf x_\nu - \mathbf X(u),\, t-u\bigr). \tag{iii.1}$$</div>
+        <p>\(K\) is the propagator of a free lepton (radial integrals over spherical Bessel functions), \(S\) the weight of the vertex time. With the Fermi-type matrix element (\(0^+\to0^+\)),</p>
+        <div class="eq" id="eq-iii.2">$$\sum_s |M_s|^2 = \tfrac12\,\bigl(1 + v\cos\theta_{e\nu}\bigr), \qquad
+          \Gamma = \frac{g^2}{4\pi^3}\int p^2\,(E_0 - E)^2\, dp . \tag{iii.2}$$</div>
+        <p>Because the vertex moves, leptons emitted in the direction of motion have higher energy (Doppler effect), and the shells are shifted forward. This follows from solving the equations and is not put in. The density is a quadratic form in pairs of vertex times; since the overlap of the partner depends only on the time difference, it can be computed as a matrix product. For the nucleus at rest (\(V = 0\)) it agrees with the momentum-space expression; for the moving nucleus the pair probability follows time dilation, \(N(t) = N_{\text{rest}}(t/\gamma)\).</p>
+        <h3>Nucleon and W dressing</h3>
+        <p>The nucleon has a Gaussian extent \(b_N = 0.8\), Lorentz-contracted in the direction of motion. The neutron density is \(|c(t)|^2\rho_N\), the proton charge density \(N(t)\rho_N\); charge is conserved together with the electron. The W dressing is the static solution in the rest frame (<a class="ref" href="#A2">A2</a>),</p>
+        <div class="eq" id="eq-iii.3">$$F_W(r) \propto \int k^2 dk\, j_0(kr)\, \frac{g_W\, e^{-k^2 b^2/2}}{\sqrt{2\Omega}\,(\Omega - E_0)}, \tag{iii.3}$$</div>
+        <p>evaluated at the point contracted in the direction of motion; displayed is \(2|F_W|^2 |c(t)|^2\). Nucleon and W are drawn in a finer box around the path of the nucleon (at the same scale).</p>
+        <h3>Conditional distribution</h3>
+        <p>The position of the electron is assumed to be the mean radius \(\bar r = \int r^3 n_e\,dr \big/ \int r^2 n_e\,dr\) of the electron on the half-line extending perpendicularly (\(+\hat{\mathbf x}\)) from the instantaneous position of the nucleon (\(r\) is the distance from the nucleon). \(r^2 n_e\) has one peak near the vertex and one on the spreading shell; the point of maximum jumps between them, whereas the mean radius is continuous in time. At \(t = 0\), \(n_e = 0\) and the mean radius is undefined; there \(\mathbf a\) is placed at the radius of the next time. Because of the angular correlation \(1 + v\cos\theta\), the antineutrino is preferentially emitted on the same side. Under this condition the proton is certainly present; the neutron and the W dressing are not.</p>
+        <h3>Assumptions and parameters</h3>
+        <ul>
+          <li><span class="badge">Stylized</span> The Fermi type is chosen; the physical angular correlation coefficient of the neutron is \(a \approx -0.1\). \(E_0 = 2\), \(m_e = 0.5\), \(\Gamma = 0.15\), \(V = 0.3\). \(M_W = 3\) (physically 80 GeV ≫ 1 MeV).</li>
+          <li><span class="badge approx">Approximation</span> With a point-like coupling, the pairs that do not conserve energy (the dressing of the bare neutron) diverge in the ultraviolet, and the sum of probabilities exceeds 1. With the cutoff factor \(e^{-\Delta^2/(2\Lambda^2)}\) (\(\Delta = E + \omega - E_0 - \mathbf K\cdot\mathbf V\), \(\Lambda = 0.45\)) the sum is 0.88; the deviation is a deficiency of the lowest order (<a class="ref" href="#A1">A1</a>). The recoil of the nucleon is neglected.</li>
+          <li><span class="badge model">Model</span> The extent of the nucleon is a Gaussian form factor (\(b_N = 0.8\)).</li>
+          <li>Numerical values: \(\gamma = 1.048\), \(t \le 30\).</li>
+        </ul>
+      </section>
+
+      <section id="osc">
+        <h2><span class="num">iv</span>Neutrino oscillation<a class="go" href="index.html#osc">view →</a></h2>
+        <p>A \(\pi^+\) at rest decays into \(\mu^+\nu_\mu\). The neutrino is a superposition of two states of definite mass; along its path, fringes of μ and τ flavour form.</p>
+        <ul class="fields-list">
+          <li style="--c:#ff4d6d">μ⁺: charge density</li>
+          <li style="--c:#5fe0d0">\(\nu_\mu\): lepton-number density of μ flavour</li>
+          <li style="--c:#d77cff">\(\nu_\tau\): lepton-number density of τ flavour</li>
+          <li style="--c:#9fd3ff">\(\nu_1\): density of mass eigenstate 1</li>
+          <li style="--c:#ffa3d0">\(\nu_2\): density of mass eigenstate 2</li>
+        </ul>
+        <figure class="feyn"><div class="feynman">diagram {
+  in  u: $u$, db: $\bar d$
+  out nu: $\nu_\mu$, mu: $\mu^+$
+  u -- [fermion] a -- [fermion] db
+  a -- [boson, label'=$W^+$, tension=0.7] b
+  mu -- [fermion, color="#ff4d6d"] b -- [fermion, color="#5fe0d0"] nu
+  brace [label=$\pi^+$] u, db
+}</div><figcaption>The \(u\) and \(\bar d\) of the π⁺ become a W⁺, which yields \(\mu^+\) and \(\nu_\mu\). The \(\nu_\mu\) propagates as a superposition of the mass eigenstates \(\nu_1\), \(\nu_2\) <a class="ref" href="#eq-iv.1">(iv.1)</a>.</figcaption></figure>
+        <h3>Premises</h3>
+        <p><a class="ref" href="#A1">A1</a> (for the decay, with width and cutoff as in iii), <a class="ref" href="#A4">A4</a> (spin neglected), <a class="ref" href="#A5">A5</a> and <a class="ref" href="#A6">A6</a> hold. Two generations are considered.</p>
+        <h3>Solved and prescribed</h3>
+        <table>
+          <tr><th>Quantity</th><th>Kind</th><th>Determination</th></tr>
+          <tr><td>Radial decay amplitudes \(\chi_i(r, t)\)</td><td>solved</td><td>time integral as in iii, for each mass eigenstate</td></tr>
+          <tr><td>Flavour densities, stripes, separation of the wave packets</td><td>solved</td><td>from \(\chi_i\) and the mixing <a class="ref" href="#eq-iv.1">(iv.1)</a></td></tr>
+          <tr><td>Wave packet of the pion \(\Phi\)</td><td>prescribed</td><td>Gaussian at rest; it neither moves nor spreads</td></tr>
+          <tr><td>Decay amplitude</td><td>prescribed</td><td>evaluated at the centre of the pion's momentum distribution; s wave, spin neglected</td></tr>
+          <tr><td>Amplitude of the pion</td><td>prescribed</td><td>exponential form \(e^{-(iM+\Gamma/2)t}\)</td></tr>
+        </table>
+        <h3>State</h3>
+        <div class="eq" id="eq-iv.1">$$\begin{gathered}
+          |\nu_\mu\rangle = \cos\theta\,|\nu_1\rangle + \sin\theta\,|\nu_2\rangle, \\
+          \Psi_i(\mathbf x, \mathbf y) = U_{\mu i}\;\Phi(\mathbf R_i)\;\chi_i(|\mathbf x - \mathbf y|), \qquad \mathbf R_i = w_i\,\mathbf x + (1 - w_i)\,\mathbf y .
+          \end{gathered} \tag{iv.1}$$</div>
+        <p>Here \(\theta = 45^\circ\), \(w_i = E_{\nu,i}/M\) is the energy weight of the centre of mass, \(\Phi\) the wave packet of the pion (\(\sigma = 2\)), and \(\chi_i\) the radial decay amplitude (s wave) into mass eigenstate \(i\).</p>
+        <h3>Observations</h3>
+        <ul>
+          <li>The flavour fringes depend on <strong>distance</strong>, not on time.</li>
+          <li>\(\nu_1\) and \(\nu_2\) separate with speeds 0.99 and 0.84; once they are separated, the fringes disappear (separation of the wave packets).</li>
+          <li>The recoil of the muon also depends on the mass state. If the position of the μ⁺ is assumed in the correlation mode, \(\nu_1\) and \(\nu_2\) appear on the opposite side at different radii.</li>
+        </ul>
+        <h3>Assumptions and parameters</h3>
+        <ul>
+          <li><span class="badge">Stylized</span> \(M = 6\), \(m_\mu = 1\), \(m_1 = 0.3\), \(m_2 = 1.7\) (so that the oscillation length ≈ 12 fits in the box), \(\Gamma = 0.12\).</li>
+          <li><span class="badge approx">Approximation</span> s wave; spin neglected; motion and spreading of the centre of mass neglected.</li>
+        </ul>
+      </section>
+
+      <section id="confine">
+        <h2><span class="num">v</span>Colour confinement<a class="go" href="index.html#confine">view →</a></h2>
+        <p>A quark–antiquark pair created at one point (in the picture \(e^+e^-\to\gamma^*\to q\bar q\)) flies apart in opposite directions, but is pulled back by the colour flux tube (string) forming between them and cannot separate completely.</p>
+        <ul class="fields-list">
+          <li style="--c:#ff5fa2">Quark: quark-number density</li>
+          <li style="--c:#5fc8ff">Antiquark: antiquark-number density</li>
+          <li style="--c:#ff8a3d">Colour electric field: increase of variance of the colour electric field (solution of the colour dielectric model)</li>
+        </ul>
+        <figure class="feyn"><div class="feynman">diagram {
+  in  e1: $e^-$, e2: $e^+$
+  out q: $q$, qb: $\bar q$
+  e1 -- [fermion] a -- [fermion] e2
+  a -- [photon, label=$\gamma^*$] b
+  qb -- [fermion, color="#5fc8ff"] b -- [fermion, color="#ff5fa2"] q
+}</div><figcaption>A picture of the pair creation. The computation starts from a colour-singlet pair created at one point and does not contain \(e^+e^-\) or \(\gamma^*\). The flux tube does not come from perturbative diagrams but from the solution of the colour dielectric model <a class="ref" href="#eq-v.1">(v.1)</a>.</figcaption></figure>
+        <h3>Premises</h3>
+        <p><a class="ref" href="#A2">A2</a>, <a class="ref" href="#A3">A3</a>, <a class="ref" href="#A5">A5</a> and <a class="ref" href="#A6">A6</a> hold. Quark and antiquark are distinguishable (no antisymmetrization); the colour degree of freedom does not evolve in time. The total energy lies below the threshold for creating another pair, so the string does not break.</p>
+        <h3>Solved and prescribed</h3>
+        <table>
+          <tr><th>Quantity</th><th>Kind</th><th>Determination</th></tr>
+          <tr><td>Colour field in the dielectric, potential \(V(r)\)</td><td>solved</td><td>minimization of <a class="ref" href="#eq-v.1">(v.1)</a> for each separation</td></tr>
+          <tr><td>Relative wave function</td><td>solved</td><td>split-operator method with \(V(r)\) (<a class="ref" href="#A3">A3</a>)</td></tr>
+          <tr><td>Quark densities, colour-electric field</td><td>solved</td><td>from the relative wave function and the solution of <a class="ref" href="#eq-v.1">(v.1)</a></td></tr>
+          <tr><td>Centre of mass</td><td>prescribed</td><td>Gaussian distribution at rest, constant width (<a class="ref" href="#A3">A3</a>)</td></tr>
+          <tr><td>Colour state</td><td>prescribed</td><td>singlet, without time evolution</td></tr>
+          <tr><td>Colour dielectric</td><td>prescribed</td><td>form of \(\varepsilon(\chi)\) and \(U(\chi)\) <span class="badge model">Model</span></td></tr>
+        </table>
+        <h3>Colour singlet</h3>
+        <p>Coloured particles are not asymptotic states on their own. What can be observed is the colour singlet \(|1\rangle = \sum_c |c\,\bar c\rangle/\sqrt3\). In this state the colour charge density is \(\langle\rho^a(\mathbf x)\rangle = 0\); the system is colour-neutral everywhere. What is displayed is therefore the quark-number density of <a class="ref" href="#def-2.2">Definition 2.2</a>.</p>
+        <h3>Colour dielectric</h3>
+        <p>The shape and tension of the string are not prescribed but obtained from the static solution of the colour dielectric model (Friedberg–Lee type). The colour field is represented by a single commuting component (abelianization). For the singlet \(q\bar q\) the charges are \(\pm g\) with \(g^2 = C_F c^2\), \(C_F = \langle -\mathbf t_1\!\cdot\!\mathbf t_2\rangle_{\mathbf 1} = 4/3\). The vacuum is a condensate of the scalar field \(\chi\) with very small colour dielectric constant \(\varepsilon(\chi)\):</p>
+        <div class="eq" id="eq-v.1">$$\begin{gathered}
+          E[\chi] = \min_{\nabla\cdot\mathbf D = \rho}\int \frac{\mathbf D^2}{2\varepsilon(\chi)}\,d^3x + \int\Bigl[\tfrac{\kappa}{2}|\nabla\chi|^2 + U(\chi)\Bigr]d^3x, \\
+          \varepsilon(\chi) = \varepsilon_v + (1-\varepsilon_v)(3\chi^2 - 2\chi^3).
+          \end{gathered} \tag{v.1}$$</div>
+        <p>\(U(\chi) = B\,\chi^2(5\chi^2 - 12\chi + 8)\) has minima at \(\chi = 0\) (vacuum) and \(\chi = 1\) (metastable phase with \(\varepsilon = 1\) and energy density \(B\)). Minimizing this energy with respect to \(\chi\) for each pair of charges expels the electric flux from the vacuum and confines it to a tube with \(\chi \approx 1\); the energy grows in proportion to the distance (thin-tube estimate \(\sigma_s \approx g\sqrt{2B}\)). The minimal energy serves as the potential \(V(r)\) of the relative motion of quark and antiquark (<a class="ref" href="#A3">A3</a>). At short distances it is Coulomb-like (inside the tube), at long distances linear: the solution yields the form of the Cornell potential.</p>
+        <p>The colour electric field displayed is \(\mathbf E\cdot\mathbf D = \varepsilon|\nabla\phi|^2\) in the dielectric, averaged over the position distribution of quark and antiquark. The Coulomb-like part near the charges and the tube between them are parts of the same solution.</p>
+        <h3>Conditional distribution</h3>
+        <p>The position of the quark is assumed to be the centroid of the quark density on the axis. Displayed are the antiquark and the colour electric field under this condition.</p>
+        <h3>Observations</h3>
+        <ul>
+          <li>As the distance grows the particles slow down (kinetic energy passes into the colour field), stop, turn back and pass through the origin to the opposite side (yo-yo motion).</li>
+          <li>Correlation: the assumed position of the quark and the antiquark on the opposite side are connected by the colour flux tube.</li>
+        </ul>
+        <h3>Assumptions and parameters</h3>
+        <ul>
+          <li><span class="badge model">Model</span> The (abelianized) colour dielectric model is not derived from QCD. Asymptotic freedom, string breaking (pair creation) and the time evolution of the colour degrees of freedom are not included.</li>
+          <li>The total energy \(\langle H\rangle - 2m\) is chosen smaller than \(2m\), so that the string does not break. (In physical \(e^+e^-\) annihilation it breaks, producing hadron jets.)</li>
+          <li><span class="badge">Stylized</span> \(m = 1\), \(k_0 = 1.4\), \(\sigma = 1.5\), \(g^2 = 2\), \(B = 0.0016\), \(\kappa = 0.002\), \(\varepsilon_v = 0.003\). The tension of the solution is about 0.095 (about 1/20 of the physical value for \(m = 0.3\) GeV), the tube radius about 2.5, \(\langle H\rangle - 2m \approx 1.96\); the pair turns back at \(r \approx 19\).</li>
+        </ul>
+      </section>
+
+      <section id="pion">
+        <h2><span class="num">vi</span>Pion exchange<a class="go" href="index.html#pion">view →</a></h2>
+        <p>A proton and a neutron scatter by exchanging pions. Exchange of a charged pion interchanges the roles of proton and neutron; the proton can therefore also emerge backward.</p>
+        <ul class="fields-list">
+          <li style="--c:#ff4d6d">Proton: charge density</li>
+          <li style="--c:#a0a8b8">Neutron: number density</li>
+          <li style="--c:#b48cff">π⁰: increase of variance of the neutral pion field</li>
+          <li style="--c:#ffc04d">π±: increase of variance of the charged pion field</li>
+        </ul>
+        <figure class="feyn"><div class="feynman">diagram {
+  in  p1: $p$, n1: $n$
+  out p2: $p$, n2: $n$
+  p1 -- [double, arrow=forward, color="#ff4d6d"] v1 -- [double, arrow=forward, color="#ff4d6d"] p2
+  n1 -- [double, arrow=forward, color="#a0a8b8"] v2 -- [double, arrow=forward, color="#a0a8b8"] n2
+  v1 -- [scalar, label=$\pi^0$, color="#b48cff"] v2
+}
+diagram {
+  in  p1: $p$, n1: $n$
+  out n2: $n$, p2: $p$
+  p1 -- [double, arrow=forward, color="#ff4d6d"] v1 -- [double, arrow=forward, color="#a0a8b8"] n2
+  n1 -- [double, arrow=forward, color="#a0a8b8"] v2 -- [double, arrow=forward, color="#ff4d6d"] p2
+  v1 -- [charged scalar, label=$\pi^+$, color="#ffc04d"] v2
+}</div><figcaption>The two diagrams at the nucleon level. In neutral \(\pi^0\) exchange each nucleon keeps its identity; in charged \(\pi^+\) exchange proton and neutron are interchanged. In the computation the exchange is represented by a static potential (<a class="ref" href="#A3">A3</a>) and split into isospin channels.</figcaption></figure>
+        <h3>Premises</h3>
+        <p><a class="ref" href="#A2">A2</a>, <a class="ref" href="#A3">A3</a>, <a class="ref" href="#A5">A5</a> and <a class="ref" href="#A6">A6</a> hold. The nucleons are treated as two states of isospin \(\boldsymbol\tau\); their spins are parallel, and tensor forces are not included (<a class="ref" href="#A4">A4</a>).</p>
+        <h3>Solved and prescribed</h3>
+        <table>
+          <tr><th>Quantity</th><th>Kind</th><th>Determination</th></tr>
+          <tr><td>Relative wave functions of the channels \(T = 0, 1\)</td><td>solved</td><td>split-operator method (<a class="ref" href="#A3">A3</a>)</td></tr>
+          <tr><td>Densities of proton and neutron</td><td>solved</td><td>from the channels and the centre of mass</td></tr>
+          <tr><td>Centre of mass</td><td>prescribed</td><td>Gaussian distribution at rest, constant width (<a class="ref" href="#A3">A3</a>)</td></tr>
+          <tr><td>Pion fields</td><td>solved for a prescribed source</td><td>static dressing \(c\,t^a Y\) (<a class="ref" href="#A2">A2</a>), averaged over the solved position and isospin amplitudes</td></tr>
+        </table>
+        <h3>Isospin channels</h3>
+        <p>The potential \(V = c^2\,(\boldsymbol\tau_1\!\cdot\!\boldsymbol\tau_2)\,Y(r)\) is solved in each channel with the method of <a class="ref" href="#A3">A3</a>:</p>
+        <table>
+          <tr><th>Channel</th><th>Spatial part</th><th>\(\boldsymbol\tau_1\cdot\boldsymbol\tau_2\)</th></tr>
+          <tr><td>\(T = 1\)</td><td>odd</td><td>\(+1\) (repulsive)</td></tr>
+          <tr><td>\(T = 0\) (deuteron channel)</td><td>even</td><td>\(-3\) (attractive)</td></tr>
+        </table>
+        <h3>Exchange field</h3>
+        <p>The exchange field is the coherent state of the static dressing \(\phi^a = c\,t^a\,Y(\mathbf x - \mathbf y)\) (<a class="ref" href="#A2">A2</a>), with the isospin labels treated as operators. The neutral \(\pi^0\) does not fluctuate at fixed position; its variance arises from the uncertainty of the source position (<a class="ref" href="#def-2.1">Definition 2.1</a>, case 2). The charged \(\pi^\pm\) fluctuates quantum-mechanically even at fixed position, through</p>
+        <div class="eq" id="eq-vi.1">$$\langle\boldsymbol\tau_1^{\perp}\!\cdot\boldsymbol\tau_2^{\perp}\rangle = 2\bigl(|a_S|^2 - |a_A|^2\bigr) \tag{vi.1}$$</div>
+        <p>(\(a_S\), \(a_A\): symmetric and antisymmetric parts in isospin).</p>
+        <h3>Conditional distribution</h3>
+        <p>A position of the proton is assumed, chosen by the same rule as in i (outgoing direction \(\theta = 150^\circ\)). By charge conservation the partner is always a neutron.</p>
+        <h3>Assumptions and parameters</h3>
+        <ul>
+          <li><span class="badge">Stylized</span> \(c^2 = 15\), \(\mu = 0.5\). Spin and tensor force are not included.</li>
+          <li><span class="badge approx">Approximation</span> Retardation and radiation are not included (<a class="ref" href="#A2">A2</a>). Cross terms that are not convolutions are integrated numerically in an axially symmetric plane (within 2.5 % of a finer integration).</li>
+          <li>Observation: the proton also emerges backward (the backward peak of charge exchange; present in physical np scattering as well).</li>
+        </ul>
+      </section>
+
+      <section id="vacpol">
+        <h2><span class="num">vii</span>Vacuum polarization<a class="go" href="index.html#vacpol">view →</a></h2>
+        <p>Around an electron the vacuum itself acquires a charge. Since vacuum polarization is a change of the <strong>charge density</strong> of the vacuum, it can be displayed as a charge density, as for fermions (<a class="ref" href="#def-2.2">Definition 2.2</a>). The vacuum charge is computed while the wave packet of an electron at rest spreads.</p>
+        <ul class="fields-list">
+          <li style="--c:#4dabff">Electron: charge density (negative)</li>
+          <li style="--c:#7d8bff">Vacuum, negative: negative part of the induced charge density of the vacuum</li>
+          <li style="--c:#ff7ad9">Vacuum, positive: positive part of the induced charge density of the vacuum</li>
+        </ul>
+        <figure class="feyn"><div class="feynman">diagram {
+  in  a: $e^-$
+  out b: $e^-$, g: $\gamma$
+  vertex a at (0, 1); vertex b at (1.8, 1); vertex g at (0.9, -0.55)
+  a -- [fermion, color="#4dabff"] v at (0.9, 1) -- [fermion, color="#4dabff"] b
+  v -- [photon] l1 at (0.9, 0.55)
+  l1 -- [fermion, half left] l2 at (0.9, 0) -- [fermion, half left] l1
+  l2 -- [photon] g
+}</div><figcaption>An electron–positron loop (the one-loop vacuum polarization \(\hat\Pi\) <a class="ref" href="#eq-vii.3">(vii.3)</a>) is inserted into the photon emitted by the electron line. What is drawn is the vacuum charge produced by this loop <a class="ref" href="#eq-vii.2">(vii.2)</a>.</figcaption></figure>
+        <h3>Premises</h3>
+        <p><a class="ref" href="#A1">A1</a> (one loop, first order in \(\alpha\)), <a class="ref" href="#A4">A4</a> (Dirac spinors) and <a class="ref" href="#A6">A6</a> hold. The coupling is not stylized: \(\alpha = 1/137\). Lengths are measured in the Compton wavelength \(1/m\). Displayed is the normal-ordered charge density \(\langle{:}\rho{:}\rangle\).</p>
+        <h3>Solved and prescribed</h3>
+        <table>
+          <tr><th>Quantity</th><th>Kind</th><th>Determination</th></tr>
+          <tr><td>Dirac wave packet of the electron</td><td>solved</td><td>free time evolution of each momentum component</td></tr>
+          <tr><td>Vacuum charge (variance)</td><td>solved</td><td>retarded linear response <a class="ref" href="#eq-vii.2">(vii.2)</a> to the solved wave packet</td></tr>
+          <tr><td>Back-reaction on the electron</td><td>prescribed</td><td>not included; the electron moves freely</td></tr>
+          <tr><td>Vacuum charge (correlation)</td><td>solved for a prescribed source</td><td>response to a point charge at rest at the assumed position <a class="ref" href="#eq-vii.4">(vii.4)</a></td></tr>
+        </table>
+        <h3>Electron: Dirac wave packet</h3>
+        <p>The electron is a positive-energy wave packet \(\Psi(\mathbf x) = \int \frac{d^3p}{(2\pi)^3}\,\varphi(\mathbf p)\,u(\mathbf p, s)\,e^{i\mathbf p\cdot\mathbf x}\) with \(\varphi \propto e^{-p^2\sigma^2}\). For \(\sigma = 0.6/m\) the momentum width is about \(0.8m\) in each direction; the spinor \(u\) is therefore not neglected. The charge density is \(-e\,\Psi^\dagger\Psi\); the overlap of two momentum components is</p>
+        <div class="eq" id="eq-vii.1">$$u^\dagger(\mathbf p)\,u(\mathbf p') = \frac{(E+m)(E'+m) + \mathbf p\cdot\mathbf p' + i\,\mathbf s\cdot(\mathbf p\times\mathbf p')}{2\sqrt{EE'(E+m)(E'+m)}} . \tag{vii.1}$$</div>
+        <p>The imaginary part, which contains the spin direction \(\mathbf s\), vanishes upon integration; the density stays spherically symmetric.</p>
+        <h3>Linear response of the vacuum</h3>
+        <p>The renormalized one-loop vacuum polarization \(\hat\Pi\) gives the response of the vacuum to the charge of the electron. When the electron density is decomposed into momentum components, each component has momentum \(\mathbf k\) and frequency \(\omega = E_{\mathbf p+\mathbf k} - E_{\mathbf p}\) (\(|\omega| \lt k\)); the vacuum responds to each with the factor \(\hat\Pi\) (including retardation):</p>
+        <div class="eq" id="eq-vii.2">$$\rho_{\text{ind}}(\mathbf k, t) = -e\int\!\frac{d^3p}{(2\pi)^3}\,\varphi(\mathbf p)\,\varphi(\mathbf p+\mathbf k)\,u^\dagger(\mathbf p)\,u(\mathbf p+\mathbf k)\,e^{-i\omega t}\,\hat\Pi\bigl(\sqrt{k^2-\omega^2}\bigr), \tag{vii.2}$$</div>
+        <div class="eq" id="eq-vii.3">$$\hat\Pi(Q) = \frac{2\alpha}{\pi}\int_0^1 x(1-x)\,\ln\!\Bigl(1 + x(1-x)\frac{Q^2}{m^2}\Bigr)dx . \tag{vii.3}$$</div>
+        <p>Because \(\hat\Pi(0) = 0\) (renormalization), the total vacuum charge is zero; seen from afar, the charge of the electron remains \(-e\). Nearby there is negative charge (the charge seen from close by is larger), further out positive charge (screening). For small \(Q\), \(\hat\Pi \approx \alpha Q^2/(15\pi m^2)\) (the Uehling term); for large \(Q\) it grows logarithmically. The response is large only for structures smaller than the Compton wavelength \(1/m\); around a spread-out electron it is small.</p>
+        <h3>Conditional distribution</h3>
+        <p>The position of the electron is assumed to be \(\mathbf a\) with resolution \(w = 0.25/m\); displayed is the vacuum charge \(\langle\rho_{\text{vac}}(\mathbf x)\,n_e(\mathbf a)\rangle/\langle n_e(\mathbf a)\rangle\). It is the Uehling distribution around a point charge,</p>
+        <div class="eq" id="eq-vii.4">$$\rho(r) = \frac{e\,\alpha}{3\pi}\int_{4m^2}^{\infty}\!ds\,\Bigl(1+\frac{2m^2}{s}\Bigr)\sqrt{1-\frac{4m^2}{s}}\;\frac{e^{-\sqrt s\,r}}{4\pi r}\qquad (r \gt 0), \tag{vii.4}$$</div>
+        <p>a positive cloud of radius \(\sim 1/(2m)\), together with a negative core at the centre (logarithmically divergent for a point charge, smoothed by the resolution \(w\)). \(\mathbf a\) lies on the spreading shell of the electron, at the maximum of \(r^2 n\) on the half-line \(+x\).</p>
+        <h3>Observations</h3>
+        <ul>
+          <li>Variance: initially a negative core and a positive shell surround the electron. As the electron spreads, the vacuum charge separates into negative charge inside and positive charge outside the electron shell, and fades.</li>
+          <li>Correlation: around the assumed position of the electron there is always a cloud the size of the Compton wavelength. On average this structure is hidden in the extent of the electron.</li>
+        </ul>
+        <h3>Assumptions and parameters</h3>
+        <ul>
+          <li>The coupling is the physical value \(\alpha = 1/137\). The vacuum charge is of order \(10^{-4}\) of the electron charge (separated charge at \(t = 0\) in the variance mode: \(2.0\times10^{-4}\,e\)); it is visible because each field is normalized to its own maximum (Section <a class="ref" href="#render-volume">4.1</a>).</li>
+          <li><span class="badge approx">Approximation</span> One loop (first order in \(\alpha\)). Recoil of the electron and back-reaction of the vacuum are not included. The pair-number density of the vacuum (order \(\alpha^2\)) is not displayed.</li>
+          <li><span class="badge approx">Approximation</span> The correlation uses the response to a point charge at rest (retardation due to the velocity of the electron is neglected); the variance includes retardation.</li>
+          <li>Numerical values: initial width \(\sigma = 0.6/m\), displayed range \(\pm 6/m\), grid \(56^3\).</li>
+        </ul>
+      </section>
+
+      <hr>
+
+      <section id="limits">
+        <h2><span class="num">§</span>Limits of interpretation</h2>
+        <ul>
+          <li>The increase of variance and the density are not probabilities of finding a particle. The variance of a boson field is a field fluctuation; the density of a fermion is the expectation value of a charge or particle number.</li>
+          <li>Scattering and decay do not happen at a point. The point in the correlation mode is a position at which a particle is <em>assumed</em> to have been measured.</li>
+          <li>The computations contain lowest orders, static dressings and models (Section 3). Which quantities are solved and which are prescribed is stated in each topic under <em>Solved and prescribed</em>. Solved without expansion in the coupling are the free parts and the relative motion with the split-operator method.</li>
+          <li>Colour confinement does not show a single quark. Displayed is the quark-number density of a pair in the colour singlet.</li>
+          <li>The cloud of vacuum polarization does not mean that virtual pairs are located there. Displayed is the change of the expectation value of the vacuum charge density.</li>
+        </ul>
+      </section>
+
+      <footer id="credits">
+        <p>Music: “Drifting Prelude” by yvvakimoto, <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, <a href="https://github.com/yvvakimoto/endless-preludes">github.com/yvvakimoto/endless-preludes</a></p>
+        <p>Typesetting: <a href="https://katex.org/">KaTeX</a> (MIT License, bundled in vendor/katex). Feynman diagrams: <a href="https://github.com/yvvakimoto/feynmark">feynmark</a> v0.2.0 (MIT License, bundled in vendor/feynmark). Computation: numpy / scipy.</p>
+        <p>Units \(\hbar = c = 1\). The stylized constants are listed under <span class="badge">Stylized</span> in “Assumptions and parameters” of each topic.</p>
+      </footer>
+    </article>
+  </div>
+
+  <script src="vendor/katex/katex.min.js"></script>
+  <script src="vendor/katex/auto-render.min.js"></script>
+  <script>
+    renderMathInElement(document.body, {
+      delimiters: [{ left: "$$", right: "$$", display: true }, { left: "\\(", right: "\\)", display: false }],
+      macros: { "\\arraystretch": "2" },  // 複数行の式の行間（行の高さの下限を一様に上げる）
+      ignoredClasses: ["feynman"],
+      throwOnError: false,
+    });
+  </script>
+  <script src="vendor/feynmark/feynmark.min.js"></script>
+  <script src="js/notes.js"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bedienung | Standard Model Fields</title>
+  <script>
+    try { var f = {ja: "guide.html", en: "guide.en.html", de: "guide.de.html"}[localStorage.getItem("smf-lang")]; if (f && f !== "guide.de.html") location.replace(f + location.hash); } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="vendor/katex/katex.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/theory.css">
+</head>
+<body class="doc">
+  <div class="top">
+    <a class="brand" href="index.html"><span class="mark">Standard Model</span><span class="mark it">Fields</span></a>
+    <span class="links"><a class="word" href="index.html">Darstellung</a> <a class="word" href="theory.de.html">Theorie</a><span class="langs"><a href="guide.html" hreflang="ja" title="日本語" onclick="try { localStorage.setItem('smf-lang', 'ja'); } catch (e) {}">ja</a><a href="guide.en.html" hreflang="en" title="English" onclick="try { localStorage.setItem('smf-lang', 'en'); } catch (e) {}">en</a><span class="on" title="Deutsch">de</span></span></span>
+  </div>
+
+  <div class="wrap">
+    <nav class="toc">
+      <a href="#screen">Bildschirm</a>
+      <a href="#camera">Blickpunkt und Zeit</a>
+      <a href="#tour">Ohne Bedienung</a>
+    </nav>
+
+    <article>
+      <h1>Bedienung</h1>
+      <div class="lead">Was sich auf der Darstellungsseite bedienen lässt</div>
+
+      <section id="screen">
+        <h2><span class="num">§</span>Bildschirm</h2>
+        <figure><img src="img/screen.de.svg" alt="Die Darstellungsseite und die Nummern ihrer Bedienelemente"></figure>
+        <ol><li>Thema wählen.</li><li>Auf den Namen eines Feldes klicken, um es ein- oder auszublenden (der Punkt hat die Farbe des Feldes). In der Korrelation blendet der Eintrag „… (angenommener Ort)“ den gewählten Punkt ein oder aus.</li><li>Zwischen Varianz und Korrelation umschalten.</li><li>Die Linie am unteren Rand ziehen, um die Zeit zu verschieben.</li><li>Auf dem Bildschirm ziehen oder das Mausrad drehen, um den Blickpunkt zu ändern (Abbildung unten).</li><li>Ton ein / aus.</li><li>Zur Theorieseite.</li><li>Auf die Koordinatenachsen klicken, um zum anfänglichen Blickpunkt zurückzukehren.</li><li>Sprache (ja Japanisch, en Englisch, de Deutsch). Theorie- und Bedienungsseite folgen derselben Wahl.</li></ol>
+      </section>
+
+      <section id="camera">
+        <h2><span class="num">§</span>Blickpunkt und Zeit</h2>
+        <figure><img src="img/view.de.svg" alt="Bedienung von Blickpunkt und Zeit"></figure>
+      </section>
+
+      <section id="tour">
+        <h2><span class="num">§</span>Ohne Bedienung</h2>
+        <p>Die Themen werden nacheinander automatisch abgespielt, jeweils zuerst in der Varianz und dann in der Korrelation. Jede Bedienung hält die automatische Wiedergabe an; 45 Sekunden nach der letzten Bedienung setzt sie wieder ein.</p>
+      </section>
+    </article>
+  </div>
+
+  <script src="vendor/katex/katex.min.js"></script>
+  <script src="vendor/katex/auto-render.min.js"></script>
+  <script>
+    renderMathInElement(document.body, {
+      delimiters: [{ left: "$$", right: "$$", display: true }, { left: "\\(", right: "\\)", display: false }],
+      macros: { "\\arraystretch": "2" },  // 複数行の式の行間（行の高さの下限を一様に上げる）
+      ignoredClasses: ["feynman"],
+      throwOnError: false,
+    });
+  </script>
+</body>
+</html>
