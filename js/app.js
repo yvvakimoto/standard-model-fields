@@ -64,12 +64,13 @@ const CAM_RESET_SECONDS = 0.9;      // 座標軸を押してから元の視点�
 // 座標軸の向き: 物理の x, y, z が世界のどの向きか（world() と同じ並び）
 const AXES = [["x", [0, 1, 0]], ["y", [0, 0, 1]], ["z", [1, 0, 0]]];
 
-// 画質: high = 格子 40³（data/<topic>.js）を細かく描く。lite = 格子を 0.6 倍に粗くしたデータ（data/lite/<topic>.js、約 1/5）を
-// 少ない画素と標本で描く（スマホ・ノート PC 向け）。選んだものは localStorage の "smf-quality"。選んでいなければ端末から推し、
+// 画質: high = 格子 40³（data/<topic>.js）。lite = 格子を 0.6 倍に粗くしたデータ（data/lite/<topic>.js、約 1/5。スマホ・ノート PC 向けに、
+// 読み込みとメモリを軽く）。描き方の細かさ（積分の画面で 1 セル = cellPx 画素、1 セルに rate 個の標本）はどちらも同じで、
+// 描く量は格子に合わせて自然に減る。選んだものは localStorage の "smf-quality"。選んでいなければ端末から推し、
 // high でも最初の再生が遅ければ（1 コマの平均が SLOW_FRAME 秒より長い）lite に移る
 const QUALITY = {
-  high: { dir: "", maxPixels: 2.2e6, maxDpr: 2, steps: 160 },
-  lite: { dir: "lite/", maxPixels: 0.6e6, maxDpr: 1, steps: 96 },
+  high: { dir: "", maxPixels: 4e6, maxDpr: 2, cellPx: 3, rate: 2 },
+  lite: { dir: "lite/", maxPixels: 2e6, maxDpr: 1.5, cellPx: 3, rate: 2 },
 };
 const SLOW_FRAME = 1 / 22;
 let QUAL = "high";
