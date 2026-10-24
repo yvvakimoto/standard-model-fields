@@ -1,8 +1,8 @@
-// Standard Model Fields — 描写のページの操作と状態。データは data/<topic>.js が window.SMV.add で登録する（file:// でも動くよう <script> で読む）
+// Standard Model Fields — 映像のページの操作と状態。データは data/<topic>.js が window.SMV.add で登録する（file:// でも動くよう <script> で読む）
 // 説明の文は置かない（theory.html）。操作がなければ各トピックを 分散 → 相関 の順に 1 回ずつ再生して次へ進む
 "use strict";
 
-// 場の短い名前（データの label は説明の文なので描写のページでは使わない）
+// 場の短い名前（データの label は説明の文なので映像のページでは使わない）
 const TOPICS = [
   { id: "ee", name: "電子と電子", fields: { n: "電子", exchange: "交換される光子", photon: "クーロン場", tr: "横の光子", rad: "放射" } },
   { id: "compton", name: "コンプトン散乱", fields: { photon: "光子", electron: "電子", photon_sc: "散乱した光子", electron_sc: "反跳した電子" } },

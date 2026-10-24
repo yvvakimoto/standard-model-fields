@@ -14,7 +14,7 @@
 <body class="doc">
   <div class="top">
     <a class="brand" href="index.html"><span class="mark">Standard Model</span><span class="mark it">Fields</span></a>
-    <span class="links"><a class="word" href="index.html">描写へ</a> <a class="word" href="guide.html">操作</a><span class="langs"><span class="on" title="日本語">ja</span><a href="theory.en.html" hreflang="en" title="English" onclick="try { localStorage.setItem('smf-lang', 'en'); } catch (e) {}">en</a><a href="theory.de.html" hreflang="de" title="Deutsch" onclick="try { localStorage.setItem('smf-lang', 'de'); } catch (e) {}">de</a></span></span>
+    <span class="links"><a class="word" href="index.html">映像へ</a> <a class="word" href="guide.html">操作</a><span class="langs"><span class="on" title="日本語">ja</span><a href="theory.en.html" hreflang="en" title="English" onclick="try { localStorage.setItem('smf-lang', 'en'); } catch (e) {}">en</a><a href="theory.de.html" hreflang="de" title="Deutsch" onclick="try { localStorage.setItem('smf-lang', 'de'); } catch (e) {}">de</a></span></span>
   </div>
 
   <div class="wrap">
@@ -49,7 +49,7 @@
       <div class="lead">描く量・前提・近似</div>
 
       <section id="intro">
-        <p>この文書は、描写のページが示す量と、それを計算する前提を述べる。文書は 2 部からなる。1 から 4 は、規約、描く量の定義、すべてのトピックに共通の仮定、描画の方法である。i から vii は個々のトピックを扱い、前半を前提として、その定義と仮定を参照する。</p>
+        <p>この文書は、映像のページが示す量と、それを計算する前提を述べる。文書は 2 部からなる。1 から 4 は、規約、描く量の定義、すべてのトピックに共通の仮定、描画の方法である。i から vii は個々のトピックを扱い、前半を前提として、その定義と仮定を参照する。</p>
         <p>描かれる分布はどれも、量子場の状態から計算した量であり、形を手で描き足したものはない。ただし、方程式に入れる定数（結合の強さ・質量・長さ）は、現象が 1 つの箱の中に見えるように選んである。また、計算は近似と模型を含む。この種の違いは本文で次のように示す。</p>
         <ul>
           <li><span class="badge">脚色</span> 見やすさのために変えた定数</li>
@@ -57,7 +57,7 @@
           <li><span class="badge model">模型</span> 理論から導かず、形を与えたもの</li>
         </ul>
         <p>また、量ごとに「解いた」か「与えた」かを区別する。解いたとは、初期状態とハミルトニアン（または模型のエネルギー）から、数値的な時間発展・時間の積分・最小化によって求めたことをいう。与えたとは、形・運動・時間の依存を模型として定め、方程式から求めていないことをいう。静的な衣（<a class="ref" href="#A2">A2</a>）は、与えた源の位置に対する場の方程式の解である。初期状態（与えた幅と運動量をもつガウス型の波束）はつねに与えたものである。各トピックは、この区別を小節「解いたものと与えたもの」の表にまとめる。</p>
-        <div class="note"><p>描写のページの操作（トピックの選択、場の表示、回転・拡大、再生）は <a href="guide.html">操作方法</a> にまとめてある。</p></div>
+        <div class="note"><p>映像のページの操作（トピックの選択、場の表示、回転・拡大、再生）は <a href="guide.html">操作方法</a> にまとめてある。</p></div>
       </section>
 
       <hr>
@@ -95,7 +95,7 @@
         <p id="def-2.3"><strong>定義 <a class="ref" href="#draw-cond">2.3</a></strong>（1 点を仮定した分布）. 1 番目の粒子の位置を測って値 \(\mathbf a\) を得たと仮定したときの 2 番目の粒子の分布を</p>
         <div class="eq" id="eq-2.3">$$n(\mathbf x \mid \mathbf a) = \frac{|\Psi(\mathbf a, \mathbf x)|^2}{\int |\Psi(\mathbf a, \mathbf y)|^2\, d^3y} \;\propto\; G^{(2)}(\mathbf a, \mathbf x) \tag{2.3}$$</div>
         <p>とする。\(G^{(2)}\) はグラウバーの 2 次の相関関数である。粒子に縛られた場についても、同じ仮定の下での期待値をとる。</p>
-        <p>描写のページは、<em>分散</em>のモードで <a class="ref" href="#draw-boson">2.1</a> と <a class="ref" href="#draw-fermion">2.2</a> の量を、<em>相関</em>のモードで <a class="ref" href="#eq-2.3">(2.3)</a> の量を示す。</p>
+        <p>映像のページは、<em>分散</em>のモードで <a class="ref" href="#draw-boson">2.1</a> と <a class="ref" href="#draw-fermion">2.2</a> の量を、<em>相関</em>のモードで <a class="ref" href="#eq-2.3">(2.3)</a> の量を示す。</p>
         <h3 id="draw-point">2.4 選ぶ点</h3>
         <p><a class="ref" href="#eq-2.3">(2.3)</a> の点 \(\mathbf a(t)\) は、位置を仮定する粒子の解いた密度から定め、密度とともに動かす。古典的な軌道は用いない。定め方はトピックごとに異なり、各トピックで述べる。一般に、密度が干渉の縞や 2 つの山を持つところでは、最大の点は時刻のあいだで跳ぶ。その場合は、決まった半直線の上の密度の重心を用いる。重心は時間に連続に動く。</p>
         <p>選んだ点そのものは、位置を仮定した粒子の色の小さな 3 次元のガウス分布として描く（標準偏差は箱の半分の辺の 2.5 %、縁に向けてなめらかに 0 にする）。</p>
@@ -186,7 +186,7 @@ equation [height=7] {
         <div class="eq" id="eq-i.3">$$\langle{:}\mathbf A_\perp^2{:}\rangle = \mathrm E_{\text{軌道}}\bigl[|\langle\mathbf A_\perp\rangle|^2\bigr] \tag{i.3}$$</div>
         <p>である。横の場は初め、等速で動く電子の定常な衣である。衝突で速度が変わると、衣から離れた部分が外へ出ていく。放射として、\(\alpha_{\mathbf k}\) からその時刻の速度での定常な衣を引いたものを描く。同種の 2 粒子は重心系で電気双極子が変わらないので、放射は主に四重極である。</p>
         <h3>点を仮定した分布</h3>
-        <p>1 番目の電子の位置を \(\mathbf a(t)\) と仮定する。\(\mathbf a(t)\) は、近づいている間は入ってくる軸の上の、衝突の後は向き \(\theta = 45^\circ\) の半直線の上の、電子の密度の重心である。この仮定の下で交換される光子は \(2e^2\,Y(\mathbf x - \mathbf a)\,\mathrm E[Y(\mathbf x - \mathbf y)]\) であり、選んだ点と相手を結ぶ。横の光子は、\(\theta\) の向きに出ていく 1 本の軌道の場である。</p>
+        <p>1 番目の電子の位置を \(\mathbf a(t)\) と仮定する。密度を、相対の速さの局所的な値の動径の成分\(\mathrm{Re}[\Phi^*\,\hat{\mathbf r}\cdot(\mathbf v\Phi)]\)（\(\mathbf v = \partial H/\partial\mathbf k = 2\mathbf k/\sqrt{m^2 + k^2}\)）の符号で、入ってくる部分と出ていく部分に分ける。\(\mathbf a(t)\) は、入ってくる半直線（\(-z\)、入ってくる部分）と向き \(\theta = 45^\circ\) の半直線（出ていく部分）を原点でつないだ折れ線の上の重心である。2 つの部分は時間に連続に移り変わるので、点は原点の近くを通って跳ばずに出ていく半直線へ移る。この仮定の下で交換される光子は \(2e^2\,Y(\mathbf x - \mathbf a)\,\mathrm E[Y(\mathbf x - \mathbf y)]\) であり、選んだ点と相手を結ぶ。横の光子は、\(\theta\) の向きに出ていく 1 本の軌道の場である。</p>
         <h3>仮定とパラメータ</h3>
         <ul>
           <li><span class="badge">脚色</span> \(e^2 = 20\)。実際の \(4\pi\alpha\) の約 220 倍である。そのため放射される光子の数は 1 程度になる。<a class="ref" href="#A6">A6</a> によりクーロン部分に質量 \(\mu = 0.15\) を付ける。</li>
@@ -303,7 +303,7 @@ equation [height=7] {
           <tr><td>中性子と陽子の密度の大きさ</td><td>解いた／与えた</td><td>\(N(t)\) は解いたもの、\(\lvert c(t)\rvert^2\) は与えたもの</td></tr>
           <tr><td>W の衣</td><td>源を与えて解いた</td><td>与えた核子の位置と形に対する静的な解 <a class="ref" href="#eq-iii.3">(iii.3)</a>（<a class="ref" href="#A2">A2</a>）</td></tr>
         </table>
-        <p>描写で陽子が広がらないのは仮定であり、計算の結果ではない。質量 \(M\)、幅 \(\sigma\) の自由な波束が広がる時間の目安は \(M\sigma^2\) である。核子の質量（約 1 MeV を単位として \(M \approx 938\)）と \(\sigma = 0.8\) では約 600 であり、\(t = 30\) までに幅は約 0.1 % しか増えない。一方、反跳は含まない。実際には陽子はレプトンの対の運動量を受け取り、対ともつれる。</p>
+        <p>映像で陽子が広がらないのは仮定であり、計算の結果ではない。質量 \(M\)、幅 \(\sigma\) の自由な波束が広がる時間の目安は \(M\sigma^2\) である。核子の質量（約 1 MeV を単位として \(M \approx 938\)）と \(\sigma = 0.8\) では約 600 であり、\(t = 30\) までに幅は約 0.1 % しか増えない。一方、反跳は含まない。実際には陽子はレプトンの対の運動量を受け取り、対ともつれる。</p>
         <h3>状態</h3>
         <p>まだ崩壊していない状態の振幅は \(c(t) = e^{-(iE_0 + \Gamma/2)\,t/\gamma}\) である（時間の遅れ）。行列要素は、核子の静止系での値に \(\sqrt{E'\omega'/(E\omega)}\) をかけたものである（\('\) は静止系の量）。対の振幅は、時刻 \(u\) に動く頂点 \(\mathbf X(u)\) から出た 2 個の自由なレプトンの重ね合わせである。</p>
         <div class="eq" id="eq-iii.1">$$\Psi_s(\mathbf x_e, \mathbf x_\nu, t) = -ig\!\int\! du\; S(u,t)\; K^{e}_s\bigl(\mathbf x_e - \mathbf X(u),\, t-u\bigr)\, K^{\nu}_s\bigl(\mathbf x_\nu - \mathbf X(u),\, t-u\bigr). \tag{iii.1}$$</div>

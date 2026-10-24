@@ -6,7 +6,7 @@ body.doc { height: auto; min-height: 100%;background: radial-gradient(ellipse 90
 .doc .top { position: sticky; top: 0; z-index: 3; display: flex; justify-content: space-between; align-items: baseline; padding: 18px 32px;
   background: linear-gradient(var(--bg) 40%, transparent); }
 .doc .top a { border: 0; }
-/* 道と言語の切り替えは描写のページの右上（.corner、.langs）と同じ並び */
+/* 道と言語の切り替えは映像のページの右上（.corner、.langs）と同じ並び */
 .doc .top .links { display: flex; gap: 22px; align-items: baseline; }
 .doc .brand { position: static; }
 .doc .top .langs a { color: var(--faint); }
@@ -95,7 +95,7 @@ html:not([lang="ja"]) .sidenote { font-size: 15px; line-height: 1.6; }
 .doc figure.feyn figcaption { margin-top: 0.9em; color: var(--dim); font-size: 13.5px; line-height: 1.9; text-align: left; }
 html:not([lang="ja"]) .doc figure.feyn figcaption { font-size: 15.5px; line-height: 1.6; }
 
-/* 狭い画面: 言語の切り替えを次の行の右に（描写のページと同じ） */
+/* 狭い画面: 言語の切り替えを次の行の右に（映像のページと同じ） */
 @media (max-width: 760px) {
   .doc .top .links { flex-wrap: wrap; justify-content: flex-end; gap: 0 14px; }
   .doc .top .langs { flex-basis: 100%; justify-content: flex-end; }

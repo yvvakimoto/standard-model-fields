@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 460" font-family="'Shippori Mincho','Noto Serif JP','Yu Mincho','YuMincho','Hiragino Mincho ProN',serif">
-  <!-- 操作方法の図: 描写のページの画面と、操作できる部品の番号 -->
+  <!-- 操作方法の図: 映像のページの画面と、操作できる部品の番号 -->
   <defs>
     <radialGradient id="gq" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#ffd0e4"/><stop offset="0.35" stop-color="#ff5fa2" stop-opacity="0.75"/><stop offset="1" stop-color="#ff5fa2" stop-opacity="0"/></radialGradient>
     <radialGradient id="gb" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#d8f1ff"/><stop offset="0.35" stop-color="#5fc8ff" stop-opacity="0.75"/><stop offset="1" stop-color="#5fc8ff" stop-opacity="0"/></radialGradient>
