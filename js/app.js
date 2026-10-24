@@ -35,11 +35,11 @@ const NAMES = {
 };
 // 画面の文字（data-i18n / data-i18n-label の名前）
 const UI_TEXT = {
-  ja: { sound: "音", guide: "操作", theory: "理論", free: "分散", cond: "相関", time: "時間", reset: "元の視点に戻す",
+  ja: { quality: "画質", high: "高", lite: "軽", sound: "音", guide: "操作", theory: "理論", free: "分散", cond: "相関", time: "時間", reset: "元の視点に戻す",
         assumed: (n) => `${n}の位置（仮定）`, point: "点", noData: (n) => `data/${n}.js を読めません`, noGL: "この環境では WebGL2 が使えません: " },
-  en: { sound: "sound", guide: "controls", theory: "theory", free: "variance", cond: "correlation", time: "time", reset: "reset view",
+  en: { quality: "quality", high: "high", lite: "lite", sound: "sound", guide: "controls", theory: "theory", free: "variance", cond: "correlation", time: "time", reset: "reset view",
         assumed: (n) => `${n} (assumed position)`, point: "point", noData: (n) => `cannot read data/${n}.js`, noGL: "WebGL2 is not available here: " },
-  de: { sound: "Ton", guide: "Bedienung", theory: "Theorie", free: "Varianz", cond: "Korrelation", time: "Zeit", reset: "Startansicht",
+  de: { quality: "Qualität", high: "hoch", lite: "leicht", sound: "Ton", guide: "Bedienung", theory: "Theorie", free: "Varianz", cond: "Korrelation", time: "Zeit", reset: "Startansicht",
         assumed: (n) => `${n} (angenommener Ort)`, point: "Punkt", noData: (n) => `data/${n}.js nicht lesbar`, noGL: "WebGL2 ist hier nicht verfügbar: " },
 };
 // 言語: 理論・操作方法のページと同じく localStorage の "smf-lang"。なければブラウザの言語（日本語・ドイツ語、ほかは英語）
@@ -63,6 +63,16 @@ const CAM0 = { azim: 0.52, elev: 0.3, dist: 4.6, pan: [0, 0, 0] };
 const CAM_RESET_SECONDS = 0.9;      // 座標軸を押してから元の視点に戻るまで
 // 座標軸の向き: 物理の x, y, z が世界のどの向きか（world() と同じ並び）
 const AXES = [["x", [0, 1, 0]], ["y", [0, 0, 1]], ["z", [1, 0, 0]]];
+
+// 画質: high = 格子 40³（data/<topic>.js）を細かく描く。lite = 格子を 0.6 倍に粗くしたデータ（data/lite/<topic>.js、約 1/5）を
+// 少ない画素と標本で描く（スマホ・ノート PC 向け）。選んだものは localStorage の "smf-quality"。選んでいなければ端末から推し、
+// high でも最初の再生が遅ければ（1 コマの平均が SLOW_FRAME 秒より長い）lite に移る
+const QUALITY = {
+  high: { dir: "", maxPixels: 2.2e6, maxDpr: 2, steps: 160 },
+  lite: { dir: "lite/", maxPixels: 0.6e6, maxDpr: 1, steps: 96 },
+};
+const SLOW_FRAME = 1 / 22;
+let QUAL = "high";
 
 // ---------------------------------------------------------------- データの登録と読み込み
 window.SMV = {
@@ -132,6 +142,7 @@ function prepare(raw, off = []) {
 const S = {
   topic: null, data: {}, mode: "free", t: 0, playing: true, hold: 0, busy: false,
   lastInput: -1e9, lastCam: -1e9, lastMove: 0, tex: null,
+  probe: null,                      // 画質を自動で選ぶときの、再生の速さの測り（{t0, frames, last}）
 };
 const $ = (id) => document.getElementById(id);
 const now = () => performance.now() / 1000;
@@ -143,6 +154,7 @@ function topicInfo(id) { return TOPICS.find((x) => x.id === id); }
 function topicName(id) { return LANG === "ja" ? topicInfo(id).name : NAMES[LANG][id][0]; }
 function fieldNames(id) { return LANG === "ja" ? topicInfo(id).fields : { ...topicInfo(id).fields, ...NAMES[LANG][id][1] }; }
 function touched() { S.lastInput = now(); }
+function dataName(id) { return QUALITY[QUAL].dir + id; }
 
 function frameAt(t) {
   const ts = cur().meta.t;
@@ -333,6 +345,7 @@ function setLang(lang, save) {
   $("toGuide").href = page("guide");
   $("toTheory").href = page("theory");
   document.querySelectorAll("#langs button").forEach((b) => b.classList.toggle("on", b.dataset.lang === lang));
+  $("qualityState").textContent = T()[QUAL];
   document.querySelectorAll("#topics button").forEach((b) => (b.querySelector(".name").textContent = topicName(b.dataset.id)));
   if (cur()) buildFields();
 }
@@ -353,11 +366,12 @@ async function ensure(id) {
   if (S.data[id]) return true;
   $("loading").classList.remove("hidden");
   try {
-    S.data[id] = prepare(await loadScript(id), topicInfo(id).off);
+    const name = dataName(id);
+    S.data[id] = prepare(await loadScript(name), topicInfo(id).off);
     // 元の base64 の文字列（1 トピック 15–25 MB）は復号したら捨てる（巡回でトピックが増えるとメモリが膨らみ、GC で止まる）
-    delete window.SMV.store[id];
-    delete window.SMV.waits[id];
-    document.querySelectorAll(`script[src="data/${id}.js"]`).forEach((s) => s.remove());
+    delete window.SMV.store[name];
+    delete window.SMV.waits[name];
+    document.querySelectorAll(`script[src="data/${name}.js"]`).forEach((s) => s.remove());
     return true;
   } catch (e) {
     showError(e.message);
@@ -387,9 +401,10 @@ async function scene(fn) {
   S.busy = true;
   $("view").classList.add("dim");
   await new Promise((r) => setTimeout(r, FADE_MS));
-  await fn();
-  $("view").classList.remove("dim");
-  S.busy = false;
+  try { await fn(); } finally {
+    $("view").classList.remove("dim");
+    S.busy = false;
+  }
 }
 
 // 自動の巡回: 分散 → 相関 → 次のトピックの分散
@@ -397,6 +412,51 @@ function advance() {
   if (S.mode === "free") return scene(() => show(S.topic, "cond"));
   const i = TOPICS.findIndex((x) => x.id === S.topic);
   return scene(() => show(TOPICS[(i + 1) % TOPICS.length].id, "free"));
+}
+
+// 画質を切り替える。読んだデータを捨てて、いまのトピック・分散／相関・時刻・場の表示のまま読み直す
+function setQuality(q, save) {
+  if (save) try { localStorage.setItem("smf-quality", q); } catch (e) { /* 保存できない環境 */ }
+  S.probe = null;
+  if (q === QUAL) return;
+  const prev = QUAL, use = (x) => { QUAL = x; R.setQuality(QUALITY[x]); $("qualityState").textContent = T()[x]; };
+  use(q);
+  const D = cur();
+  if (!D) return;
+  const id = S.topic, mode = S.mode, t = S.t, offs = D.fields.filter((f) => !f.on).map((f) => f.key), markOn = D.markOn;
+  scene(async () => {
+    (S.tex || []).forEach((ts) => ts.forEach((x) => R.deleteVolume(x)));
+    S.tex = null;
+    S.data = {};
+    S.topic = null;
+    // その画質のデータがなければ元の画質に戻す
+    if (!(await ensure(id))) { use(prev); if (!(await ensure(id))) return; }
+    S.data[id].fields.forEach((f) => (f.on = !offs.includes(f.key)));
+    S.data[id].markOn = markOn;
+    await show(id, mode);
+    S.t = t;
+  });
+}
+
+// 選んでいないときの画質: 指で触る画面・小さな画面・メモリの少ない端末は lite
+function guessQuality() {
+  const small = Math.min(screen.width, screen.height) < 720;
+  const coarse = window.matchMedia && matchMedia("(pointer: coarse)").matches;
+  const lowMem = navigator.deviceMemory && navigator.deviceMemory < 8;
+  return small || coarse || lowMem ? "lite" : "high";
+}
+
+// high で再生している 3 秒の速さを測り、遅ければ lite に（選んでいないときだけ、1 回だけ）
+function probeQuality(ms) {
+  const p = S.probe;
+  if (!p || QUAL !== "high" || !cur() || S.busy || !S.playing) return;
+  if (p.t0 === null || ms - p.last > 500) { p.t0 = ms; p.frames = 0; }     // 始め・隠れていた間の後は測り直す
+  p.last = ms;
+  p.frames++;
+  const sec = (ms - p.t0) / 1000;
+  if (sec < 3) return;
+  S.probe = null;
+  if (sec / p.frames > SLOW_FRAME) setQuality("lite", false);
 }
 
 function showError(msg) {
@@ -448,6 +508,7 @@ function bindUI() {
     if (b.dataset.mode !== S.mode) scene(() => show(S.topic, b.dataset.mode));
   }));
   $("sound").onclick = (e) => { e.stopPropagation(); BGM.toggle(); };
+  $("quality").onclick = (e) => { e.stopPropagation(); touched(); setQuality(QUAL === "high" ? "lite" : "high", true); };
   document.querySelectorAll("#langs button").forEach((b) => (b.onclick = (e) => { e.stopPropagation(); touched(); setLang(b.dataset.lang, true); }));
   $("time").oninput = (e) => { touched(); S.hold = 0; S.t = timeOf((e.target.value / 1000) * (cur().nt - 1)); };
   window.addEventListener("keydown", (e) => {
@@ -460,14 +521,32 @@ function bindUI() {
   });
   // 操作の文字は、マウスが止まると薄くする
   window.addEventListener("pointermove", () => { S.lastMove = now(); document.body.classList.remove("idle"); });
-  // カメラ（回転・平行移動・拡大。箱の中にも入れる）
+  // カメラ（回転・平行移動・拡大。箱の中にも入れる）。指 2 本はつまんで拡大・縮小
   const cv = $("view");
-  let drag = null;
+  const fingers = new Map();
+  const spread = () => { const [a, b] = [...fingers.values()]; return Math.hypot(a.x - b.x, a.y - b.y) || 1; };
+  let drag = null, pinch = 0;
   cv.addEventListener("contextmenu", (e) => e.preventDefault());
-  cv.addEventListener("pointerdown", (e) => { S.camReset = null; drag = { x: e.clientX, y: e.clientY, pan: e.button === 2 || e.shiftKey }; cv.setPointerCapture(e.pointerId); });
-  cv.addEventListener("pointerup", () => (drag = null));
+  cv.addEventListener("pointerdown", (e) => {
+    S.camReset = null;
+    fingers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    cv.setPointerCapture(e.pointerId);
+    if (fingers.size === 2) { drag = null; pinch = spread(); }
+    else if (fingers.size === 1) drag = { x: e.clientX, y: e.clientY, pan: e.button === 2 || e.shiftKey };
+  });
+  const lift = (e) => { fingers.delete(e.pointerId); drag = null; if (fingers.size < 2) pinch = 0; };
+  cv.addEventListener("pointerup", lift);
+  cv.addEventListener("pointercancel", lift);
   cv.addEventListener("dblclick", resetCam);
   cv.addEventListener("pointermove", (e) => {
+    if (fingers.has(e.pointerId)) fingers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pinch && fingers.size === 2) {
+      const d = spread();
+      S.lastCam = now();
+      R.cam.dist = Math.max(0.4, Math.min(12, R.cam.dist * pinch / d));
+      pinch = d;
+      return;
+    }
     if (!drag) return;
     S.lastCam = now();
     const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
@@ -496,6 +575,7 @@ function loop(ms) {
   last = ms;
   const D = cur(), t = now();
   if (t - S.lastMove > UI_IDLE) document.body.classList.add("idle");
+  probeQuality(ms);
   // カメラは触っていなければゆっくり回る
   if (t - S.lastCam > 8) R.cam.azim += 0.035 * dt;
   stepCamReset(dt);
@@ -524,6 +604,11 @@ window.addEventListener("DOMContentLoaded", async () => {
     return;
   }
   Object.assign(R.cam, structuredClone(CAM0));
+  let saved = null;
+  try { saved = localStorage.getItem("smf-quality"); } catch (e) { /* 保存できない環境 */ }
+  QUAL = QUALITY[saved] ? saved : guessQuality();
+  R.setQuality(QUALITY[QUAL]);
+  if (!QUALITY[saved] && QUAL === "high") S.probe = { t0: null, frames: 0, last: 0 };
   buildTopics();
   setLang(LANG, false);
   buildAxes();

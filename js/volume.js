@@ -4,7 +4,6 @@
 "use strict";
 
 const MAXF = 8;
-const MAX_PIXELS = 2.2e6;    // 描く画素の数の上限（1920×1080 ≈ 2.1e6。高解像度の画面では引き伸ばして表示する）
 
 const VS_QUAD = `#version 300 es
 in vec2 aPos;
@@ -203,7 +202,8 @@ function hexToRgb(h) {
 // ---------------------------------------------------------------- 描画器
 class VolumeRenderer {
   constructor(canvas) {
-    const gl = canvas.getContext("webgl2", { antialias: true, premultipliedAlpha: false });
+    // 体積は全画面の 1 枚の四角形なので、多重標本化の縁の平滑化は効かない（重いだけなので切る）
+    const gl = canvas.getContext("webgl2", { antialias: false, premultipliedAlpha: false });
     if (!gl) throw new Error("WebGL2 が使えません");
     this.gl = gl;
     this.canvas = canvas;
@@ -221,8 +221,12 @@ class VolumeRenderer {
     for (let i = 0; i < MAXF; i++) gl.uniform1i(this.u(this.pVol, `uTex${i}`), i);
     this.bg = hexToRgb("#07090f");
     this.cam = { azim: 0.52, elev: 0.38, dist: 7.2, pan: [0, 0, 0] };
-    this.steps = 160;
+    this.setQuality({ maxPixels: 2.2e6, maxDpr: 2, steps: 160 });
   }
+
+  // 描画の重さ: 描く画素の数の上限 maxPixels（1920×1080 ≈ 2.1e6。高解像度の画面では引き伸ばして表示する）、
+  // 画素の密度の上限 maxDpr、視線に沿った標本の数 steps
+  setQuality(q) { Object.assign(this, { maxPixels: q.maxPixels, maxDpr: q.maxDpr, steps: q.steps }); }
 
   // uniform の場所（プログラムと名前ごとに 1 回だけ問い合わせる）
   u(p, name) {
@@ -267,7 +271,7 @@ class VolumeRenderer {
     const gl = this.gl;
     // 描く画素の数に上限を置く（レイマーチングの重さは画素の数に比例。格子は 40–56 点なので、これより細かくしても見た目は変わらない）
     const cw = this.canvas.clientWidth, ch = this.canvas.clientHeight;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2, Math.sqrt(MAX_PIXELS / Math.max(cw * ch, 1)));
+    const dpr = Math.min(window.devicePixelRatio || 1, this.maxDpr, Math.sqrt(this.maxPixels / Math.max(cw * ch, 1)));
     const w = Math.floor(cw * dpr), h = Math.floor(ch * dpr);
     if (this.canvas.width !== w || this.canvas.height !== h) { this.canvas.width = w; this.canvas.height = h; }
     gl.viewport(0, 0, w, h);

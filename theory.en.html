@@ -120,7 +120,7 @@
           C = C_{\text{bg}} + w \sum_i \bigl(\mathrm{ramp}_i(I_i) - C_{\text{bg}}\bigr), \qquad w = \min\!\bigl(1,\; 1.2/\sqrt{N_{\text{on}}}\bigr).
           \end{gathered} \tag{4.1}$$</div>
         <p>The factor \(s_i\) normalizes the largest value of the ray integral over all times to 1; it is determined separately for each field and each mode. Neither is the normalization redone at each time, nor is a hand-chosen factor applied. The weight \(w\) attenuates each field when \(N_{\text{on}}\) fields are superposed, so that the sum does not saturate to white.</p>
-        <p>The data are given on a grid of \(40^3\) points (\(56^3\) in vii). Stored is \(\sqrt{v/v_{\text{ref}}}\) in 8 bits; it is squared again for display. Between stored times the data are interpolated linearly.</p>
+        <p>The data are given on a grid of \(40^3\) points (\(56^3\) in vii). Stored is \(\sqrt{v/v_{\text{ref}}}\) in 8 bits; it is squared again for display. Between stored times the data are interpolated linearly. In the light rendering (for phones and notebooks) the grid is coarsened by a factor \(0.6\) along each axis (\(24^3\), \(34^3\) in vii): \(v\) is smoothed and interpolated onto the coarser grid, and then stored as \(\sqrt{v/v_{\text{ref}}}\) again. The displayed quantity is the same; only the resolution is lower.</p>
         <h3 id="render-window">4.2 Boundary window</h3>
         <p>The computational box itself is not drawn. To keep its boundary invisible, the window</p>
         <div class="eq" id="eq-4.2">$$W = \bigl[1 - \mathrm{smoothstep}(0.6,\, 1,\, \|\mathbf b\|_\infty)\bigr]\,\bigl[1 - \mathrm{smoothstep}(0.8,\, 1.2,\, \|\mathbf b\|_2)\bigr] \tag{4.2}$$</div>

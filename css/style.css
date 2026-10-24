@@ -18,7 +18,7 @@ button { font: inherit; color: inherit; }
 
 /* ------------------------------------------------------------------ 描写（index.html） */
 body.art { overflow: hidden; background: var(--bg); }
-#view { position: fixed; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; transition: opacity 1.4s ease; }
+#view { position: fixed; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; transition: opacity 1.4s ease; touch-action: none; }
 #view:active { cursor: grabbing; }
 #view.dim { opacity: 0; }
 /* 箱の縁を見せないための周辺減光（表示だけ） */
@@ -103,8 +103,11 @@ html:not([lang="ja"]) .mode { letter-spacing: 0.1em; font-size: 21px; }
 @media (max-width: 760px) {
   .brand { left: 18px; top: 20px; font-size: 9px; letter-spacing: 0.22em; }
   .brand .it { font-size: 12px; }
+  /* 1 行目に音・操作・理論、2 行目に画質と言語 */
   .corner { right: 18px; top: 14px; gap: 0 14px; flex-wrap: wrap; justify-content: flex-end; max-width: 210px; }
-  .langs { flex-basis: 100%; justify-content: flex-end; }
+  .corner::after { content: ""; order: 1; flex-basis: 100%; }
+  #quality { order: 2; }
+  .langs { order: 3; justify-content: flex-end; }
   .topics { left: 18px; bottom: auto; top: 54px; }
   .topics button .name { font-size: 12px; }
   .topics button.on .name { font-size: 14px; }

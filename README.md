@@ -16,6 +16,7 @@ Web ページ: https://yvvakimoto.github.io/standard-model-fields/ （ブラウ�
 
 1. 配布の zip（GitHub の Releases の `standard-model-fields-<version>.zip`。計算したデータ `data/` を含む）を展開し、`index.html` をブラウザ（Chrome / Edge / Firefox / Safari の新しい版、WebGL2 が必要）で開きます。サーバーは要りません。
 2. 左下でトピックを、右下で粒子（場）の表示と「分散 / 相関」を切り替えます。右上の「音」で BGM、「理論」で説明のページへ。
+   右上の「画質」で 高 / 軽 を切り替えます（軽はスマホ・ノート PC 向けで、粗い格子のデータ `data/lite/` を少ない画素で描きます。選ばなければ端末と再生の速さから自動で選びます）。
 3. 操作をやめて 45 秒たつと、自動の巡回に戻ります。
 
 | 操作 | |
@@ -24,6 +25,7 @@ Web ページ: https://yvvakimoto.github.io/standard-model-fields/ （ブラウ�
 | 右ドラッグ / Shift + ドラッグ | 平行移動 |
 | ホイール | 拡大・縮小（箱の中にも入れる） |
 | ダブルクリック | 視点を戻す |
+| 2 本指でつまむ（タッチ） | 拡大・縮小 |
 | 下の縁の細い線 | 時間を動かす |
 | Space | 一時停止 |
 | ← → | 1 コマ戻す・進める |
