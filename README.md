@@ -10,6 +10,10 @@
 
 ## 使い方
 
+Web ページ: https://yvvakimoto.github.io/standard-model-fields/ （ブラウザで開くだけ。データが大きいので最初の読み込みに時間がかかります）
+
+手元で見るとき:
+
 1. 配布の zip（GitHub の Releases の `standard-model-fields-<version>.zip`。計算したデータ `data/` を含む）を展開し、`index.html` をブラウザ（Chrome / Edge / Firefox / Safari の新しい版、WebGL2 が必要）で開きます。サーバーは要りません。
 2. 左下でトピックを、右下で粒子（場）の表示と「分散 / 相関」を切り替えます。右上の「音」で BGM、「理論」で説明のページへ。
 3. 操作をやめて 45 秒たつと、自動の巡回に戻ります。
