@@ -14,7 +14,7 @@
 <body class="doc">
   <div class="top">
     <a class="brand" href="index.html"><span class="mark">Standard Model</span><span class="mark it">Fields</span></a>
-    <span class="links"><a class="word" href="index.html">映像へ</a> <a class="word" href="guide.html">操作</a><span class="langs"><span class="on" title="日本語">ja</span><a href="theory.en.html" hreflang="en" title="English" onclick="try { localStorage.setItem('smf-lang', 'en'); } catch (e) {}">en</a><a href="theory.de.html" hreflang="de" title="Deutsch" onclick="try { localStorage.setItem('smf-lang', 'de'); } catch (e) {}">de</a></span></span>
+    <span class="links"><a class="word" href="index.html">映像</a><span class="langs"><span class="on" title="日本語">ja</span><a href="theory.en.html" hreflang="en" title="English" onclick="try { localStorage.setItem('smf-lang', 'en'); } catch (e) {}">en</a><a href="theory.de.html" hreflang="de" title="Deutsch" onclick="try { localStorage.setItem('smf-lang', 'de'); } catch (e) {}">de</a></span></span>
   </div>
 
   <div class="wrap">
@@ -57,7 +57,7 @@
           <li><span class="badge model">模型</span> 理論から導かず、形を与えたもの</li>
         </ul>
         <p>また、量ごとに「解いた」か「与えた」かを区別する。解いたとは、初期状態とハミルトニアン（または模型のエネルギー）から、数値的な時間発展・時間の積分・最小化によって求めたことをいう。与えたとは、形・運動・時間の依存を模型として定め、方程式から求めていないことをいう。静的な衣（<a class="ref" href="#A2">A2</a>）は、与えた源の位置に対する場の方程式の解である。初期状態（与えた幅と運動量をもつガウス型の波束）はつねに与えたものである。各トピックは、この区別を小節「解いたものと与えたもの」の表にまとめる。</p>
-        <div class="note"><p>映像のページの操作（トピックの選択、場の表示、回転・拡大、再生）は <a href="guide.html">操作方法</a> にまとめてある。</p></div>
+        <div class="note"><p>映像のページの操作（トピックの選択、場の表示、回転・拡大、再生）は、そのページの右上の「操作」を押すと画面の上に示される。</p></div>
       </section>
 
       <hr>
@@ -186,7 +186,7 @@ equation [height=7] {
         <div class="eq" id="eq-i.3">$$\langle{:}\mathbf A_\perp^2{:}\rangle = \mathrm E_{\text{軌道}}\bigl[|\langle\mathbf A_\perp\rangle|^2\bigr] \tag{i.3}$$</div>
         <p>である。横の場は初め、等速で動く電子の定常な衣である。衝突で速度が変わると、衣から離れた部分が外へ出ていく。放射として、\(\alpha_{\mathbf k}\) からその時刻の速度での定常な衣を引いたものを描く。同種の 2 粒子は重心系で電気双極子が変わらないので、放射は主に四重極である。</p>
         <h3>点を仮定した分布</h3>
-        <p>1 番目の電子の位置を \(\mathbf a(t)\) と仮定する。密度を、相対の速さの局所的な値の動径の成分\(\mathrm{Re}[\Phi^*\,\hat{\mathbf r}\cdot(\mathbf v\Phi)]\)（\(\mathbf v = \partial H/\partial\mathbf k = 2\mathbf k/\sqrt{m^2 + k^2}\)）の符号で、入ってくる部分と出ていく部分に分ける。\(\mathbf a(t)\) は、入ってくる半直線（\(-z\)、入ってくる部分）と向き \(\theta = 45^\circ\) の半直線（出ていく部分）を原点でつないだ折れ線の上の重心である。2 つの部分は時間に連続に移り変わるので、点は原点の近くを通って跳ばずに出ていく半直線へ移る。この仮定の下で交換される光子は \(2e^2\,Y(\mathbf x - \mathbf a)\,\mathrm E[Y(\mathbf x - \mathbf y)]\) であり、選んだ点と相手を結ぶ。横の光子は、\(\theta\) の向きに出ていく 1 本の軌道の場である。</p>
+        <p>1 番目の電子の位置を \(\mathbf a(t)\) と仮定する。密度を、相対の速さの局所的な値の動径の成分\(\mathrm{Re}[\Phi^*\,\hat{\mathbf r}\cdot(\mathbf v\Phi)]\)（\(\mathbf v = \partial H/\partial\mathbf k = 2\mathbf k/\sqrt{m^2 + k^2}\)）の符号で、入ってくる部分と出ていく部分に分ける。\(\mathbf a(t)\) は、入ってくる半直線（\(-z\)）と向き \(\theta = 45^\circ\) の半直線を原点でつないだ折れ線の上の点である。入ってくる部分の入ってくる半直線の上の重心を \(\bar s_{\rm in}\)、出ていく部分の出ていく半直線の上の重心を \(\bar s_{\rm out}\)、空間の全体で積分した 2 つの部分の確率を \(P_{\rm in}\), \(P_{\rm out}\) とし、折れ線の座標（入ってくる側を負）を \(\bar\sigma = (P_{\rm out}\,\bar s_{\rm out} - P_{\rm in}\,\bar s_{\rm in})/(P_{\rm in} + P_{\rm out})\) とする。2 つの部分は時間に連続に移り変わるので、点は原点の近くを通って跳ばずに出ていく半直線へ移る。この仮定の下で交換される光子は \(2e^2\,Y(\mathbf x - \mathbf a)\,\mathrm E[Y(\mathbf x - \mathbf y)]\) であり、選んだ点と相手を結ぶ。横の光子は、\(\theta\) の向きに出ていく 1 本の軌道の場である。</p>
         <h3>仮定とパラメータ</h3>
         <ul>
           <li><span class="badge">脚色</span> \(e^2 = 20\)。実際の \(4\pi\alpha\) の約 220 倍である。そのため放射される光子の数は 1 程度になる。<a class="ref" href="#A6">A6</a> によりクーロン部分に質量 \(\mu = 0.15\) を付ける。</li>
@@ -253,7 +253,7 @@ equation [height=7] {
         <h3>描く量</h3>
         <p>光子はちょうど 1 個なので、その分散の増加は<a class="ref" href="#def-2.1">定義 2.1</a> により \(2\int d^3x_e\,|F(\mathbf x, \mathbf x_e)|^2\)、\(\tilde F = \tilde\Psi/\sqrt{2\omega'}\) である。電子の密度は <a class="ref" href="#eq-2.2">(2.2)</a> により \(n_e(\mathbf x) = \int d^3x_\gamma\,|\Psi(\mathbf x_\gamma, \mathbf x)|^2\) である。どちらも、\(\Psi_{\text{in}}\) の項、\(\Psi_{\text{in}}\) と \(\Psi_{\text{sc}}\) の干渉の項（前方。散乱の後は全体の確率を変えない）、\(\Psi_{\text{sc}}\) の項の和である。散乱した部分の確率は 0.19 にすぎないので、\(\Psi_{\text{sc}}\) の項を別の場としても描き、その場の全時刻の最大で基準を定める（<a class="ref" href="#render-volume">4.1</a>）。</p>
         <h3>点を仮定した分布</h3>
-        <p>光子の位置を \(\mathbf a\) と仮定し、電子の分布 \(\propto |F(\mathbf a, \mathbf x)|^2\) を描く。\(\mathbf a\) は入射の向きに垂直な半直線（\(\theta = 90^\circ\)）の上にあり、その向きに散乱した光子の平均の半径\(\bar r = \int r^3 v\,dr \big/ \int r^2 v\,dr\) の点である（\(v\) は散乱した光子の数密度）。散乱が始まるころ \(\mathbf a\) は原点の近く（\(r \approx 3\)）にあり、殻が離れるにつれてなめらかに速くなって、やがて光の速さで動く。散乱した確率が最終の値の最後の 1 % に達するまでは平均の半径が定まらないので、それまでは \(\mathbf a\) をその時刻の点に置く。全時刻で同じ半直線・同じ規則を用いる。\(F = \psi/\sqrt{2\omega}\) は遠くまで裾を持つので、分散の増加 \(2|F|^2\) ではなく局所的な数密度を用いる。</p>
+        <p>光子の位置を \(\mathbf a\) と仮定し、電子の分布 \(\propto |F(\mathbf a, \mathbf x)|^2\) を描く。\(\mathbf a\) は入射の向きに垂直な半直線（\(\theta = 90^\circ\)）の上にあり、その向きに散乱した光子の平均の半径\(\bar r = \int r^3 v\,dr \big/ \int r^2 v\,dr\) の点である（\(v\) は散乱した光子の数密度）。散乱が始まるころ \(\mathbf a\) は原点の近く（\(r \approx 3\)）にあり、殻が離れるにつれてなめらかに速くなって、やがて光の速さで動く。散乱した部分が小さい初めは、平均の半径がその裾で決まり、外から原点の近くへ縮む。殻ができて外へ動くのはその後なので、\(\bar r\) が最も小さくなる時刻（\(t \approx 11\)）までは \(\mathbf a\) をその時刻の点に置く。全時刻で同じ半直線・同じ規則を用いる。\(F = \psi/\sqrt{2\omega}\) は遠くまで裾を持つので、分散の増加 \(2|F|^2\) ではなく局所的な数密度を用いる。</p>
         <p>真横に散乱した光子のエネルギーは \(\omega/2\) であり、残りの運動量を受けた電子は反対側の \(26.6^\circ\) の向きに速さ \(0.75\) で進む。1 点を仮定した電子の分布は、この向きの、光子の殻の 0.75 倍の半径に集まる。これは与えたものではなく、解の 2 点の相関から出てくる。</p>
         <h3>見えるもの</h3>
         <ul>
@@ -471,7 +471,7 @@ diagram {
         <div class="eq" id="eq-vi.1">$$\langle\boldsymbol\tau_1^{\perp}\!\cdot\boldsymbol\tau_2^{\perp}\rangle = 2\bigl(|a_S|^2 - |a_A|^2\bigr) \tag{vi.1}$$</div>
         <p>を通して、位置を固定しても量子的にゆらぐ（\(a_S\), \(a_A\) はアイソスピンの対称・反対称の部分）。</p>
         <h3>点を仮定した分布</h3>
-        <p>陽子の位置を仮定する。点の定め方は i と同じである（出ていく向き \(\theta = 150^\circ\)）。電荷が保存するので、相手は必ず中性子である。</p>
+        <p>入ってくる間は陽子の位置を、出ていく間は中性子の位置を仮定する。点の定め方は i と同じであるが、入ってくる半直線では陽子の入ってくる部分を、出ていく半直線では中性子の出ていく部分をとる。中性子の出ていく半直線は、陽子が後ろへ出る向き \(\theta = 150^\circ\) の反対（陽子の進んでいた向きから \(30^\circ\)）である。荷電の π の交換で陽子が後ろへ出るとき、中性子はこの向きへ出る。点が原点を過ぎて出ていく半直線に移る時刻に、仮定する粒子を陽子から中性子に替えるので、点は原点を突き抜けて進む。電荷が保存するので、相手は陽子を仮定する間は中性子、中性子を仮定する間は陽子である。</p>
         <h3>仮定とパラメータ</h3>
         <ul>
           <li><span class="badge">脚色</span> \(c^2 = 15\)、\(\mu = 0.5\)。スピンとテンソル力は含まない。</li>
@@ -565,6 +565,7 @@ diagram {
       throwOnError: false,
     });
   </script>
+  <script src="js/fade.js"></script>
   <script src="vendor/feynmark/feynmark.min.js"></script>
   <script src="js/notes.js"></script>
 </body>

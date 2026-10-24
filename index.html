@@ -17,7 +17,7 @@
   <nav id="corner" class="ui corner">
     <button id="quality" class="word"><span data-i18n="quality">画質</span> <i id="qualityState">—</i></button>
     <button id="sound" class="word"><span data-i18n="sound">音</span> <i id="soundState">—</i></button>
-    <a id="toGuide" class="word" href="guide.html" data-i18n="guide">操作</a>
+    <button id="guide" class="word" data-i18n="guide">操作</button>
     <a id="toTheory" class="word" href="theory.html" data-i18n="theory">理論</a>
     <span id="langs" class="langs"><button data-lang="ja">ja</button><button data-lang="en">en</button><button data-lang="de">de</button></span>
   </nav>
@@ -34,11 +34,14 @@
 
   <div id="scrub" class="ui scrub"><div id="scrubFill" class="fill"></div><input id="time" type="range" min="0" max="1000" value="0" aria-label="時間" data-i18n-label="time"></div>
 
+  <div id="guideLayer" class="guide"></div>
+
   <div id="loading" class="loading hidden"><span>…</span></div>
   <div id="error" class="error hidden"></div>
 
   <audio id="bgm" src="audio/drifting_prelude.ogg" loop preload="auto"></audio>
 
+  <script src="js/fade.js"></script>
   <script src="js/volume.js"></script>
   <script src="js/app.js"></script>
 </body>

@@ -99,6 +99,7 @@ html:not([lang="ja"]) .doc figure.feyn figcaption { font-size: 15.5px; line-heig
 @media (max-width: 760px) {
   .doc .top .links { flex-wrap: wrap; justify-content: flex-end; gap: 0 14px; }
   .doc .top .langs { flex-basis: 100%; justify-content: flex-end; }
+  .doc .top .langs::before { display: none; }
 }
 
 /* 広い画面: 右に傍注の列を空けておく（中身は js/notes.js が絶対配置で置く） */

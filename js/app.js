@@ -42,7 +42,45 @@ const UI_TEXT = {
   de: { quality: "Qualität", high: "hoch", lite: "leicht", sound: "Ton", guide: "Bedienung", theory: "Theorie", free: "Varianz", cond: "Korrelation", time: "Zeit", reset: "Startansicht",
         assumed: (n) => `${n} (angenommener Ort)`, point: "Punkt", noData: (n) => `data/${n}.js nicht lesbar`, noGL: "WebGL2 ist hier nicht verfügbar: " },
 };
-// 言語: 理論・操作方法のページと同じく localStorage の "smf-lang"。なければブラウザの言語（日本語・ドイツ語、ほかは英語）
+// 操作の案内（「操作」を押すと画面の上に出す）。部品の脇の短い文（id → 文）と、中央の視点・時間の操作（キー、はたらき）、何もしないとき
+const GUIDE = {
+  ja: { tips: { topics: "トピックを選ぶ", fields: "押して表示 / 非表示", mode: "分散 / 相関を切り替える", scrub: "ドラッグで時刻を動かす", axes: "押して元の視点に戻す",
+                quality: "画質（軽 = スマホ・ノート PC 向け）", sound: "音の on / off", toTheory: "理論のページへ", langs: "言語" },
+        mouse: [["drag", "ドラッグ", "回転"], ["pan", "右ドラッグ<br>Shift&nbsp;+&nbsp;ドラッグ", "平行移動"], ["wheel", "ホイール", "拡大・縮小"], ["click", "クリック", "静止・再生"],
+                ["dbl", "ダブルクリック", "視点を戻す"], ["space", "Space", "静止・再生"], ["arrows", "← →", "1 コマ戻す・進める"]],
+        touch: [["1 本指のドラッグ", "回転"], ["2 本指でつまむ", "拡大・縮小"], ["たたく", "静止・再生"], ["2 回たたく", "視点を戻す"]],
+        tour: "何もしなければ、トピックを順に 分散 → 相関 で再生する（最後の操作から 45 秒で戻る）。どこかを押すと閉じる" },
+  en: { tips: { topics: "choose a topic", fields: "click to show / hide", mode: "switch variance / correlation", scrub: "drag to move in time", axes: "click to reset the view",
+                quality: "quality (lite for phones and notebooks)", sound: "sound on / off", toTheory: "to the theory page", langs: "language" },
+        mouse: [["drag", "drag", "rotate"], ["pan", "right-drag<br>Shift&nbsp;+&nbsp;drag", "pan"], ["wheel", "wheel", "zoom"], ["click", "click", "pause / play"],
+                ["dbl", "double-click", "reset the view"], ["space", "Space", "pause / play"], ["arrows", "← →", "step back / forward"]],
+        touch: [["one-finger drag", "rotate"], ["two-finger pinch", "zoom"], ["tap", "pause / play"], ["double tap", "reset the view"]],
+        tour: "When idle, the topics play one after another, each in variance and then correlation (resumes 45 s after the last input). Click anywhere to close." },
+  de: { tips: { topics: "Thema wählen", fields: "klicken: ein- / ausblenden", mode: "Varianz / Korrelation umschalten", scrub: "ziehen: Zeit verschieben", axes: "klicken: Startansicht",
+                quality: "Qualität (leicht für Smartphone und Notebook)", sound: "Ton an / aus", toTheory: "zur Theorieseite", langs: "Sprache" },
+        mouse: [["drag", "Ziehen", "drehen"], ["pan", "Rechts ziehen<br>Shift&nbsp;+&nbsp;Ziehen", "verschieben"], ["wheel", "Mausrad", "zoomen"], ["click", "Klick", "anhalten / weiter"],
+                ["dbl", "Doppelklick", "Startansicht"], ["space", "Leertaste", "anhalten / weiter"], ["arrows", "← →", "Einzelbild zurück / vor"]],
+        touch: [["Ziehen mit einem Finger", "drehen"], ["Zwei Finger spreizen", "zoomen"], ["Tippen", "anhalten / weiter"], ["Doppeltippen", "Startansicht"]],
+        tour: "Ohne Bedienung laufen die Themen nacheinander, jeweils Varianz und dann Korrelation (45 s nach der letzten Bedienung wieder). Klicken schließt." },
+};
+// 案内の絵（もとの操作方法の図 img/view.svg と同じ線: マウスの輪郭は灰色、押すボタン・動きの矢印は金色）
+const ICON_MOUSE = `<rect x="-20" y="-32" width="40" height="64" rx="20"/><line x1="0" y1="-32" x2="0" y2="-6"/><line x1="-20" y1="-6" x2="20" y2="-6"/>`;
+const ICON_LEFT = `<path class="fill" d="M-19 -6 V-14 A19 19 0 0 1 0 -32 V-6 Z"/>`;
+const ICONS = {
+  drag: ICON_MOUSE + ICON_LEFT + `<path class="move" d="M-34 22 A40 18 0 0 0 34 22" marker-end="url(#guideAr)"/>`,
+  pan: ICON_MOUSE + `<path class="fill" d="M19 -6 V-14 A19 19 0 0 0 0 -32 V-6 Z"/>` +
+       `<line class="move" x1="-30" y1="22" x2="30" y2="22" marker-start="url(#guideAr)" marker-end="url(#guideAr)"/>`,
+  wheel: ICON_MOUSE + `<rect class="fill" x="-3" y="-27" width="6" height="14" rx="3"/>` +
+         `<line class="move" x1="30" y1="-20" x2="30" y2="20" marker-start="url(#guideAr)" marker-end="url(#guideAr)"/>`,
+  click: ICON_MOUSE + ICON_LEFT,
+  dbl: ICON_MOUSE + ICON_LEFT + `<text class="note" x="-34" y="-24">×2</text>`,
+  space: `<rect x="-48" y="-16" width="96" height="30" rx="5"/><text class="note" y="5">Space</text>`,
+  arrows: `<rect x="-40" y="-16" width="34" height="30" rx="5"/><rect x="6" y="-16" width="34" height="30" rx="5"/>` +
+          `<text class="note" x="-23" y="5">←</text><text class="note" x="23" y="5">→</text>`,
+};
+const ICON_DEFS = `<svg width="0" height="0" style="position:absolute"><marker id="guideAr" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7"
+  orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#e8c98a"/></marker></svg>`;
+// 言語: 理論のページと同じく localStorage の "smf-lang"。なければブラウザの言語（日本語・ドイツ語、ほかは英語）
 let LANG = (() => {
   try { const l = localStorage.getItem("smf-lang"); if (UI_TEXT[l]) return l; } catch (e) { /* 保存できない環境 */ }
   const n = (navigator.language || "ja").slice(0, 2);
@@ -57,7 +95,9 @@ const MARK_SIGMA = 0.025;           // 選んだ点の広がり（箱の半分�
 const PLAY_SECONDS = 16;            // 全時間を何秒で再生するか
 const HOLD_SECONDS = 1.6;           // 最後の時刻で止まっている時間
 const AUTO_RESUME = 45;             // 最後の操作からこの秒数で自動の巡回に戻る
-const UI_IDLE = 5;                  // マウスが止まってこの秒数で操作の文字を薄く
+const UI_IDLE = 5;                  // マウスが止まってこの秒数でカーソルを隠す
+// 最初の案内（そのタブで初めて映像のページを開いたとき）: 浮かんでから出すまで、出している時間、閉じた後に「操作」を灯す時間、消すのにかける時間（秒）
+const INTRO = { delay: 1.2, show: 7, lit: 1.6, fade: 2.6 };
 const FADE_MS = 1400;               // 場面の切り替えの暗転（css の #view の transition と同じ）
 const CAM0 = { azim: 0.52, elev: 0.3, dist: 4.6, pan: [0, 0, 0] };
 const CAM_RESET_SECONDS = 0.9;      // 座標軸を押してから元の視点に戻るまで
@@ -144,6 +184,8 @@ const S = {
   topic: null, data: {}, mode: "free", t: 0, playing: true, hold: 0, busy: false,
   lastInput: -1e9, lastCam: -1e9, lastMove: 0, tex: null,
   probe: null,                      // 画質を自動で選ぶときの、再生の速さの測り（{t0, frames, last}）
+  guide: false,                     // 操作の案内を出しているか
+  intro: false,                     // 最初の案内を出している間
 };
 const $ = (id) => document.getElementById(id);
 const now = () => performance.now() / 1000;
@@ -196,9 +238,29 @@ function markerAt(t) {
   return [0, 1, 2].map((i) => a[i] * (1 - w) + b[i] * w);
 }
 
+// 位置を仮定した粒子の場。データに時刻ごとの名前（meta.a_key）があればそれに従う（π 中間子交換: 陽子 → 中性子）
+function markField() {
+  const D = cur(), m = D.meta;
+  let key = MARK_FIELD[S.topic];
+  if (m.a_key) {
+    const [k, w] = frameAt(S.t);
+    key = m.a_key[Math.min(k + (w >= 0.5 ? 1 : 0), m.a_key.length - 1)];
+  }
+  return D.fields.find((x) => x.key === key);
+}
+
 function markColor() {
-  const f = cur().fields.find((x) => x.key === MARK_FIELD[S.topic]);
+  const f = markField();
   return f ? f.color : MARK_COLOR_DEFAULT;
+}
+
+// 凡例の「…の位置（仮定）」を、いま仮定している粒子に合わせる（変わったときだけ書き直す）
+function labelMark() {
+  const D = cur(), f = markField();
+  if (!D.markEl || D.markKey === (f && f.key)) return;
+  D.markKey = f && f.key;
+  D.markEl.style.setProperty("--c", markColor());
+  D.markEl.innerHTML = `<span>${T().assumed(f ? fieldNames(S.topic)[f.key] || f.label : T().point)}</span><span class="dot"></span>`;
 }
 
 // ---------------------------------------------------------------- 描画（箱の枠は描かない）
@@ -222,6 +284,7 @@ function draw() {
     const pxPerUnit = R.canvas.clientHeight / 2 / (d * Math.tan(0.31));
     points.push({ pos: a, color: hexToRgb(markColor()), size: 8 * MARK_SIGMA * pxPerUnit, blob: true });
   }
+  labelMark();
   R.render(fields, w, { points });
   const u = indexOf(S.t) / (D.nt - 1);
   $("scrubFill").style.width = `${(u * 100).toFixed(2)}%`;
@@ -273,6 +336,7 @@ function drawAxes() {
   const y = Math.max(m, Math.min(H - size - m, best[1] - size * 0.5 + 6));
   svg.style.left = `${x.toFixed(1)}px`;
   svg.style.top = `${y.toFixed(1)}px`;
+  if (S.guide) placeGuide();
 }
 
 function resetCam() {
@@ -325,11 +389,10 @@ function buildFields() {
   if (D.meta.a) {
     const el = document.createElement("button");
     el.className = "field mark";
-    el.style.setProperty("--c", markColor());
-    const f = D.fields.find((x) => x.key === MARK_FIELD[S.topic]);
-    el.innerHTML = `<span>${T().assumed(f ? names[f.key] || f.label : T().point)}</span><span class="dot"></span>`;
     el.onclick = () => { touched(); if (S.mode === "cond") { D.markOn = !D.markOn; syncFields(); } };
     D.markEl = el;
+    D.markKey = null;
+    labelMark();
     box.appendChild(el);
   }
   syncFields();
@@ -342,13 +405,109 @@ function setLang(lang, save) {
   if (save) try { localStorage.setItem("smf-lang", lang); } catch (e) { /* 保存できない環境 */ }
   document.querySelectorAll("[data-i18n]").forEach((el) => (el.textContent = T()[el.dataset.i18n]));
   document.querySelectorAll("[data-i18n-label]").forEach((el) => el.setAttribute("aria-label", T()[el.dataset.i18nLabel]));
-  const page = (p) => (lang === "ja" ? `${p}.html` : `${p}.${lang}.html`);
-  $("toGuide").href = page("guide");
-  $("toTheory").href = page("theory");
+  $("toTheory").href = lang === "ja" ? "theory.html" : `theory.${lang}.html`;
   document.querySelectorAll("#langs button").forEach((b) => b.classList.toggle("on", b.dataset.lang === lang));
   $("qualityState").textContent = T()[QUAL];
   document.querySelectorAll("#topics button").forEach((b) => (b.querySelector(".name").textContent = topicName(b.dataset.id)));
   if (cur()) buildFields();
+  if (S.guide) placeGuide();
+}
+
+// ---------------------------------------------------------------- 操作の案内
+function openGuide(on) {
+  S.guide = on;
+  document.body.classList.toggle("guiding", on);
+  if (on) placeGuide();
+  else if (S.intro) hintGuide();
+}
+
+// 最初の案内: 出して、しばらくしたら閉じる（先に閉じられてもよい）。閉じたら「操作」を灯し、ゆっくり消す（ここで開くことを伝える）
+function introGuide() {
+  try { if (sessionStorage.getItem("smf-intro")) return; sessionStorage.setItem("smf-intro", "1"); } catch (e) { /* 保存できない環境 */ }
+  setTimeout(() => {
+    S.intro = true;
+    openGuide(true);
+    setTimeout(() => { if (S.intro && S.guide) openGuide(false); }, INTRO.show * 1000);
+  }, INTRO.delay * 1000);
+}
+
+function hintGuide() {
+  S.intro = false;
+  const b = $("guide");
+  b.classList.add("hint");
+  setTimeout(() => {
+    b.classList.add("hintOut");
+    b.classList.remove("hint");
+    setTimeout(() => b.classList.remove("hintOut"), INTRO.fade * 1000);
+  }, INTRO.lit * 1000);
+}
+
+// 部品の脇に文と細い線を置く。右上の語は下へ、段をずらして（右ほど下、文は線の左へ）。トピックと座標軸は右、場と分散 / 相関は左、時間は上。
+// 狭い画面（右上が 2 行に折れ、トピックが左上に来る）: 右上の語には番号だけを付けて文は中央の一覧に、トピックは下、場は上、時間は左下
+function placeGuide() {
+  const g = $("guideLayer"), tx = GUIDE[LANG], W = innerWidth, H = innerHeight, LEN = 26, GAP = 8, narrow = W < 760;
+  g.innerHTML = "";
+  const add = (cls, css, html = "") => {
+    const el = document.createElement("div");
+    el.className = cls;
+    Object.assign(el.style, css);
+    el.innerHTML = html;
+    g.appendChild(el);
+    return el;
+  };
+  const px = (v) => `${Math.round(v)}px`;
+  const rect = (id) => { const el = $(id), r = el && el.getBoundingClientRect(); return r && r.width ? r : null; };
+  const corner = ["quality", "sound", "toTheory", "langs"].map((id) => [id, rect(id)]).filter(([, r]) => r)
+    .sort((a, b) => a[1].left - b[1].left);
+  const rows = [];
+  if (narrow) {
+    // 番号は語の右肩に、読む順（上の行から）に振る
+    corner.sort((a, b) => Math.round(a[1].top / 10) - Math.round(b[1].top / 10) || a[1].left - b[1].left);
+    corner.forEach(([id, r], i) => {
+      add("tip num", { left: px(r.right + 1), top: px(r.top - 6) }, `${i + 1}`);
+      rows.push([`${i + 1}`, tx.tips[id]]);
+    });
+  } else {
+    const base = Math.max(...corner.map(([, r]) => r.bottom)) + 18;
+    corner.forEach(([id, r], i) => {
+      const x = (r.left + r.right) / 2, y = base + i * 26;
+      add("lead", { left: px(x), top: px(r.bottom + 4), width: "1px", height: px(y - r.bottom - 2) });
+      add("tip", { right: px(W - x - 6), top: px(y) }, tx.tips[id]);
+    });
+  }
+  const side = (id, toRight) => {
+    const r = rect(id);
+    if (!r) return;
+    const y = (r.top + r.bottom) / 2;
+    if (toRight) {
+      add("lead", { left: px(r.right + GAP), top: px(y), width: px(LEN), height: "1px" });
+      add("tip", { left: px(r.right + GAP + LEN + 8), top: px(y), transform: "translateY(-50%)" }, tx.tips[id]);
+    } else {
+      add("lead", { left: px(r.left - GAP - LEN), top: px(y), width: px(LEN), height: "1px" });
+      add("tip", { right: px(W - r.left + GAP + LEN + 8), top: px(y), transform: "translateY(-50%)", textAlign: "right",
+                   maxWidth: px(r.left - GAP - LEN - 26) }, tx.tips[id]);
+    }
+  };
+  side("axes", true);
+  side("mode", false);
+  if (narrow) {
+    const t = rect("topics"), f = rect("fields");
+    if (t) add("tip", { left: px(t.left), top: px(t.bottom + 6), borderLeft: "1px solid var(--accent)", paddingLeft: "10px" }, tx.tips.topics);
+    if (f) add("tip", { right: px(W - f.right), bottom: px(H - f.top + 8), borderRight: "1px solid var(--accent)", paddingRight: "10px" }, tx.tips.fields);
+    add("lead", { left: "18px", top: px(H - 22), width: "1px", height: "20px" });
+    add("tip", { left: "26px", bottom: "6px" }, tx.tips.scrub);
+  } else {
+    side("topics", true);
+    side("fields", false);
+    add("lead", { left: px(W / 2), top: px(H - 26), width: "1px", height: "24px" });
+    add("tip", { left: px(W / 2), bottom: "32px", transform: "translateX(-50%)" }, tx.tips.scrub);
+  }
+  // 中央: マウスとキーの操作は絵で（指の画面では文で）、狭い画面の右上の番号の一覧、何もしないとき
+  const touch = window.matchMedia && matchMedia("(pointer: coarse)").matches;
+  const list = (rs) => (rs.length ? `<div class="list">${rs.map(([k, v]) => `<span class="k">${k}</span><span class="v">${v}</span>`).join("")}</div>` : "");
+  const cards = touch ? list(tx.touch) : `<div class="cards">${tx.mouse.map(([ic, k, v]) =>
+    `<div class="card"><svg viewBox="-50 -40 100 92">${ICONS[ic]}</svg><span class="k">${k}</span><span class="v">${v}</span></div>`).join("")}</div>`;
+  add("keys", {}, `${ICON_DEFS}${cards}${list(rows)}<div class="tour">${tx.tour}</div>`);
 }
 
 function syncFields() {
@@ -394,6 +553,7 @@ async function show(id, mode) {
   document.querySelectorAll("#topics button").forEach((b) => b.classList.toggle("on", b.dataset.id === id));
   document.querySelectorAll("#mode button").forEach((b) => b.classList.toggle("on", b.dataset.mode === mode));
   if (changed) buildFields(); else syncFields();
+  if (S.guide) placeGuide();
 }
 
 // 暗転して切り替える
@@ -468,21 +628,38 @@ function showError(msg) {
 }
 
 // ---------------------------------------------------------------- BGM（endless-preludes「Drifting Prelude」、CC BY 4.0）
+// ほかのページへ移るとき（js/fade.js の "smf-leave"）は小さくして止め、戻ったら止めた所から短く大きくする（時刻は sessionStorage）
 const BGM = {
-  el: null, want: true, fade: null,
+  el: null, want: true, fade: null, rise: 5,
   init() {
     this.el = $("bgm");
     try { this.want = localStorage.getItem("smf.sound") !== "off"; } catch (e) { /* 保存できない環境 */ }
+    let at = null;
+    try { at = sessionStorage.getItem("smf-bgm-t"); sessionStorage.removeItem("smf-bgm-t"); } catch (e) { /* 保存できない環境 */ }
+    if (at !== null) {
+      this.rise = 1.6;
+      const seek = () => { this.el.currentTime = +at; };
+      if (this.el.readyState >= 1) seek(); else this.el.addEventListener("loadedmetadata", seek, { once: true });
+    }
     this.el.volume = 0;
     this.label();
     if (this.want) this.start();
     const kick = () => { if (this.want && this.el.paused) this.start(); };
     window.addEventListener("pointerdown", kick);
     window.addEventListener("keydown", kick);
+    window.addEventListener("smf-leave", (e) => {
+      try { sessionStorage.setItem("smf-bgm-t", String(this.el.currentTime + e.detail.sec)); } catch (err) { /* 保存できない環境 */ }
+      if (!this.el.paused) this.ramp(0, e.detail.sec);
+    });
+    window.addEventListener("pageshow", (e) => {
+      if (!e.persisted) return;
+      try { sessionStorage.removeItem("smf-bgm-t"); } catch (err) { /* 保存できない環境 */ }
+      if (this.want) { this.rise = 1.6; this.start(); }
+    });
   },
   start() {
     const p = this.el.play();
-    if (p) p.then(() => { this.ramp(0.55, 5); this.label(); }).catch(() => this.label());
+    if (p) p.then(() => { this.ramp(0.55, this.rise); this.label(); }).catch(() => this.label());
   },
   ramp(to, sec) {
     clearInterval(this.fade);
@@ -509,6 +686,9 @@ function bindUI() {
     if (b.dataset.mode !== S.mode) scene(() => show(S.topic, b.dataset.mode));
   }));
   $("sound").onclick = (e) => { e.stopPropagation(); BGM.toggle(); };
+  $("guide").onclick = (e) => { e.stopPropagation(); touched(); openGuide(!S.guide); };
+  $("guideLayer").onclick = () => openGuide(false);
+  window.addEventListener("resize", () => { if (S.guide) placeGuide(); });
   $("quality").onclick = (e) => { e.stopPropagation(); touched(); setQuality(QUAL === "high" ? "lite" : "high", true); };
   document.querySelectorAll("#langs button").forEach((b) => (b.onclick = (e) => { e.stopPropagation(); touched(); setLang(b.dataset.lang, true); }));
   $("time").oninput = (e) => { touched(); S.hold = 0; S.t = timeOf((e.target.value / 1000) * (cur().nt - 1)); };
@@ -516,6 +696,7 @@ function bindUI() {
     const D = cur();
     if (!D) return;
     touched();
+    if (e.code === "Escape" && S.guide) openGuide(false);
     if (e.code === "Space") { e.preventDefault(); S.playing = !S.playing; }
     if (e.code === "ArrowRight") S.t = timeOf(Math.min(D.nt - 1, indexOf(S.t) + 1));
     if (e.code === "ArrowLeft") S.t = timeOf(Math.max(0, indexOf(S.t) - 1));
@@ -526,16 +707,22 @@ function bindUI() {
   const cv = $("view");
   const fingers = new Map();
   const spread = () => { const [a, b] = [...fingers.values()]; return Math.hypot(a.x - b.x, a.y - b.y) || 1; };
-  let drag = null, pinch = 0;
+  let drag = null, pinch = 0, press = null;
   cv.addEventListener("contextmenu", (e) => e.preventDefault());
   cv.addEventListener("pointerdown", (e) => {
     S.camReset = null;
     fingers.set(e.pointerId, { x: e.clientX, y: e.clientY });
     cv.setPointerCapture(e.pointerId);
+    press = fingers.size === 1 && e.button === 0 ? { x: e.clientX, y: e.clientY } : null;
     if (fingers.size === 2) { drag = null; pinch = spread(); }
     else if (fingers.size === 1) drag = { x: e.clientX, y: e.clientY, pan: e.button === 2 || e.shiftKey };
   });
-  const lift = (e) => { fingers.delete(e.pointerId); drag = null; if (fingers.size < 2) pinch = 0; };
+  const lift = (e) => {
+    // 動かさずに離したら（クリック・たたく）静止 / 再生。ダブルクリックでは 2 回切り替わって元に戻る
+    if (e.type === "pointerup" && press && Math.hypot(e.clientX - press.x, e.clientY - press.y) < 5) { touched(); S.playing = !S.playing; }
+    press = null;
+    fingers.delete(e.pointerId); drag = null; if (fingers.size < 2) pinch = 0;
+  };
   cv.addEventListener("pointerup", lift);
   cv.addEventListener("pointercancel", lift);
   cv.addEventListener("dblclick", resetCam);
@@ -620,4 +807,5 @@ window.addEventListener("DOMContentLoaded", async () => {
   await show(topicInfo(h) ? h : TOPICS[0].id, "free");
   requestAnimationFrame(() => $("view").classList.remove("dim"));
   requestAnimationFrame(loop);
+  introGuide();
 });

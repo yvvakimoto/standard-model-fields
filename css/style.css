@@ -16,6 +16,11 @@
 html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); font-family: var(--serif); }
 button { font: inherit; color: inherit; }
 
+/* ページの移り変わり（js/fade.js）: 開くと浮かび、ほかのページへ移る前に暗くなる */
+body { animation: page-in 0.9s ease backwards; transition: opacity 0.8s ease; }
+body.leaving { opacity: 0; }
+@keyframes page-in { from { opacity: 0; } }
+
 /* ------------------------------------------------------------------ 映像（index.html） */
 body.art { overflow: hidden; background: var(--bg); }
 #view { position: fixed; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; transition: opacity 1.4s ease; touch-action: none; }
@@ -26,8 +31,7 @@ body.art { overflow: hidden; background: var(--bg); }
   background: radial-gradient(ellipse 75% 70% at 50% 50%, transparent 55%, rgba(4, 5, 9, 0.55) 85%, rgba(3, 4, 7, 0.9) 100%); }
 
 .ui { position: fixed; z-index: 2; transition: opacity 1.6s ease; }
-body.idle .ui { opacity: 0.16; }
-body.idle .ui:hover { opacity: 1; }
+/* 目次・凡例・右上の語は常に同じ濃さで出す。マウスが止まるとカーソルだけ隠す */
 body.idle { cursor: none; }
 
 .brand { top: 26px; left: 32px; font-family: var(--latin); letter-spacing: 0.32em; text-transform: uppercase; font-size: 12px; color: var(--faint); }
@@ -39,8 +43,10 @@ body.idle { cursor: none; }
 .word:hover { color: var(--text); border-bottom-color: var(--line); }
 .word i { font-style: normal; font-family: var(--latin); letter-spacing: 0.1em; font-size: 12px; color: var(--faint); margin-left: 2px; }
 
-/* 言語の切り替え（ja / en / de。いまの言語は金色）。映像のページは button、説明のページは a と span.on */
-.langs { display: flex; gap: 9px; font-family: var(--latin); font-style: italic; }
+/* 言語の切り替え（ja / en / de。いまの言語は金色）。映像のページは button、説明のページは a と span.on。
+   左のほかの道とは細い縦の線で分ける（線の左右の間を .corner の gap と同じ 22px に） */
+.langs { display: flex; gap: 9px; align-items: baseline; font-family: var(--latin); font-style: normal; }
+.langs::before { content: ""; align-self: center; width: 1px; height: 13px; margin-right: 13px; background: var(--faint); opacity: 0.6; }
 .langs button, .langs a, .langs span { background: none; border: 0; padding: 4px 0; cursor: pointer; font-size: 13px; letter-spacing: 0.08em;
   color: var(--faint); text-decoration: none; transition: color 0.4s; }
 .langs button:hover, .langs a:hover { color: var(--text); }
@@ -88,6 +94,33 @@ html:not([lang="ja"]) .mode { letter-spacing: 0.1em; font-size: 21px; }
 .axes line { stroke: #fff; stroke-width: 0.8; stroke-linecap: round; }
 .axes text { fill: #fff; font-family: var(--latin); font-style: italic; font-size: 7px; text-anchor: middle; dominant-baseline: central; }
 
+/* 操作の案内（「操作」を押すと出す。js/app.js の GUIDE）: 画面を少し暗くし、部品の脇に細い線と短い文。どこかを押すと閉じる */
+.guide { position: fixed; inset: 0; z-index: 1; background: rgba(4, 5, 9, 0.62); opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
+body.guiding .guide { opacity: 1; pointer-events: auto; cursor: pointer; }
+body.guiding #guide { color: var(--accent); }
+/* 最初の案内を閉じた後、「操作」をしばらく灯し（hint）、ゆっくり消す（hintOut の間だけ遅い transition） */
+#guide.hint { color: var(--accent); text-shadow: 0 0 14px var(--glow); }
+#guide.hintOut { transition: color 2.6s ease, text-shadow 2.6s ease; }
+.guide .tip { position: absolute; white-space: nowrap; font-size: 13px; letter-spacing: 0.14em; color: var(--text); line-height: 1.6; }
+.guide .lead { position: absolute; background: var(--accent); opacity: 0.55; }
+.guide .tip.num { font-family: var(--latin); font-size: 11px; color: var(--accent); letter-spacing: 0; }
+.guide .keys { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: max-content; max-width: calc(100% - 64px);
+  display: flex; flex-direction: column; align-items: center; gap: 20px; font-size: 13px; letter-spacing: 0.12em; line-height: 1.6; }
+.guide .cards { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px 6px; }
+.guide .card { width: 100px; display: flex; flex-direction: column; align-items: center; text-align: center; letter-spacing: 0.04em; word-break: keep-all; }
+.guide .card svg { width: 84px; height: 77px; margin-bottom: 4px; overflow: visible; fill: none; stroke: #7f8392; stroke-width: 1.5; }
+.guide .card svg .fill { fill: var(--accent); stroke: none; opacity: 0.85; }
+.guide .card svg .move { stroke: var(--accent); }
+.guide .card svg text { stroke: none; fill: var(--accent); font-family: Georgia, serif; font-size: 12px; text-anchor: middle; }
+.guide .card .k { color: var(--text); }
+.guide .card .v { color: var(--dim); }
+.guide .list { display: grid; grid-template-columns: auto auto; gap: 6px 22px; }
+.guide .list .k { text-align: right; color: var(--accent); }
+.guide .list .v { color: var(--text); }
+.guide .tour { text-align: center; color: var(--dim); font-size: 12.5px; max-width: 36em; }
+html:not([lang="ja"]) .guide .tip, html:not([lang="ja"]) .guide .keys { letter-spacing: 0.04em; font-size: 15px; }
+html:not([lang="ja"]) .guide .tour { font-size: 14px; }
+
 /* 時間: 下の縁の細い線（ドラッグで動かせる） */
 .scrub { left: 0; right: 0; bottom: 0; height: 18px; }
 .scrub .fill { position: absolute; left: 0; bottom: 0; height: 1px; width: 0; background: linear-gradient(90deg, transparent, var(--accent)); opacity: 0.7; }
@@ -121,4 +154,9 @@ html:not([lang="ja"]) .mode { letter-spacing: 0.1em; font-size: 21px; }
   html:not([lang="ja"]) .field { font-size: 13px; }
   html:not([lang="ja"]) .mode { font-size: 17px; }
   .axes { width: 36px; height: 36px; }
+  .guide .tip { font-size: 11.5px; letter-spacing: 0.06em; white-space: normal; }
+  .guide .keys { font-size: 12px; gap: 14px; letter-spacing: 0.06em; max-width: calc(100% - 36px); }
+  .guide .card { width: 76px; }
+  .guide .card svg { width: 62px; height: 57px; }
+  html:not([lang="ja"]) .guide .tip, html:not([lang="ja"]) .guide .keys { font-size: 12.5px; }
 }
