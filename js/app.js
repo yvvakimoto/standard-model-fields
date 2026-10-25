@@ -443,9 +443,11 @@ function hintGuide() {
 }
 
 // 部品の脇に文と細い線を置く。右上の語は下へ、段をずらして（右ほど下、文は線の左へ）。トピックと座標軸は右、場と分散 / 相関は左、時間は上。
-// 狭い画面（右上が 2 行に折れ、トピックが左上に来る）: 右上の語には番号だけを付けて文は中央の一覧に、トピックは下、場は上、時間は左下
+// 狭い画面（右上が 2 行に折れ、トピックが左上に来る）: 右上の語には番号だけを付けて文は中央の一覧に、トピックは下、場は上、時間は左下。
+// 低い画面（横向きのスマートフォンなど）: 脇に文を置く場所がないので、すべての部品に番号を付けて文は中央の一覧に
 function placeGuide() {
-  const g = $("guideLayer"), tx = GUIDE[LANG], W = innerWidth, H = innerHeight, LEN = 26, GAP = 8, narrow = W < 760;
+  const g = $("guideLayer"), tx = GUIDE[LANG], W = innerWidth, H = innerHeight, narrow = W < 760, compact = !narrow && H < 560;
+  const LEN = narrow ? 14 : 26, GAP = 8;
   g.innerHTML = "";
   const add = (cls, css, html = "") => {
     const el = document.createElement("div");
@@ -460,13 +462,15 @@ function placeGuide() {
   const corner = ["quality", "sound", "toTheory", "langs"].map((id) => [id, rect(id)]).filter(([, r]) => r)
     .sort((a, b) => a[1].left - b[1].left);
   const rows = [];
-  if (narrow) {
+  const num = (id, x, y) => {
+    const n = `${rows.length + 1}`;
+    add("tip num", { left: px(x), top: px(y) }, n);
+    rows.push([n, tx.tips[id]]);
+  };
+  if (narrow || compact) {
     // 番号は語の右肩に、読む順（上の行から）に振る
     corner.sort((a, b) => Math.round(a[1].top / 10) - Math.round(b[1].top / 10) || a[1].left - b[1].left);
-    corner.forEach(([id, r], i) => {
-      add("tip num", { left: px(r.right + 1), top: px(r.top - 6) }, `${i + 1}`);
-      rows.push([`${i + 1}`, tx.tips[id]]);
-    });
+    corner.forEach(([id, r]) => num(id, r.right + 1, r.top - 6));
   } else {
     const base = Math.max(...corner.map(([, r]) => r.bottom)) + 18;
     corner.forEach(([id, r], i) => {
@@ -475,39 +479,76 @@ function placeGuide() {
       add("tip", { right: px(W - x - 6), top: px(y) }, tx.tips[id]);
     });
   }
-  const side = (id, toRight) => {
+  // 文は lim（右へ出すときは右の端、左へ出すときは左の端）の内に収め、収まらなければ折り返す
+  const side = (id, toRight, lim) => {
     const r = rect(id);
     if (!r) return;
     const y = (r.top + r.bottom) / 2;
     if (toRight) {
+      const x = r.right + GAP + LEN + 8;
       add("lead", { left: px(r.right + GAP), top: px(y), width: px(LEN), height: "1px" });
-      add("tip", { left: px(r.right + GAP + LEN + 8), top: px(y), transform: "translateY(-50%)" }, tx.tips[id]);
+      add("tip", { left: px(x), top: px(y), transform: "translateY(-50%)", maxWidth: px((lim ?? W - 18) - x) }, tx.tips[id]);
     } else {
+      const x = r.left - GAP - LEN - 8;
       add("lead", { left: px(r.left - GAP - LEN), top: px(y), width: px(LEN), height: "1px" });
-      add("tip", { right: px(W - r.left + GAP + LEN + 8), top: px(y), transform: "translateY(-50%)", textAlign: "right",
-                   maxWidth: px(r.left - GAP - LEN - 26) }, tx.tips[id]);
+      add("tip", { right: px(W - x), top: px(y), transform: "translateY(-50%)", textAlign: "right",
+                   maxWidth: px(x - (lim ?? 18)) }, tx.tips[id]);
     }
   };
-  side("axes", true);
-  side("mode", false);
+  const t = rect("topics"), f = rect("fields"), m = rect("mode"), a = rect("axes");
+  if (compact) {
+    if (t) num("topics", t.right + 6, t.top - 4);
+    if (f) num("fields", f.left - 14, f.top - 6);
+    if (m) num("mode", m.left - 14, m.top - 4);
+    if (a) num("axes", a.right + 2, a.top - 6);
+    add("lead", { left: px(W / 2), top: px(H - 18), width: "1px", height: "16px" });
+    num("scrub", W / 2 + 6, H - 22);
+  } else {
+    side("axes", true, narrow && f ? f.left - 10 : undefined);
+    side("mode", false);
+  }
   if (narrow) {
-    const t = rect("topics"), f = rect("fields");
     if (t) add("tip", { left: px(t.left), top: px(t.bottom + 6), borderLeft: "1px solid var(--accent)", paddingLeft: "10px" }, tx.tips.topics);
     if (f) add("tip", { right: px(W - f.right), bottom: px(H - f.top + 8), borderRight: "1px solid var(--accent)", paddingRight: "10px" }, tx.tips.fields);
     add("lead", { left: "18px", top: px(H - 22), width: "1px", height: "20px" });
     add("tip", { left: "26px", bottom: "6px" }, tx.tips.scrub);
-  } else {
+  } else if (!compact) {
     side("topics", true);
     side("fields", false);
     add("lead", { left: px(W / 2), top: px(H - 26), width: "1px", height: "24px" });
     add("tip", { left: px(W / 2), bottom: "32px", transform: "translateX(-50%)" }, tx.tips.scrub);
   }
-  // 中央: マウスとキーの操作は絵で（指の画面では文で）、狭い画面の右上の番号の一覧、何もしないとき
+  // 中央: マウスとキーの操作は絵で（指の画面と低い画面では文で）、番号の一覧、何もしないとき。低い画面では左右のトピックと場の間に、一覧を折り返す行で
   const touch = window.matchMedia && matchMedia("(pointer: coarse)").matches;
-  const list = (rs) => (rs.length ? `<div class="list">${rs.map(([k, v]) => `<span class="k">${k}</span><span class="v">${v}</span>`).join("")}</div>` : "");
-  const cards = touch ? list(tx.touch) : `<div class="cards">${tx.mouse.map(([ic, k, v]) =>
+  const list = (rs) => (!rs.length ? "" : compact
+    ? `<div class="flow">${rs.map(([k, v]) => `<span><span class="k">${k}</span> <span class="v">${v}</span></span>`).join("")}</div>`
+    : `<div class="list">${rs.map(([k, v]) => `<span class="k">${k}</span><span class="v">${v}</span>`).join("")}</div>`);
+  const cards = touch ? list(tx.touch) : compact ? list(tx.mouse.map(([, k, v]) => [k.replace(/<br>/g, " / "), v])) : `<div class="cards">${tx.mouse.map(([ic, k, v]) =>
     `<div class="card"><svg viewBox="-50 -40 100 92">${ICONS[ic]}</svg><span class="k">${k}</span><span class="v">${v}</span></div>`).join("")}</div>`;
-  add("keys", {}, `${ICON_DEFS}${cards}${list(rows)}<div class="tour">${tx.tour}</div>`);
+  const css = {};
+  if (compact && t && f) {
+    const l = t.right + 28, r = Math.min(f.left, m ? m.left : W) - 28;
+    Object.assign(css, { left: px((l + r) / 2), maxWidth: px(r - l) });
+  }
+  const keys = add(compact ? "keys compact" : "keys", css, `${ICON_DEFS}${cards}${list(rows)}<div class="tour">${tx.tour}</div>`);
+  fitKeys(keys, [...g.children].filter((el) => el !== keys), H);
+}
+
+// 中央の操作の一覧を、上下の部品と文の間の空いた帯に置く（収まらなければ縮める）。縦長の狭い画面ではトピックの一覧と場の間に入る
+function fitKeys(keys, tips, H) {
+  const k = keys.getBoundingClientRect(), M = 14;
+  let top = M, bottom = H - M;
+  const others = tips.concat(["corner", "topics", "controls", "axes"].map($)).map((el) => el.getBoundingClientRect());
+  others.forEach((r) => {
+    if (!r.width || r.right < k.left || r.left > k.right) return;
+    if ((r.top + r.bottom) / 2 < H / 2) top = Math.max(top, r.bottom + M);
+    else bottom = Math.min(bottom, r.top - M);
+  });
+  const room = Math.max(bottom - top, 1), s = Math.min(1, room / k.height), half = (k.height * s) / 2;
+  // 収まるなら画面の中央に近く、帯の中に
+  const y = s < 1 ? (top + bottom) / 2 : Math.min(Math.max(H / 2, top + half), bottom - half);
+  keys.style.top = `${Math.round(y)}px`;
+  keys.style.transform = `translate(-50%, -50%) scale(${s.toFixed(3)})`;
 }
 
 function syncFields() {

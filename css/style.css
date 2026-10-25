@@ -118,6 +118,12 @@ body.guiding #guide { color: var(--accent); }
 .guide .list .k { text-align: right; color: var(--accent); }
 .guide .list .v { color: var(--text); }
 .guide .tour { text-align: center; color: var(--dim); font-size: 12.5px; max-width: 36em; }
+/* 低い画面（横向きのスマートフォン）: 操作と番号の一覧を折り返す行に */
+.guide .keys.compact { gap: 10px; }
+.guide .keys.compact .flow { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 18px; }
+.guide .keys.compact .flow > span { white-space: nowrap; }
+.guide .keys.compact .flow .k { color: var(--accent); margin-right: 0.3em; }
+.guide .keys.compact .flow .v { color: var(--text); }
 html:not([lang="ja"]) .guide .tip, html:not([lang="ja"]) .guide .keys { letter-spacing: 0.04em; font-size: 15px; }
 html:not([lang="ja"]) .guide .tour { font-size: 14px; }
 
@@ -141,10 +147,10 @@ html:not([lang="ja"]) .guide .tour { font-size: 14px; }
   .corner::after { content: ""; order: 1; flex-basis: 100%; }
   #quality { order: 2; }
   .langs { order: 3; justify-content: flex-end; }
-  .topics { left: 18px; bottom: auto; top: 54px; }
+  .topics { left: 18px; bottom: auto; top: 82px; }
   .topics button .name { font-size: 12px; }
   .topics button.on .name { font-size: 14px; }
-  .controls { right: 18px; bottom: 34px; gap: 12px; }
+  .controls { right: 18px; bottom: 42px; gap: 12px; }
   .field { font-size: 12px; }
   .mode { font-size: 17px; }
   html:not([lang="ja"]) .art .word { font-size: 12px; letter-spacing: 0.02em; }

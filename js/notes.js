@@ -1,5 +1,6 @@
-// 説明のページの傍注: 参照（a.ref。式・仮定・定義・小節）にマウスを重ねると、参照の先を右の余白に出す。
-// 余白が狭いときは画面の下に出す。押せばふつうの道として先へ移る
+// 説明のページの傍注（と狭い画面の式の幅）: 参照（a.ref。式・仮定・定義・小節）にマウスを重ねると、参照の先を右の余白に出す。
+// 余白が狭いときは画面の下に出す。押せばふつうの道として先へ移る。
+// 指の画面（ホバーがない）: 1 回目のタップで画面の下に出し、傍注か同じ参照をもう一度たたくと先へ移る。ほかをたたくと閉じる
 (function () {
   "use strict";
   var MIN_W = 220, MAX_W = 320, GAP = 40;
@@ -9,6 +10,7 @@
   document.body.appendChild(note);
   var article = document.querySelector("article");
   var current = null, showTimer = 0, hideTimer = 0;
+  var touch = window.matchMedia && matchMedia("(hover: none)").matches;
 
   // 参照の先の中身: 式はその式、仮定・定義は段落と続く式、小節は見出しと最初の段落
   function content(id) {
@@ -35,6 +37,7 @@
   // 傍注の幅に収まらない式は縮める（KaTeX は横に長い式を折り返さない）
   function fit() {
     note.querySelectorAll(".katex-display").forEach(function (d) {
+      d.classList.remove("tag-below");
       d.style.zoom = "";
       var k = d.querySelector(".katex");
       var w = note.clientWidth - parseFloat(getComputedStyle(note).paddingLeft) - parseFloat(getComputedStyle(note).paddingRight);
@@ -45,7 +48,7 @@
   function place(a) {
     var r = a.getBoundingClientRect(), ar = article.getBoundingClientRect();
     var room = window.innerWidth - ar.right - GAP - 24;
-    if (room >= MIN_W) {
+    if (room >= MIN_W && !touch) {
       note.classList.remove("bottom");
       note.style.width = Math.min(MAX_W, room) + "px";
       note.style.left = (ar.right + GAP + window.scrollX) + "px";
@@ -74,13 +77,57 @@
     note.classList.add("show");
   }
 
-  function hide() {
+  function hide(now) {
     clearTimeout(showTimer);
-    hideTimer = setTimeout(function () {
+    clearTimeout(hideTimer);
+    var close = function () {
       note.classList.remove("show");
       if (current) current.classList.remove("on");
       current = null;
-    }, 160);
+    };
+    if (now === true) close();
+    else hideTimer = setTimeout(close, 160);
+  }
+
+  // 狭い画面の式: 番号の分だけ幅が足りなければ番号を式の下（右寄せ）へ。式が欄より広ければ MIN_ZOOM まで縮め、残りは横に送る
+  var MIN_ZOOM = 0.78;
+  function fitDisplays() {
+    article.querySelectorAll(".katex-display").forEach(function (d) {
+      d.classList.remove("tag-below");
+      d.style.zoom = "";
+      var html = d.querySelector(".katex-html");
+      if (!html) return;
+      var w = 0, tag = d.querySelector(".tag"), tw = tag ? tag.getBoundingClientRect().width + 12 : 0;
+      html.querySelectorAll(":scope > .base").forEach(function (b) { w += b.getBoundingClientRect().width; });
+      if (w + tw <= d.clientWidth) return;
+      if (tag) d.classList.add("tag-below");
+      if (w > d.clientWidth) d.style.zoom = Math.max(MIN_ZOOM, d.clientWidth / w).toFixed(3);
+    });
+  }
+  fitDisplays();
+  var fitTimer = 0;
+  window.addEventListener("resize", function () { clearTimeout(fitTimer); fitTimer = setTimeout(fitDisplays, 150); });
+
+  if (touch) {
+    note.classList.add("tap");
+    var pass = null;
+    note.addEventListener("click", function () {
+      if (!current) return;
+      pass = current;
+      pass.click();
+    });
+    document.querySelectorAll("a.ref").forEach(function (a) {
+      a.addEventListener("click", function (e) {
+        if (current === a || pass === a) { pass = null; hide(true); return; }  // 2 回目・傍注から: ふつうの道として移る
+        e.preventDefault();
+        show(a);
+      });
+    });
+    document.addEventListener("click", function (e) {
+      if (current && !e.target.closest("a.ref") && !note.contains(e.target)) hide(true);
+    });
+    window.addEventListener("resize", function () { if (current) place(current); });
+    return;
   }
 
   document.querySelectorAll("a.ref").forEach(function (a) {

@@ -51,6 +51,8 @@ html:not([lang="ja"]) .doc .badge { letter-spacing: 0.08em; }
 
 .doc .katex { color: var(--text); font-size: 1.04em; }
 .doc .katex-display { margin: 1.2em 0 1.4em; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+/* 狭い画面で番号の分の幅が足りない式: 番号を式の下に右寄せで（js/notes.js） */
+.doc .katex-display.tag-below > .katex > .katex-html > .tag { position: static; display: block; width: max-content; margin: 0.2em 0 0 auto; }
 
 .doc table { border-collapse: collapse; width: 100%; margin: 0.6em 0 1.6em; font-size: 14px; line-height: 1.8; }
 .doc th, .doc td { padding: 8px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; color: #cfcbc2; }
@@ -81,9 +83,12 @@ html:not([lang="ja"]) .doc .badge { letter-spacing: 0.08em; }
 .sidenote .katex { font-size: 1em; }
 .sidenote .badge { font-size: 10.5px; }
 html:not([lang="ja"]) .sidenote { font-size: 15px; line-height: 1.6; }
-.sidenote.bottom { position: fixed; left: 50%; bottom: 16px; top: auto; width: min(720px, calc(100% - 36px)); box-sizing: border-box;
-  transform: translate(-50%, 8px); padding: 12px 20px; background: rgba(9, 11, 19, 0.94); border: 1px solid var(--line);
-  border-left: 1px solid var(--accent); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); }
+/* 狭い画面: 画面の下に浮かべる（高すぎれば中で送る）。指の画面では 1 回目のタップで出し、傍注か同じ参照をもう一度たたくと先へ移る */
+.sidenote.bottom { position: fixed; left: 50%; bottom: calc(14px + env(safe-area-inset-bottom)); top: auto; width: min(720px, calc(100% - 28px)); box-sizing: border-box;
+  max-height: 46vh; overflow-y: auto; overscroll-behavior: contain;
+  transform: translate(-50%, 8px); padding: 12px 20px; background: rgba(9, 11, 19, 0.96); border: 1px solid var(--line);
+  border-left: 1px solid var(--accent); border-radius: 2px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); }
+.sidenote.bottom.show.tap { pointer-events: auto; cursor: pointer; }
 .sidenote.bottom.show { transform: translate(-50%, 0); }
 
 /* ファインマン図（vendor/feynmark）。線は文字の色、場の色は図の中で指定する */
@@ -97,6 +102,7 @@ html:not([lang="ja"]) .doc figure.feyn figcaption { font-size: 15.5px; line-heig
 
 /* 狭い画面: 言語の切り替えを次の行の右に（映像のページと同じ） */
 @media (max-width: 760px) {
+  .doc .top { background: linear-gradient(var(--bg) 72%, transparent); }
   .doc .top .links { flex-wrap: wrap; justify-content: flex-end; gap: 0 14px; }
   .doc .top .langs { flex-basis: 100%; justify-content: flex-end; }
   .doc .top .langs::before { display: none; }
@@ -108,9 +114,27 @@ html:not([lang="ja"]) .doc figure.feyn figcaption { font-size: 15.5px; line-heig
 }
 
 @media (max-width: 980px) {
-  .doc .wrap { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 20px 18px 80px; }
+  .doc .wrap { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 20px 32px 80px; }
   .doc nav.toc { position: static; margin-bottom: 40px; }
-  .doc .top { padding: 14px 18px; }
+  .doc .top { padding: 14px 32px; }
   .doc h1 { font-size: 24px; letter-spacing: 0.2em; }
   .doc h2 { font-size: 19px; flex-wrap: wrap; }
+}
+
+/* スマートフォン（縦）: 左右に余白を残し、字を少し小さく。欧文は両端揃えにすると語の間が開くので左揃え。
+   表は横に送る */
+@media (max-width: 600px) {
+  .doc .wrap { padding: 12px 24px 80px; }
+  .doc .top { padding: 12px 20px; }
+  body.doc { font-size: 15px; line-height: 1.95; }
+  html:not([lang="ja"]) body.doc { font-size: 16.5px; line-height: 1.7; }
+  html:not([lang="ja"]) .doc p, html:not([lang="ja"]) .doc li { text-align: left; }
+  .doc h1 { font-size: 21px; letter-spacing: 0.14em; }
+  .doc h2 { font-size: 17.5px; letter-spacing: 0.14em; gap: 12px; margin-top: 64px; }
+  .doc h3 { letter-spacing: 0.12em; }
+  .doc .lead { margin-bottom: 40px; }
+  .doc .note { padding-left: 14px; }
+  .doc table { display: block; overflow-x: auto; font-size: 13px; }
+  .doc th, .doc td { padding: 6px 8px; }
+  .doc figure.feyn .feynmark-container { gap: 12px 24px; }
 }
